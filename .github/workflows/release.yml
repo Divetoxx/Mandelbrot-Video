@@ -1,0 +1,73 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update && sudo apt-get install -y libomp-dev
+          g++ -O3 main.cpp -o Mandelbrot_linux -fopenmp -static-libstdc++ -static-libgcc
+          strip Mandelbrot_linux
+          chmod +x Mandelbrot_linux ffmpeg
+          tar -czvf Mandelbrot_linux_x64.tar.gz Mandelbrot_linux ffmpeg
+
+      - name: Build Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          windres resource.rc -o resource.o
+          g++ -O3 main.cpp resource.o -o Mandelbrot_windows.exe -fopenmp -static
+          strip Mandelbrot_windows.exe
+          Compress-Archive -Path Mandelbrot_windows.exe, ffmpeg.exe -DestinationPath Mandelbrot_windows_x64.zip
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: assets-${{ matrix.os }}
+          path: |
+            *.tar.gz
+            *.zip
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes) ${{ github.ref_name }}"
+          body: |
+            ## Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes) 
+            <video src="https://github.com/user-attachments/assets/77f35c8b-98df-4b2b-ba09-b887dfff9f89" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/3ae964ac-2fa4-4283-8bc3-9167dedc3005" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/990baae9-3eeb-4eea-adec-c06d4f0741f4" controls width="1000"></video>
+
+            ### Features:
+            * **Smooth Video Export:** Automatically renders 255 BMP frames and compiles them into a high-quality `Mandelbrot.mp4` using FFmpeg.
+            * **High-Precision Rendering:** 80-bit long double precision for extreme zoom.
+            * **Multi-threaded Performance:** Powered by OpenMP for fast parallel calculation.
+            * **True SSAA 8x8:** 64 independent samples per pixel for crystal-clear anti-aliasing.
+            * **Mathematical Color Mapping:** Sine/Cosine wave calculation for smooth RGB transitions.
+          files: |
+            assets-ubuntu-latest/Mandelbrot_linux_x64.tar.gz
+            assets-windows-latest/Mandelbrot_windows_x64.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_RELEASE_PAT }}
