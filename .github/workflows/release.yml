@@ -56,9 +56,9 @@ jobs:
           name: "Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes) ${{ github.ref_name }}"
           body: |
             ## Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes) 
-            <video src="https://github.com/user-attachments/assets/77f35c8b-98df-4b2b-ba09-b887dfff9f89" controls width="1000"></video>
-            <video src="https://github.com/user-attachments/assets/3ae964ac-2fa4-4283-8bc3-9167dedc3005" controls width="1000"></video>
-            <video src="https://github.com/user-attachments/assets/990baae9-3eeb-4eea-adec-c06d4f0741f4" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/8db4f0b6-9a35-46ed-ae7e-4504cb365df4" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/94c14971-d3e8-4060-bedb-e3163eb95487" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/70f10153-f73e-4b8a-a3af-6e9c8846bb94" controls width="1000"></video>
 
             ### Features:
             * **Smooth Video Export:** Automatically renders 255 BMP frames and compiles them into a high-quality `Mandelbrot.mp4` using FFmpeg.
