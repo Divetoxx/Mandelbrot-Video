@@ -63,7 +63,12 @@ The Red, Green, and Blue channels are calculated using sine and cosine waves to 
 
 ## Look at the results! The smoothness is incredible 
 
-https://github.com/user-attachments/assets/77f35c8b-98df-4b2b-ba09-b887dfff9f89
+https://github.com/user-attachments/assets/8db4f0b6-9a35-46ed-ae7e-4504cb365df4
+
+https://github.com/user-attachments/assets/94c14971-d3e8-4060-bedb-e3163eb95487
+
+https://github.com/user-attachments/assets/70f10153-f73e-4b8a-a3af-6e9c8846bb94
+
 
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
@@ -155,7 +160,11 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 ## Посмотрите на результаты! Невероятная плавность работы
 
-https://github.com/user-attachments/assets/77f35c8b-98df-4b2b-ba09-b887dfff9f89
+https://github.com/user-attachments/assets/8db4f0b6-9a35-46ed-ae7e-4504cb365df4
+
+https://github.com/user-attachments/assets/94c14971-d3e8-4060-bedb-e3163eb95487
+
+https://github.com/user-attachments/assets/70f10153-f73e-4b8a-a3af-6e9c8846bb94
 
 
 
