@@ -70,9 +70,19 @@ The Red, Green, and Blue channels are calculated using sine and cosine waves to 
 https://github.com/user-attachments/assets/77f35c8b-98df-4b2b-ba09-b887dfff9f89
 
 
-
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
+
+## License and Third-Party Software
+
+### My Code
+This project is licensed under the **MIT License**.
+
+### FFmpeg
+This software uses libraries from the **FFmpeg** project under the **LGPLv2.1** (or GPLv3, depending on the build). 
+* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project.
+* You can find the source code and more information at [https://ffmpeg.org](https://ffmpeg.org).
+* The FFmpeg binaries included in the releases are provided as-is, and no modifications have been made to the FFmpeg source code.
 
 
 
@@ -155,4 +165,18 @@ https://github.com/user-attachments/assets/77f35c8b-98df-4b2b-ba09-b887dfff9f89
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
->>>>>>> ad358ad (Final version with video export)
+
+## Лицензия и стороннее программное обеспечение
+
+### Мой код
+Этот проект распространяется под лицензией **MIT**.
+
+### FFmpeg
+Это программное обеспечение использует библиотеки из проекта **FFmpeg** под лицензией **LGPLv2.1** (или GPLv3, в зависимости от сборки).
+
+* FFmpeg является товарным знаком Фабриса Беллара, создателя проекта FFmpeg.
+
+* Исходный код и дополнительную информацию можно найти по адресу [https://ffmpeg.org](https://ffmpeg.org).
+
+* Бинарные файлы FFmpeg, включенные в релизы, предоставляются как есть, и в исходный код FFmpeg не вносились никакие изменения.
+
