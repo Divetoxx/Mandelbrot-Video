@@ -120,7 +120,7 @@ https://github.com/user-attachments/assets/70f10153-f73e-4b8a-a3af-6e9c8846bb94
 
 
 
-**[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
+**[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
 
 
 ## License and Third-Party Software
@@ -256,7 +256,7 @@ https://github.com/user-attachments/assets/70f10153-f73e-4b8a-a3af-6e9c8846bb94
 
 
 
-**[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
+**[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
 
 
 ## Лицензия и стороннее программное обеспечение
