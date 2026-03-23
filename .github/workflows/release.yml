@@ -15,8 +15,17 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup MSYS2 (Windows)
+        if: matrix.os == 'windows-latest'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          install: mingw-w64-x86_64-gcc mingw-w64-x86_64-binutils
+          update: true
 
       - name: Build Linux
         if: matrix.os == 'ubuntu-latest'
@@ -29,19 +38,18 @@ jobs:
 
       - name: Build Windows
         if: matrix.os == 'windows-latest'
+        shell: msys2 {0}
         run: |
           windres resource.rc -o resource.o
-          g++ -O3 main.cpp resource.o -o Mandelbrot_windows.exe -fopenmp -static
+          g++ -O3 main.cpp resource.o -o Mandelbrot_windows.exe -fopenmp -static -D__USE_MINGW_ANSI_STDIO=1
           strip Mandelbrot_windows.exe
-          Compress-Archive -Path Mandelbrot_windows.exe, ffmpeg.exe -DestinationPath Mandelbrot_windows_x64.zip
+          powershell.exe "Compress-Archive -Path Mandelbrot_windows.exe, ffmpeg.exe -DestinationPath Mandelbrot_windows_x64.zip"
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: assets-${{ matrix.os }}
-          path: |
-            *.tar.gz
-            *.zip
+          path: Mandelbrot_*_x64.*
 
   release:
     needs: build
