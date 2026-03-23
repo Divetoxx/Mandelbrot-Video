@@ -89,11 +89,12 @@ for (int i = 0; i < 255; ++i) {
             long double c = m, d = n, cc, dd;
             int t = 50000;
             do {
-                cc = c * c; dd = d * d;
+                cc = c * c; 
+                dd = d * d;
                 d = (c + c) * d + n;
                 c = cc - dd + m;
                 t--;
-            } while (t > 0 && (cc + dd <= 10000.0));
+            } while (t > 0 && (cc + dd <= 1000000.0L));
             if (t == 0) {
                 iterMap[b * rawW + a] = 255;
             } else {
@@ -156,7 +157,7 @@ for (int i = 0; i < 255; ++i) {
             string filename = "frame_" + to_string(1000 + i).substr(1) + ".bmp";
             std::remove(filename.c_str());
         }
-        cout << "Done. Result saved as result.mp4" << endl;
+        cout << "Done. Result saved as Mandelbrot.mp4" << endl;
     } else {
         cerr << "\nError: FFmpeg failed or not found. BMP frames are preserved in the folder." << endl;
     }
