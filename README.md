@@ -112,11 +112,17 @@ The Red, Green, and Blue channels are calculated using sine and cosine waves to 
 
 ## Look at the results! The smoothness is incredible 
 
-https://github.com/user-attachments/assets/8db4f0b6-9a35-46ed-ae7e-4504cb365df4
+https://github.com/user-attachments/assets/f5c74477-7f16-4e59-9ba3-e6a59840f258
 
-https://github.com/user-attachments/assets/94c14971-d3e8-4060-bedb-e3163eb95487
+https://github.com/user-attachments/assets/e26dd749-292a-4378-963e-51543ccf593b
 
-https://github.com/user-attachments/assets/70f10153-f73e-4b8a-a3af-6e9c8846bb94
+https://github.com/user-attachments/assets/d3a8bb0a-91e2-4f1d-b98f-2f5168d3b1e9
+
+https://github.com/user-attachments/assets/b8384ce2-d551-4786-86fc-0d66f93715b7
+
+https://github.com/user-attachments/assets/430cb7b5-eb47-4521-bae5-47e68e54dcba
+
+
 
 
 
@@ -248,11 +254,16 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 ## Посмотрите на результаты! Невероятная плавность работы
 
-https://github.com/user-attachments/assets/8db4f0b6-9a35-46ed-ae7e-4504cb365df4
+https://github.com/user-attachments/assets/f5c74477-7f16-4e59-9ba3-e6a59840f258
 
-https://github.com/user-attachments/assets/94c14971-d3e8-4060-bedb-e3163eb95487
+https://github.com/user-attachments/assets/e26dd749-292a-4378-963e-51543ccf593b
 
-https://github.com/user-attachments/assets/70f10153-f73e-4b8a-a3af-6e9c8846bb94
+https://github.com/user-attachments/assets/d3a8bb0a-91e2-4f1d-b98f-2f5168d3b1e9
+
+https://github.com/user-attachments/assets/b8384ce2-d551-4786-86fc-0d66f93715b7
+
+https://github.com/user-attachments/assets/430cb7b5-eb47-4521-bae5-47e68e54dcba
+
 
 
 

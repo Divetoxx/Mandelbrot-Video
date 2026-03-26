@@ -42,20 +42,17 @@ void save_bmp(const string& filename, const vector<uint8_t>& data, int w, int h)
     f.close();
 }
 int main() {
-cout << "Cleaning old frames..." << endl;
-for (int i = 0; i < 255; ++i) {
-    string filename = "frame_" + to_string(1000 + i).substr(1) + ".bmp";
-    std::remove(filename.c_str());
-}
     long double absc, ordi, size_val;
     int choice;
-    std::cout << "Select point (1-4): ";
+    std::cout << "Select point (1-6): ";
     if (!(std::cin >> choice)) choice = 1;
     switch (choice) {
-        case 1: absc = -0.5503432753421602; ordi = -0.6259312704294012; size_val = 0.000000000000225; break;
-        case 2: absc = -0.691488093510181825; ordi = -0.465680729473216972; size_val = 0.0000000000000017; break;
-        case 3: absc = -0.550345905862346513; ordi = 0.625931416301985337; size_val = 0.0000000000000029; break;
-        case 4:
+        case 1: absc = -0.5503432753421602L; ordi = -0.6259312704294012L; size_val = 0.0000000000004L; break;
+        case 2: absc = -0.691488093510181825L; ordi = -0.465680729473216972L; size_val = 0.000000000000003L; break;
+        case 3: absc = -0.550345905862346513L; ordi = 0.625931416301985337L; size_val = 0.000000000000005L; break;
+        case 4: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.000000000000004L; break;
+        case 5: absc = -1.785772754399825165L; ordi = -0.000000756806080773L; size_val = 0.0000000000000014L; break;
+        case 6:
         {
             ifstream ff("Mandelbrot.txt");
             if (!ff.is_open()) {
