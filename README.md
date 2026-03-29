@@ -1,13 +1,13 @@
 [English](#english) | [Русский](#russian)
 <a name="english"></a>
 
-# Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes).
+# Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes)
 
 ## Video encoding
 Sequential BMP frames (frame_000.bmp to frame_254.bmp) compiled into Mandelbrot.mp4 using FFmpeg.
 
-Automated Animation Suite: Generates a sequence of 255 high-precision BMP frames and automatically compiles them
-into a seamless 30 FPS video loop using integrated FFmpeg.
+Animation Suite: Generates a sequence of 255 high-precision BMP frames and automatically compiles them
+into a 30 FPS video loop using integrated FFmpeg.
 
 Yes, this is FFmpeg-the 'Swiss Army knife' of video processing. In 2026, it remains the industry standard, 
 powered by an open-source community. From YouTube and Netflix to professional movie studios, 
@@ -15,7 +15,7 @@ everyone relies on it. And yes, it's completely free.
 
 Technical Parameters Breakdown
 
-This command converts a sequence of images into a high-quality, looped video using the following logic:
+This command converts a sequence of images into a high-quality video using the following logic:
 
 *    `-stream_loop 3`: Loops the input sequence 3 additional times (4 cycles total).
 *    `-framerate 30`: Sets the input frame rate to 30 frames per second.
@@ -24,19 +24,24 @@ This command converts a sequence of images into a high-quality, looped video usi
 *    `-pix_fmt yuv420p`: Converts to YUV 420p pixel format for maximum compatibility with all modern media players and browsers.
 *    `qp=20`: Sets a Constant Quantization Parameter to ensure high visual fidelity (lower values = higher quality).
 *    `no-psy`: Disables psycho-visual optimizations. This is crucial for mathematical renders like the Mandelbrot set to prevent unwanted "shimmering" or artificial noise.
-*    `deblock=-6`: Adjusts the deblocking filter to its minimum strength. This keeps the edges of the fractal razor-sharp and prevents blurring.
+*    `deblock=-6`: Adjusts the deblocking filter to its minimum strength. Maintains clarity of fine details.
 
 
 ## Controls & Hotkeys
-Keys [1-3]: Choose one of three predefined locations within the Mandelbrot set to generate. 
+Keys [1-8]: Choose one of eight predefined locations within the Mandelbrot set to generate: 
 
 ```C++
-absc = -0.5503432753421602; ordi = -0.6259312704294012; size_val = 0.000000000000225;
-absc = -0.691488093510181825; ordi = -0.465680729473216972; size_val = 0.0000000000000017;
-absc = -0.550345905862346513; ordi = 0.625931416301985337; size_val = 0.0000000000000029;
+case 1: absc = -0.5503432753421602L; ordi = -0.6259312704294012L; size_val = 0.0000000000004L; break;
+case 2: absc = -0.691488093510181825L; ordi = -0.465680729473216972L; size_val = 0.000000000000003L; break;
+case 3: absc = -0.550345905862346513L; ordi = 0.625931416301985337L; size_val = 0.000000000000005L; break;
+case 4: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.000000000000004L; break;
+case 5: absc = -1.785772754399825165L; ordi = -0.000000756806080773L; size_val = 0.0000000000000014L; break;
+case 6: absc = -1.40353608594492038L; ordi = -0.02929181552009826L; size_val = 0.000000000000095L; break;
+case 7: absc = -1.7485462508265219L; ordi = 0.000002213770706L; size_val = 0.00000000000029L; break;
+case 8: absc = -1.94053809966024986L; ordi = -0.00000120260253359L; size_val = 0.00000000000003L; break;
 ```
 
-Key [4]: Read coordinates/parameters from three lines in Mandelbrot.txt
+Key [9]: Read coordinates/parameters from three lines in Mandelbrot.txt
 
 ![Mandelbrot txt](Mandelbrot.png)
 
@@ -60,12 +65,12 @@ OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop 
 ## 8x8 Supersampling (64 Samples Per Pixel)
 Super-Sampling Anti-Aliasing (SSAA) is a high-end technique increasing samples per pixel to enhance image quality, 
 with 8x (N=8) rendering scenes at 8x resolution on both axes to produce 64 samples per pixel. 
-This process calculates an extreme number of pixels-scaling to a 15360 x 15360 grid for a 1920 x 1920
+This process calculates an extreme number of pixels-scaling to a 15360 x 8640 grid for a 1920 x 1080
 target-before downscaling to remove jaggies and improve detail.
 
 I decided to take the visual quality to a completely different level. This engine implements
 True 8x8 Supersampling Anti-Aliasing (SSAA) with 64 independent samples per single screen pixel, utilizing Direct RGB-Space Integration.
-Instead of a standard 1920x1920 render, the engine internally processes a massive 15,360 x 15,360 sub-pixel grid!
+Instead of a standard 1920x1080 render, the engine internally processes a massive 15,360 x 8,640 sub-pixel grid!
 After calculating all 64 samples for a pixel, they are downsampled into one.
 Key Technical Advantages:
 
@@ -122,8 +127,11 @@ https://github.com/user-attachments/assets/b8384ce2-d551-4786-86fc-0d66f93715b7
 
 https://github.com/user-attachments/assets/430cb7b5-eb47-4521-bae5-47e68e54dcba
 
+https://github.com/user-attachments/assets/2651cffe-74f3-4691-b06c-d5579ca9ac85
 
+https://github.com/user-attachments/assets/5476e44e-e161-44c5-a912-192a62bb070e
 
+https://github.com/user-attachments/assets/a73b7142-eb90-4263-ab00-9336d00c0875
 
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
@@ -144,13 +152,13 @@ This software uses libraries from the **FFmpeg** project under the **LGPLv2.1** 
 
 
 <a name="russian"></a>
-# Множество Мандельброта видео. 80-бит long double. OpenMP. Суперсэмплинг 8x8 (64 прохода).
+# Множество Мандельброта видео. 80-бит long double. OpenMP. Суперсэмплинг 8x8 (64 прохода)
 
 ## Видео 
 Последовательные кадры в формате BMP (от frame_000.bmp до frame_254.bmp), скомпилированные в файл Mandelbrot.mp4 с использованием FFmpeg.
 
-Пакет автоматизированной анимации: генерирует последовательность из 255 высокоточных кадров в формате BMP
-и автоматически компилирует их в бесшовный видеоролик с частотой 30 кадров в секунду, используя встроенный FFmpeg.
+Пакет анимации: генерирует последовательность из 255 высокоточных кадров в формате BMP
+и автоматически компилирует их в видеоролик с частотой 30 кадров в секунду, используя встроенный FFmpeg.
 
 Да, это FFmpeg - "швейцарский армейский нож" для обработки видео. В 2026 году он остается отраслевым стандартом, 
 поддерживаемым сообществом разработчиков открытого программного обеспечения. 
@@ -158,7 +166,7 @@ This software uses libraries from the **FFmpeg** project under the **LGPLv2.1** 
 
 Описание технических параметров
 
-Эта команда преобразует последовательность изображений в высококачественное зацикленное видео, используя следующую логику:
+Эта команда преобразует последовательность изображений в высококачественное видео, используя следующую логику:
 
 *  `-stream_loop 3`: <Повтори это 4 раза>. Базовый цикл + 3 повтора.
 *  `-framerate 30`: <Считай, что в одной секунде 30 картинок>. Это задает скорость воспроизведения для входящих кадров.
@@ -167,19 +175,24 @@ This software uses libraries from the **FFmpeg** project under the **LGPLv2.1** 
 *  `-pix_fmt yuv420p`: Стандарт <для всех>. Переводит картинку в формат, который гарантированно прочитает любой плеер, браузер или телефон.
 *  `qp=20`: Фиксированное качество. Чем ниже число, тем выше качество (и тяжелее файл). 20 - это <очень хорошо>.
 *  `no-psy`: Отключить психовизуальные оптимизации. Обычно это делают для математически чистых видео (как фракталы), чтобы не плодить лишний шум в деталях.
-*  `deblock=-6`: Сильно ослабить фильтр размытия границ блоков. Сохраняет четкость мелких деталей, но может добавить <квадратов> на низком битрейте.
+*  `deblock=-6`: Сильно ослабить фильтр размытия границ блоков. Сохраняет четкость мелких деталей.
 
 
 ## Горячие клавиши
-Утилита из командной строке. Либо клавиша 1-3 - это одно из трех разных мест множество Мандельброта.
+Утилита из командной строке. Либо клавиша 1-8 - это одно из восьми разных мест множество Мандельброта:
 
 ```C++
-absc = -0.5503432753421602; ordi = -0.6259312704294012; size_val = 0.000000000000225;
-absc = -0.691488093510181825; ordi = -0.465680729473216972; size_val = 0.0000000000000017;
-absc = -0.550345905862346513; ordi = 0.625931416301985337; size_val = 0.0000000000000029;
+case 1: absc = -0.5503432753421602L; ordi = -0.6259312704294012L; size_val = 0.0000000000004L; break;
+case 2: absc = -0.691488093510181825L; ordi = -0.465680729473216972L; size_val = 0.000000000000003L; break;
+case 3: absc = -0.550345905862346513L; ordi = 0.625931416301985337L; size_val = 0.000000000000005L; break;
+case 4: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.000000000000004L; break;
+case 5: absc = -1.785772754399825165L; ordi = -0.000000756806080773L; size_val = 0.0000000000000014L; break;
+case 6: absc = -1.40353608594492038L; ordi = -0.02929181552009826L; size_val = 0.000000000000095L; break;
+case 7: absc = -1.7485462508265219L; ordi = 0.000002213770706L; size_val = 0.00000000000029L; break;
+case 8: absc = -1.94053809966024986L; ordi = -0.00000120260253359L; size_val = 0.00000000000003L; break;
 ```
 
-Либо читает из файла Mandelbrot.txt три строки - клавиша 4.
+Либо читает из файла Mandelbrot.txt три строки - клавиша 9.
 
 ![Mandelbrot txt](Mandelbrot.png)
 
@@ -187,7 +200,7 @@ absc = -0.550345905862346513; ordi = 0.625931416301985337; size_val = 0.00000000
 ## Высокоточная отрисовка (80-бит)
 Большинство исследователей фрактала Мандельброта используют стандартную **64-битную двойную точность**,
 что приводит к "пикселизации" при масштабировании около $10^{14}$.
-В этом проекте используется **80-битная арифметика с расширенной точностью** (<long double>) для расширения границ фрактала:
+В этом проекте используется **80-битная арифметика с расширенной точностью** (<long double>) для расширения границ фрактала.
 
 * **Моя реализация (80-бит):** Обеспечивает **4 дополнительных десятичных знака** точности, позволяя исследовать **в 10 000 раз глубже** (диапазон $10^{18}$).
 * **Аппаратная оптимизация:** Непосредственно использует **регистры FPU x87** для максимальной глубины математических вычислений.
@@ -204,11 +217,11 @@ OpenMP - масштабируемость: ваш код будет одинак
 Суперсэмплинг (SSAA) - ресурсоемкий метод сглаживания, увеличивающий число выборок на пиксель для повышения качества изображения. 
 При значении 8x (N=8) сцена рендерится в разрешении, в 8 раз превышающем целевое, по обеим осям, создавая 64 (или 8 х 8) выборки 
 на пиксель. Изображение просчитывается в более высоком разрешении, а затем принудительно уменьшается до разрешения дисплея, 
-устраняя лесенки и улучшая чёткость. Это очень высокая нагрузка! Это не 1920 на 1920 пикселя а в 8x8 больше - 15360 на 15360 пикселя!
+устраняя лесенки и улучшая чёткость. Это очень высокая нагрузка! Это не 1920 на 1080 пикселя а в 8x8 больше - 15360 на 8640 пикселя!
 
 Я решил вывести качество изображения на совершенно новый уровень. Этот движок использует
 истинное сглаживание 8x8 Supersampling Anti-Aliasing (SSAA) с 64 независимыми сэмплами на каждый пиксель экрана, используя прямую интеграцию в RGB-пространство.
-Вместо стандартного рендеринга 1920x1920, движок обрабатывает внутри себя огромную сетку из 15 360 x 15 360 субпикселей!
+Вместо стандартного рендеринга 1920x1080, движок обрабатывает внутри себя огромную сетку из 15360 x 8640 субпикселей!
 
 После вычисления всех 64 сэмплов для пикселя, они уменьшаются до одного.
 Ключевые технические преимущества:
@@ -264,7 +277,11 @@ https://github.com/user-attachments/assets/b8384ce2-d551-4786-86fc-0d66f93715b7
 
 https://github.com/user-attachments/assets/430cb7b5-eb47-4521-bae5-47e68e54dcba
 
+https://github.com/user-attachments/assets/2651cffe-74f3-4691-b06c-d5579ca9ac85
 
+https://github.com/user-attachments/assets/5476e44e-e161-44c5-a912-192a62bb070e
+
+https://github.com/user-attachments/assets/a73b7142-eb90-4263-ab00-9336d00c0875
 
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
