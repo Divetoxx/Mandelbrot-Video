@@ -70,6 +70,9 @@ jobs:
             <video src="https://github.com/user-attachments/assets/d3a8bb0a-91e2-4f1d-b98f-2f5168d3b1e9" controls width="1000"></video>
             <video src="https://github.com/user-attachments/assets/b8384ce2-d551-4786-86fc-0d66f93715b7" controls width="1000"></video>
             <video src="https://github.com/user-attachments/assets/430cb7b5-eb47-4521-bae5-47e68e54dcba" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/2651cffe-74f3-4691-b06c-d5579ca9ac85" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/5476e44e-e161-44c5-a912-192a62bb070e" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/a73b7142-eb90-4263-ab00-9336d00c0875" controls width="1000"></video>
 
             ### Features:
             * **Smooth Video Export:** Automatically renders 255 BMP frames and compiles them into a high-quality `Mandelbrot.mp4` using FFmpeg.
