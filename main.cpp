@@ -44,7 +44,7 @@ void save_bmp(const string& filename, const vector<uint8_t>& data, int w, int h)
 int main() {
     long double absc, ordi, size_val;
     int choice;
-    std::cout << "Select point (1-6): ";
+    std::cout << "Select point (1-9): ";
     if (!(std::cin >> choice)) choice = 1;
     switch (choice) {
         case 1: absc = -0.5503432753421602L; ordi = -0.6259312704294012L; size_val = 0.0000000000004L; break;
@@ -52,7 +52,10 @@ int main() {
         case 3: absc = -0.550345905862346513L; ordi = 0.625931416301985337L; size_val = 0.000000000000005L; break;
         case 4: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.000000000000004L; break;
         case 5: absc = -1.785772754399825165L; ordi = -0.000000756806080773L; size_val = 0.0000000000000014L; break;
-        case 6:
+        case 6: absc = -1.40353608594492038L; ordi = -0.02929181552009826L; size_val = 0.000000000000095L; break;
+        case 7: absc = -1.7485462508265219L; ordi = 0.000002213770706L; size_val = 0.00000000000029L; break;
+        case 8: absc = -1.94053809966024986L; ordi = -0.00000120260253359L; size_val = 0.00000000000003L; break;
+        case 9:
         {
             ifstream ff("Mandelbrot.txt");
             if (!ff.is_open()) {
