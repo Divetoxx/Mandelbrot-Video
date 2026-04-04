@@ -4,10 +4,8 @@
 # Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes)
 
 ## Video encoding
-Sequential BMP frames (frame_000.bmp to frame_254.bmp) compiled into Mandelbrot.mp4 using FFmpeg.
-
-Animation Suite: Generates a sequence of 255 high-precision BMP frames and automatically compiles them
-into a 30 FPS video loop using integrated FFmpeg.
+Animation: Generates a sequence of 255 high-precision BMP frames (frame_000.bmp to frame_254.bmp) and automatically compiles them
+into video (Mandelbrot.mp4) at 30 FPS using integrated FFmpeg.
 
 Yes, this is FFmpeg-the 'Swiss Army knife' of video processing. In 2026, it remains the industry standard, 
 powered by an open-source community. From YouTube and Netflix to professional movie studios, 
@@ -190,10 +188,8 @@ the structure of galaxies-be nothing more than the result of a very simple algor
 # Множество Мандельброта видео. 80-бит long double. OpenMP. Суперсэмплинг 8x8 (64 прохода)
 
 ## Видео 
-Последовательные кадры в формате BMP (от frame_000.bmp до frame_254.bmp), скомпилированные в файл Mandelbrot.mp4 с использованием FFmpeg.
-
-Пакет анимации: генерирует последовательность из 255 высокоточных кадров в формате BMP
-и автоматически компилирует их в видеоролик с частотой 30 кадров в секунду, используя встроенный FFmpeg.
+Анимация: генерирует последовательность из 255 высокоточных кадров (от frame_000.bmp до frame_254.bmp) в формате BMP
+и автоматически компилирует их в видеоролик (Mandelbrot.mp4) с частотой 30 кадров в секунду, используя встроенный FFmpeg.
 
 Да, это FFmpeg - "швейцарский армейский нож" для обработки видео. В 2026 году он остается отраслевым стандартом, 
 поддерживаемым сообществом разработчиков открытого программного обеспечения. 
