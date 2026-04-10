@@ -1,7 +1,7 @@
 # Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes)
 
-[![English](https://img.shields.io/badge/Language-English-blue)](#english)
-[![Русск](https://img.shields.io/badge/Язык-Русский-red)](#russian)
+[![Language](https://img.shields.io/badge/Language-English-blue)](#english)
+[![Язык](https://img.shields.io/badge/Язык-Русский-red)](#russian)
 
 ![Platform](https://img.shields.io/badge/Platform-Windows-0078D4)
 ![Platform](https://img.shields.io/badge/Platform-Linux-FCC624?logo=linux)
