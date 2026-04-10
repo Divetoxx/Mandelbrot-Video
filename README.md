@@ -1,7 +1,7 @@
 # Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes)
 
 [![English](https://img.shields.io/badge/Language-English-blue)](#english)
-[![Русский](https://img.shields.io/badge/Язык-Русский-red)](#russian)
+[![Русск](https://img.shields.io/badge/Язык-Русский-red)](#russian)
 
 ![Platform](https://img.shields.io/badge/Platform-Windows-0078D4)
 ![Platform](https://img.shields.io/badge/Platform-Linux-FCC624?logo=linux)
@@ -10,13 +10,13 @@
 ![Precision](https://img.shields.io/badge/Precision-80--bit-red)
 ![Engine](https://img.shields.io/badge/Engine-OpenMP-orange)
 ![Graphics](https://img.shields.io/badge/Graphics-SSAA-brightgreen)
-![FFmpeg](https://img.shields.io/badge/Dependency-FFmpeg-brightgreen?logo=ffmpeg)
-![GPU](https://img.shields.io/badge/Hardware-GPU-green?logo=nvidia)
+![Dependency](https://img.shields.io/badge/Dependency-FFmpeg-brightgreen?logo=ffmpeg)
+![Hardware](https://img.shields.io/badge/Hardware-GPU-green?logo=nvidia)
 
-[![Windows Download](https://img.shields.io/badge/Download-Windows-brightgreen?logo=windows)](https://github.com/Divetoxx/Mandelbrot-Video/releases/latest/download/Mandelbrot_windows_x64.zip )
-[![Linux Download](https://img.shields.io/badge/Download-Linux-orange?logo=linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases/latest/download/Mandelbrot_linux_x64.tar.gz)
-[![Source ZIP](https://img.shields.io/badge/Source-ZIP-orange?logo=github)](https://github.com/Divetoxx/Mandelbrot-Video/archive/refs/heads/main.zip)
-[![Source TAR.GZ](https://img.shields.io/badge/Source-TAR.GZ-lightgrey?logo=github)](https://github.com/Divetoxx/Mandelbrot-Video/archive/refs/heads/main.tar.gz)
+[![Download](https://img.shields.io/badge/Download-Windows-brightgreen?logo=windows)](https://github.com/Divetoxx/Mandelbrot-Video/releases/latest/download/Mandelbrot_windows_x64.zip )
+[![Download](https://img.shields.io/badge/Download-Linux-orange?logo=linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases/latest/download/Mandelbrot_linux_x64.tar.gz)
+[![Source](https://img.shields.io/badge/Source-ZIP-orange?logo=github)](https://github.com/Divetoxx/Mandelbrot-Video/archive/refs/heads/main.zip)
+[![Source](https://img.shields.io/badge/Source-TAR.GZ-lightgrey?logo=github)](https://github.com/Divetoxx/Mandelbrot-Video/archive/refs/heads/main.tar.gz)
 
 
 <a name="english"></a>
