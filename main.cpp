@@ -142,16 +142,29 @@ int main() {
         save_bmp(filename, frameData, targetW, targetH);
         cout << "Frame " << frame << "/254 saved.   \r" << flush;
     }
-    cout << "\nStep 3: Compiling video with FFmpeg..." << endl;
 
-    string videoCmd;
-#ifdef _WIN32
-    videoCmd = "ffmpeg.exe -y -stream_loop 3 -framerate 30 -i frame_%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v libx264 -x264opts ref=6:me=umh:partitions=all:no-psy:qp=20:subme=9:me_range=24:deblock=-6:bframes=6:ipratio=2:trellis=0:b_adapt=2 -color_range full -pix_fmt yuv420p Mandelbrot.mp4";
-#else
-    videoCmd = "./ffmpeg -y -stream_loop 3 -framerate 30 -i frame_%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v libx264 -x264opts ref=6:me=umh:partitions=all:no-psy:qp=20:subme=9:me_range=24:deblock=-6:bframes=6:ipratio=2:trellis=0:b_adapt=2 -color_range full -pix_fmt yuv420p Mandelbrot.mp4";
+    cout << "\nStep 3: Compiling video with FFmpeg..." << endl;
+    string ffmpegExe = "ffmpeg.exe";
+#ifndef _WIN32
+    ffmpegExe = "./ffmpeg";
 #endif
+    string checkCmd = ffmpegExe + " -encoders -hide_banner | findstr h264_nvenc > nul 2>&1";
+#ifndef _WIN32
+    checkCmd = ffmpegExe + " -encoders -hide_banner | grep h264_nvenc > /dev/null 2>&1";
+#endif
+    bool hasNVENC = (system(checkCmd.c_str()) == 0);
+    string videoCmd = ffmpegExe + " -y -stream_loop 3 -framerate 30 -i frame_%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 ";
+    if (hasNVENC) {
+        cout << "NVIDIA GPU detected! Using h264_nvenc for high-speed encoding..." << endl;
+        videoCmd += "-c:v h264_nvenc -b:v 30M -profile:v high -coder 1 -rc-lookahead 32 ";
+    } else {
+        cout << "NVIDIA GPU not found. Using libx264 (CPU)..." << endl;
+        videoCmd += "-c:v libx264 -refs 6 -me_method umh -partitions all -psy 0 -qp 20 -subq 9 -me_range 24 -deblock -6:-6 -bf 6 -i_qfactor 2 -trellis 0 -b_strategy 2 ";
+    }
+    videoCmd += "-color_range full -pix_fmt yuv420p Mandelbrot.mp4";
     int ret = system(videoCmd.c_str());
-    if (ret == 0) {
+
+        if (ret == 0) {
         cout << "\nVideo compilation successful! Cleaning up frames..." << endl;
         for (int i = 0; i < 255; ++i) {
             string filename = "frame_" + to_string(1000 + i).substr(1) + ".bmp";
