@@ -3,7 +3,7 @@
 [![English](https://img.shields.io/badge/Language-English-blue)](#english)
 [![Русский](https://img.shields.io/badge/Язык-Русский-red)](#russian)
 
-![Platform](https://img.shields.io/badge/Platform-Windows-0078D4?logo=windows&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Windows-0078D4?logo=microsoft)
 ![Platform](https://img.shields.io/badge/Platform-Linux-FCC624?logo=linux)
 
 ![Language](https://img.shields.io/badge/Language-CPP-blue)
