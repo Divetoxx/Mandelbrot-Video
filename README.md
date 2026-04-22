@@ -3,16 +3,6 @@
 [![Language](https://img.shields.io/badge/Language-English-blue)](#english)
 [![Язык](https://img.shields.io/badge/Язык-Русский-red)](#russian)
 
-![Platform](https://img.shields.io/badge/Platform-Windows-0078D4)
-![Platform](https://img.shields.io/badge/Platform-Linux-FCC624?logo=linux)
-
-![Language](https://img.shields.io/badge/Language-CPP-blue)
-![Precision](https://img.shields.io/badge/Precision-80--bit-red)
-![Engine](https://img.shields.io/badge/Engine-OpenMP-orange)
-![Graphics](https://img.shields.io/badge/Graphics-SSAA-brightgreen)
-![Dependency](https://img.shields.io/badge/Dependency-FFmpeg-brightgreen?logo=ffmpeg)
-![Hardware](https://img.shields.io/badge/Hardware-GPU-green?logo=nvidia)
-
 [![Download](https://img.shields.io/badge/Download-Windows-brightgreen?logo=windows)](https://github.com/Divetoxx/Mandelbrot-Video/releases/latest/download/Mandelbrot_windows_x64.zip )
 [![Download](https://img.shields.io/badge/Download-Linux-orange?logo=linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases/latest/download/Mandelbrot_linux_x64.tar.gz)
 [![Source Code](https://img.shields.io/badge/Source_Code-ZIP-orange?logo=github)](https://github.com/Divetoxx/Mandelbrot-Video/archive/refs/heads/main.zip)
