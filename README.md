@@ -28,6 +28,7 @@ from the Fractal Forums, whose collaborative work made this engine possible:
 * **Innovative Algorithm:** Revolutionary *Reference Reset to Zero* implementation.
 * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
 * **OpenMP Multi-threading:** High-speed parallel computing to maximize CPU utilization.
+* **Yes, this is FFmpeg**-the 'Swiss Army knife' of video processing.
 
 ## Arbitrary Precision Arithmetic (Infinite Depth)
 
@@ -255,7 +256,7 @@ https://github.com/user-attachments/assets/d4d28260-9c7f-4ba7-8ce9-9f04c07ee58c
 * Революционный алгоритм Reference Reset to Zero.
 * Настоящий SSAA 8x8 для идеально сглаженного изображения без алиасинга.
 * Параллелизм OpenMP для высокоскоростного многопоточного рендеринга.
-
+* Да, это FFmpeg - "швейцарский армейский нож" для обработки видео.
 
 ## Безграничная точность (Arbitrary Precision Arithmetic)
 
