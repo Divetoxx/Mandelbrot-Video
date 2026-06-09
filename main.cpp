@@ -7,8 +7,14 @@
 #include <atomic>
 #include <omp.h>
 #include <cstdio>
+#include <iomanip>
+#include <gmp.h>
+#include <mpfr.h>
+
 using namespace std;
 const double PI = 3.14159265358979323846;
+const mpfr_prec_t MPFR_BITS = 5000;
+
 #pragma pack(push, 1)
 struct BMPHeader {
     uint16_t type{0x4D42};
@@ -29,6 +35,12 @@ struct BMPHeader {
     uint32_t clrImportant{0};
 };
 #pragma pack(pop)
+
+struct ComplexDouble {
+    double re;
+    double im;
+};
+
 void save_bmp(const string& filename, const vector<uint8_t>& data, int w, int h) {
     int rowSize = (w * 3 + 3) & ~3;
     BMPHeader header;
@@ -41,108 +53,179 @@ void save_bmp(const string& filename, const vector<uint8_t>& data, int w, int h)
     f.write(reinterpret_cast<const char*>(data.data()), data.size());
     f.close();
 }
+
 int main() {
-    long double absc, ordi, size_val;
+    cout << "Cleaning old frames..." << endl;
+    for (int i = 0; i < 255; ++i) {
+        string filename = "Mandelbrot" + to_string(1000 + i).substr(1) + ".bmp";
+        std::remove(filename.c_str());
+    }
+    string absc_str, ordi_str, size_str;
     int choice;
-    std::cout << "Select point (1-9): ";
+    std::cout << "Select point (1-7): ";
     if (!(std::cin >> choice)) choice = 1;
     switch (choice) {
-        case 1: absc = -0.5503432753421602L; ordi = -0.6259312704294012L; size_val = 0.0000000000004L; break;
-        case 2: absc = -0.691488093510181825L; ordi = -0.465680729473216972L; size_val = 0.000000000000003L; break;
-        case 3: absc = -0.550345905862346513L; ordi = 0.625931416301985337L; size_val = 0.000000000000005L; break;
-        case 4: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.000000000000004L; break;
-        case 5: absc = -1.785772754399825165L; ordi = -0.000000756806080773L; size_val = 0.0000000000000014L; break;
-        case 6: absc = -1.40353608594492038L; ordi = -0.02929181552009826L; size_val = 0.000000000000095L; break;
-        case 7: absc = -1.7485462508265219L; ordi = 0.000002213770706L; size_val = 0.00000000000029L; break;
-        case 8: absc = -1.94053809966024986L; ordi = -0.00000120260253359L; size_val = 0.00000000000003L; break;
-        case 9:
+        case 1: absc_str = "-1.7491976289657893741942376816272921165326158557416159"; ordi_str = "-0.00000042530777152440422725855012159249401150956515248"; size_str = "0.0000000000000000000000000000000000000000000000000043"; break;
+        case 2: absc_str = "-1.7490781615052017316791245451566330412"; ordi_str = "0.0000055099190662909660251309856720635"; size_str = "0.000000000000000000000000000000000215"; break;
+        case 3: absc_str = "-1.748943661768663337207355215321150725806353337382441467976"; ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; size_str = "0.0000000000000000000000000000000000000000000000000000001"; break;
+        case 4: absc_str = "-1.7489740586384718864866264297253934254"; ordi_str = "-0.0002265965897111407857153825623868331"; size_str = "0.00000000000000000000000000000000007"; break;
+        case 5: absc_str = "-1.7499458649755745940752606707005571"; ordi_str = "-0.0000000852088539604644334731909824511"; size_str = "0.00000000000000000000000000000000001"; break;
+        case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; size_str = "0.0000000000000000000000000000000000000000000000000000000023"; break;
+        case 7:
         {
-            ifstream ff("Mandelbrot.txt");
+            std::ifstream ff("Mandelbrot.txt");
             if (!ff.is_open()) {
-              cerr << "Error: Mandelbrot.txt not found!" << endl;
-              return 1;
+                std::cerr << "Error: Mandelbrot.txt not found!" << std::endl;
+                return 1;
             }
-            ff >> absc >> ordi >> size_val;
+            std::vector<std::string> lines;
+            std::string line;
+            while (std::getline(ff, line)) {
+                if (!line.empty()) lines.push_back(line);
+                if (lines.size() == 3) break;
+            }
             ff.close();
+            if (lines.size() == 3) {
+                absc_str = lines[0];
+                ordi_str = lines[1];
+                size_str = lines[2];
+            } else {
+                std::cerr << "Error: Mandelbrot.txt has invalid format!" << std::endl;
+                return 1;
+            }
             break;
         }
-        default:
-            std::cout << "Error: No such point!" << std::endl;
-            return 1;
     }
     const int targetW = 1920;
     const int targetH = 1080;
     const int scale = 8;
     const int rawW = targetW * scale;
     const int rawH = targetH * scale;
-    cout << "Step 1: Calculating Raw Map (" << rawW << "x" << rawH << ")..." << endl;
-    vector<uint8_t> iterMap(rawW * rawH);
-    long double step = size_val / rawW;
-    long double startX = absc - (size_val / 2.0);
-    long double startY = ordi - (step * rawH / 2.0);
+    cout << "Step 1: Calculating Raw Map (" << rawW << "x" << rawH << ") using Perturbation..." << endl;
+    vector<uint8_t> iterMap((size_t)rawW * rawH);
+    mpfr_t rx, ry, zr, zi, zr2, zi2, tmp, sz, st;
+    mpfr_inits2(MPFR_BITS, rx, ry, zr, zi, zr2, zi2, tmp, sz, st, NULL);
+    mpfr_set_str(rx, absc_str.c_str(), 10, MPFR_RNDN);
+    mpfr_set_str(ry, ordi_str.c_str(), 10, MPFR_RNDN);
+    mpfr_set_str(sz, size_str.c_str(), 10, MPFR_RNDN);
+    mpfr_div_ui(st, sz, rawW, MPFR_RNDN);
+    double step_d = mpfr_get_d(st, MPFR_RNDN);
+    double ref_rec_d = mpfr_get_d(rx, MPFR_RNDN);
+    double ref_imc_d = mpfr_get_d(ry, MPFR_RNDN);
+    vector<ComplexDouble> ref_orbit_double(50005);
+    mpfr_set_ui(zr, 0, MPFR_RNDN);
+    mpfr_set_ui(zi, 0, MPFR_RNDN);
+    mpfr_set_ui(zr2, 0, MPFR_RNDN);
+    mpfr_set_ui(zi2, 0, MPFR_RNDN);
+    uint32_t ref_i = 0;
+    bool escaped = false;
+    while (ref_i < 50000) {
+        ref_orbit_double[ref_i].re = mpfr_get_d(zr, MPFR_RNDN);
+        ref_orbit_double[ref_i].im = mpfr_get_d(zi, MPFR_RNDN);
+        mpfr_mul(tmp, zr, zi, MPFR_RNDN);
+        mpfr_mul_ui(zi, tmp, 2, MPFR_RNDN);
+        mpfr_add(zi, zi, ry, MPFR_RNDN);
+        mpfr_sub(zr, zr2, zi2, MPFR_RNDN);
+        mpfr_add(zr, zr, rx, MPFR_RNDN);
+        mpfr_mul(zr2, zr, zr, MPFR_RNDN);
+        mpfr_mul(zi2, zi, zi, MPFR_RNDN);
+        if (escaped) {
+            ref_i++;
+            break;
+        }
+        mpfr_add(tmp, zr2, zi2, MPFR_RNDN);
+        if (mpfr_cmp_d(tmp, 4.0) >= 0) { 
+            escaped = true;
+        }
+        ref_i++;
+    }
+    ref_orbit_double[ref_i].re = mpfr_get_d(zr, MPFR_RNDN);
+    ref_orbit_double[ref_i].im = mpfr_get_d(zi, MPFR_RNDN);
+    uint32_t max_valid_ref_iter = ref_i; 
+    mpfr_clears(rx, ry, zr, zi, zr2, zi2, tmp, sz, st, NULL);
     atomic<int> linesDone{0};
     #pragma omp parallel for schedule(dynamic)
-    for (int b = 0; b < rawH; ++b) {
-        for (int a = 0; a < rawW; ++a) {
-            long double m = startX + a * step;
-            long double n = startY + b * step;
-            long double c = m, d = n, cc, dd;
-            int t = 50000;
-            do {
-                cc = c * c; 
-                dd = d * d;
-                d = (c + c) * d + n;
-                c = cc - dd + m;
-                t--;
-            } while (t > 0 && (cc + dd <= 1000000.0L));
-            if (t == 0) {
-                iterMap[b * rawW + a] = 255;
+    for (size_t b = 0; b < (size_t)rawH; ++b) {
+        for (size_t a = 0; a < (size_t)rawW; ++a) {
+            double delta_rec = (double)((long long)a - (rawW / 2)) * step_d;
+            double delta_imc = (double)((long long)b - (rawH / 2)) * step_d;
+            uint32_t index = 0;    
+            double delta_re = 0.0; 
+            double delta_im = 0.0;
+            double z_re = 0.0;     
+            double z_im = 0.0;
+            uint32_t i = 0;
+            const ComplexDouble* ref_ptr = ref_orbit_double.data();
+            while (i < max_valid_ref_iter) {
+                if ((z_re * z_re + z_im * z_im) >= 40000.0) {
+                    break;
+                }
+                if ((z_re * z_re + z_im * z_im) < (delta_re * delta_re + delta_im * delta_im)) {
+                    index = 0; 
+                    delta_re = z_re;
+                    delta_im = z_im;
+                }
+                for (int step = 0; step < 2; ++step) {
+                    double Ur = ref_ptr[index].re;
+                    double Ui = ref_ptr[index].im;
+                    double next_delta_im = 2.0 * Ur * delta_im + 2.0 * Ui * delta_re + 2.0 * delta_re * delta_im + delta_imc;
+                    delta_re = 2.0 * Ur * delta_re - 2.0 * Ui * delta_im + delta_re * delta_re - delta_im * delta_im + delta_rec;
+                    delta_im = next_delta_im;
+                    index++;
+                }
+                z_re = ref_ptr[index].re + delta_re;
+                z_im = ref_ptr[index].im + delta_im;
+                i += 2; 
+            }
+            int final_t = 50000 - i;
+            if (final_t == 0) {
+                iterMap[b * (size_t)rawW + a] = 255;
             } else {
-                iterMap[b * rawW + a] = (uint8_t)(t % 255);
+                iterMap[b * (size_t)rawW + a] = (uint8_t)(final_t % 254);
             }
         }
         if (++linesDone % 100 == 0) cout << "Progress: " << linesDone << "/" << rawH << "\r" << flush;
     }
     uint8_t pal[256][3];
     for (int a = 0; a < 255; ++a) {
-        pal[a][0] = (uint8_t)round(127 + 127 * cos(2 * PI * a / 255.0));
-        pal[a][1] = (uint8_t)round(127 + 127 * sin(2 * PI * a / 255.0));
-        pal[a][2] = (uint8_t)round(127 + 127 * sin(2 * PI * a / 255.0));
+        pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0)); // Blue
+        pal[a][1] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Green
+        pal[a][2] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Red
     }
     pal[255][0] = 255; pal[255][1] = 255; pal[255][2] = 255;
     cout << "\nStep 2: Rendering frames..." << endl;
     int rowSize = (targetW * 3 + 3) & ~3;
     for (int frame = 0; frame < 255; ++frame) {
-        vector<uint8_t> frameData(rowSize * targetH);
+        vector<uint8_t> frameData(rowSize * targetH);        
         #pragma omp parallel for schedule(static)
         for (int y = 0; y < targetH; ++y) {
             for (int x = 0; x < targetW; ++x) {
                 uint32_t rSum = 0, gSum = 0, bSum = 0;
                 for (int j = 0; j < scale; ++j) {
+                    size_t mapRowIdx = (size_t)(y * scale + j) * rawW;
                     for (int i = 0; i < scale; ++i) {
-                        uint8_t t = iterMap[(y * scale + j) * rawW + (x * scale + i)];
+                        uint8_t t = iterMap[mapRowIdx + (x * scale + i)];
                         int colorIdx;
-                            if (t == 255) {
+                        if (t == 255) {
                             colorIdx = 255;
                         } else {
-                          colorIdx = (t - frame + 255) % 255;
+                            colorIdx = (t - frame + 255) % 255;
                         }
                         bSum += pal[colorIdx][0];
                         gSum += pal[colorIdx][1];
                         rSum += pal[colorIdx][2];
                     }
-                }
+                }                
                 int outIdx = y * rowSize + x * 3;
                 frameData[outIdx + 0] = (uint8_t)(bSum >> 6);
                 frameData[outIdx + 1] = (uint8_t)(gSum >> 6);
                 frameData[outIdx + 2] = (uint8_t)(rSum >> 6);
             }
         }
-        string filename = "frame_" + to_string(1000 + frame).substr(1) + ".bmp";
+        string filename = "Mandelbrot" + to_string(1000 + frame).substr(1) + ".bmp";
         save_bmp(filename, frameData, targetW, targetH);
         cout << "Frame " << frame << "/254 saved.   \r" << flush;
     }
-
     cout << "\nStep 3: Compiling video with FFmpeg..." << endl;
     string ffmpegExe = "ffmpeg.exe";
 #ifndef _WIN32
@@ -153,21 +236,20 @@ int main() {
     checkCmd = ffmpegExe + " -encoders -hide_banner | grep h264_nvenc > /dev/null 2>&1";
 #endif
     bool hasNVENC = (system(checkCmd.c_str()) == 0);
-    string videoCmd = ffmpegExe + " -y -stream_loop 3 -framerate 30 -i frame_%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 ";
-    if (hasNVENC) {
+    string videoCmd = ffmpegExe + " -y -stream_loop 3 -framerate 30 -i Mandelbrot%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 ";
+        if (hasNVENC) {
         cout << "NVIDIA GPU detected! Using h264_nvenc for high-speed encoding..." << endl;
         videoCmd += "-c:v h264_nvenc -b:v 30M -profile:v high -coder 1 -rc-lookahead 32 ";
     } else {
         cout << "NVIDIA GPU not found. Using libx264 (CPU)..." << endl;
         videoCmd += "-c:v libx264 -refs 6 -me_method umh -partitions all -psy 0 -qp 20 -subq 9 -me_range 24 -deblock -6:-6 -bf 6 -i_qfactor 2 -trellis 0 -b_strategy 2 ";
     }
-    videoCmd += "-color_range full -pix_fmt yuv420p Mandelbrot.mp4";
+    videoCmd += "-color_range full -pix_fmt yuv420p Mandelbrot.mp4";    
     int ret = system(videoCmd.c_str());
-
-        if (ret == 0) {
+    if (ret == 0) {
         cout << "\nVideo compilation successful! Cleaning up frames..." << endl;
         for (int i = 0; i < 255; ++i) {
-            string filename = "frame_" + to_string(1000 + i).substr(1) + ".bmp";
+            string filename = "Mandelbrot" + to_string(1000 + i).substr(1) + ".bmp";
             std::remove(filename.c_str());
         }
         cout << "Done. Result saved as Mandelbrot.mp4" << endl;
@@ -176,4 +258,3 @@ int main() {
     }
     return 0;
 }
-
