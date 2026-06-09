@@ -8,19 +8,28 @@
 
 
 <a name="english"></a>
-## 🇺🇸 English Version
+# 🇺🇸 English Version
 
 # Mandelbrot CLI: Renderer with 1000-Digit Precision and Perturbation Theory
-### 8x8 SSAA, OpenMP.
 
-**Key Features:**
+## Credits & Acknowledgments
+
+This project implements advanced orbit phase management paradigms and perturbation algorithms 
+developed by the fractal research community. Special thanks to the following authors and pioneers 
+from the Fractal Forums, whose collaborative work made this engine possible:
+* **Kevin Martin** - for pioneering loop optimization and edge-case escape techniques.
+* **Zhuoran Yu** - for developing the dynamic orbit re-basing paradigm.
+* **Claude Heiland-Allen** - for extensive deep zoom research and the creation of the MDZ project.
+
+## Key Features:
+
 * **High-Precision Reference:** The 5000-bit reference trajectory is computed exactly once per zoom layer.
 * **Hardware-Native Performance:** Blazing-fast math for millions of pixels utilizing hardware-native double registers.
 * **Innovative Algorithm:** Revolutionary *Reference Reset to Zero* implementation.
 * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
 * **OpenMP Multi-threading:** High-speed parallel computing to maximize CPU utilization.
 
-### Arbitrary Precision Arithmetic (Infinite Depth)
+## Arbitrary Precision Arithmetic (Infinite Depth)
 
 The engine is completely free from the hardware limitations of standard 64-bit (`double`) and 128-bit (`__float128`) data types, 
 which inevitably lose significance and produce pixelated blocks at depths beyond $10^{-15}$ and $10^{-34}$ respectively.
@@ -29,7 +38,7 @@ structure configured to **5000-bit precision**.
 * **1000-Digit Decimal Coordinate Cache**: Viewport coordinates are saved to and loaded from `Mandelbrot.txt` as perfectly precise text strings 
 containing **1000 decimal digits after the decimal point**, allowing seamless exploration at scales up to $10^{-1000}$ and beyond.
 
-### Blazing Fast Perturbation Theory
+## Blazing Fast Perturbation Theory
 
 Deep fractal rendering no longer requires heavy "long-division-style" arbitrary precision math for every individual pixel, which 
 historically slowed down deep zoom software by thousands of times.
@@ -39,7 +48,7 @@ for **only one central pixel per frame and strictly ONCE** at the beginning of t
 native speed of the CPU's hardware `double` registers, calculating only tiny deviations (deltas) from the central axis. 
 This optimization boosts rendering speeds by up to 1000x!
 
-### Revolutionary Reference Reset to Zero Algorithm
+## Revolutionary Reference Reset to Zero Algorithm
 
 This is a tremendous point of pride: the engine now operates under the exact same mathematical and architectural principles as the world's most advanced.
 * **Dynamic Reset to Zero**: Now, each pixel checks the ratio of its full coordinates against 
@@ -52,13 +61,14 @@ from the deepest iteration loop. The processor no longer wastes clock cycles on 
 to perfectly vectorize the math.
 
 
-
 ## Project Purpose
+
 This is a high-end CLI workstation designed for the automated production of professional fractal video art. 
 It manages the entire pipeline: from heavy-duty mathematical computations to the final assembly of the video 
 file.
 
 ### Key Features:
+
 *    **End-to-End Video Production**: The engine renders 255 high-precision frames, applies a smooth palette rotation, and automatically 
 invokes FFmpeg to compile the final .mp4 video.
 *    **Hardware-Aware Encoding**: The program detects your hardware to choose the best encoding strategy:
@@ -69,28 +79,31 @@ fractal details are perfectly reconstructed without the "sparkling" or aliasing 
 *    **Smart Cleanup**: Once the video is successfully compiled, the utility automatically deletes the temporary BMP 
 frames (which can take up several gigabytes), leaving you only with the final Mandelbrot.mp4.
 
-### Why use this?
+## Why use this?
+
 *    **Content Generation**: Perfect for creating high-quality seamless loops for meditation videos, VJ sets, or motion backgrounds.
 *    **Hardware Benchmark**: A unique hybrid workload that stresses the CPU with massive OpenMP parallel math and the GPU with video encoding.
 *    **Full Automation**: No need to remember complex FFmpeg flags — just run the app, choose a location, and get a professional video file.
 	
-### Yes, this is FFmpeg-the 'Swiss Army knife' of video processing. 
+## Yes, this is FFmpeg-the 'Swiss Army knife' of video processing. 
+
 In 2026, it remains the industry standard, 
 powered by an open-source community. From YouTube and Netflix to professional movie studios, 
 everyone relies on it. And yes, it's completely free.
 
-### All-in-one: 
+## All-in-one: 
+
 This repository already includes ffmpeg binaries for Windows and Linux. No manual installation is required!
 
-
 ## OpenMP
+
 OpenMP is a standard that tells the compiler, "Take this loop and distribute the iterations among the different processor cores."
 Yes, using OpenMP you are doing parallel programming at the Multithreading level.
 Everything is powered by **OpenMP** parallel loops for maximum performance.
 OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop and a 128-core server.
 
-
 ## 8x8 Supersampling (64 Samples Per Pixel)
+
 Super-Sampling Anti-Aliasing (SSAA) is a high-end technique increasing samples per pixel to enhance image quality, 
 with 8x (N=8) rendering scenes at 8x resolution on both axes to produce 64 samples per pixel. 
 This process calculates an extreme number of pixels-scaling to a 15360 x 8640 grid for a 1920 x 1080
@@ -106,17 +119,19 @@ Key Technical Advantages:
 *    Noise Elimination: By accumulating color intensities (R, G, B) rather than raw iteration counts, we completely eliminate "chromatic noise." The result is a crystal-clear, razor-sharp image where every micro-filament is perfectly reconstructed.
 *    True Color Integration: Our solution performs integration directly in the RGB color space. By computing the exact Red, Green, and Blue components for each sub-pixel before downsampling, we achieve a cinematic level of smoothness and structural integrity that 8-bit or iteration-based renderers simply cannot match.
 
-
 ## Generating 255 Frames: Optimization Strategy
+
 This is an efficient pre-render strategy: we calculate the heavy mathematics (iteration counts) 
 once, store the raw data, and then rapidly generate frames by shifting colors and downsampling.
 Since calculating a 15360x8640 fractal 255 times is computationally expensive, we split the task into two stages.
 
 ### Stage 1: Iteration Map Generation (Raw Data)
+
 Instead of BMP files, we create a single data buffer where we store only the iteration number (t) for each pixel.
 *    For 15360x8640 using uint8_t, the resulting file/buffer is approximately 132 MB.
 
 ### Stage 2: 255-Frame Rendering (Color + Anti-aliasing)
+
 We read the iteration map and perform the following for each frame:
 *    Downsample: Process an 8x8 pixel block from the high-res map.
 *    Color Mapping: Map each pixel value to a shifted color palette.
@@ -131,6 +146,7 @@ Once all 255 BMP files are generated, use FFmpeg to encode them into the final v
 
 
 ## Visual Aesthetics
+
 The Red, Green, and Blue channels are calculated using sine and cosine waves to create smooth color transitions:
 ```C++
         pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0)); // Blue
@@ -141,9 +157,11 @@ The Red, Green, and Blue channels are calculated using sine and cosine waves to 
 ## License and Third-Party Software
 
 ### My Code
+
 This project is licensed under the **MIT License**.
 
 ### FFmpeg
+
 This software uses libraries from the **FFmpeg** project under the **LGPLv2.1** (or GPLv3, depending on the build). 
 *   FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project.
 *   You can find the source code and more information at [https://ffmpeg.org](https://ffmpeg.org).
@@ -165,6 +183,7 @@ has always existed. Computers do not create it; they merely act as a camera.
 
 
 ## Controls & Automation (CLI)
+
 The program operates on a "one-click" principle: you select the location, and the rest (calculation, encoding, cleanup) happens automatically.
 
 | Action | Input | Description |
@@ -186,6 +205,7 @@ The program operates on a "one-click" principle: you select the location, and th
 ```
 
 ## Mandelbrot.txt File Structure
+
 To load custom coordinates (option 7 in the menu), create a Mandelbrot.txt file in the application folder. 
 The file must contain three numbers separated by a newline:
 *    Abscissa (Center X coordinate)
@@ -198,20 +218,27 @@ Example file content:
 
 ## Look at the results! The smoothness is incredible 
 
-https://github.com/user-attachments/assets/f5c74477-7f16-4e59-9ba3-e6a59840f258
-
 
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
 
 
-## 🇷🇺 Русская версия
+# 🇷🇺 Русская версия
 <a name="russian"></a>
 
 # Консольный рендерер Мандельброта со 1000-значной точностью и методом возмущений
-### SSAA 8x8, OpenMP.
 
-**Ключевые особенности:**
+## Благодарности (Credits)
+
+Этот проект использует передовые математические алгоритмы и идеи динамического управления фазой орбит, 
+разработанные фрактальным сообществом. Особая благодарность авторам и исследователям с Fractal Forums, 
+чей совместный труд лег в основу этого движка:
+* **Kevin Martin** - автор фундаментальных методов векторизации и оптимизации циклов возмущений.
+* **Zhuoran Yu** - разработчик концепции динамического сброса орбит.
+* **Claude Heiland-Allen** - исследователь экстремального фрактального приближения и создатель проекта MDZ.
+
+## Ключевые особенности:
+
 * Расчёт опорной траектории на 5000 бит всего один раз.
 * Реактивный расчёт миллионов пикселей на аппаратном double.
 * Революционный алгоритм Reference Reset to Zero.
@@ -219,7 +246,7 @@ https://github.com/user-attachments/assets/f5c74477-7f16-4e59-9ba3-e6a59840f258
 * Параллелизм OpenMP для высокоскоростного многопоточного рендеринга.
 
 
-### Безграничная точность (Arbitrary Precision Arithmetic)
+## Безграничная точность (Arbitrary Precision Arithmetic)
 
 Движок полностью избавлен от аппаратных ограничений 64-битных (`double`) и 128-битных (`__float128`) чисел, которые неизбежно слепнут и выдают 
 пиксельные квадраты на глубинах более $10^{-15}$ и $10^{-34}$.
@@ -228,7 +255,7 @@ https://github.com/user-attachments/assets/f5c74477-7f16-4e59-9ba3-e6a59840f258
 * **1000 чистых знаков в текстовом кэше**: Координаты кадра сохраняются и считываются из файла `Mandelbrot.txt` в виде идеально точной текстовой 
 строки из **1000 десятичных цифр после запятой**, что позволяет исследовать глубокие структуры на масштабах до $10^{-1000}$ и глубже.
 
-### Реактивный метод возмущений (Perturbation Theory)
+## Реактивный метод возмущений (Perturbation Theory)
 
 Рендеринг глубоких фракталов больше не требует тяжелых вычислений <в столбик> для каждого пикселя, что обычно замедляло программы в тысячи раз.
 * **Однократный расчёт опоры**: Сверхтяжелый BigFloat-радар MPFR вычисляет точную траекторию всего для **одной-единственной центральной точки 
@@ -237,7 +264,7 @@ https://github.com/user-attachments/assets/f5c74477-7f16-4e59-9ba3-e6a59840f258
 чистых, аппаратных регистров `double` процессора, вычисляя лишь микроскопические отклонения (дельты) от центральной оси. 
 Скорость генерации взлетела в 1000 раз!
 
-### Революционный алгоритм Reference Reset to Zero
+## Революционный алгоритм Reference Reset to Zero
 
 Это огромный повод для гордости. Ваша программа теперь работает по тем же математическим принципам, что и самые передовые фрактальные движки в мире.
 * **Динамический сброс на ноль**: Теперь пиксель на каждом шаге проверяет соотношение своих полных координат и дельты. Если дельта становится 
@@ -251,6 +278,7 @@ https://github.com/user-attachments/assets/f5c74477-7f16-4e59-9ba3-e6a59840f258
 
 
 ## О проекте
+
 Это консольная станция для автоматизированного создания профессионального видео-арта на основе множества Мандельброта. 
 Программа берет на себя весь цикл производства: от тяжелых математических вычислений до финальной сборки готового видеофайла.
 
@@ -265,21 +293,24 @@ https://github.com/user-attachments/assets/f5c74477-7f16-4e59-9ba3-e6a59840f258
 *    **Автоматическая очистка**: После успешной сборки видео программа сама удаляет промежуточные BMP-файлы (которые могут 
 занимать гигабайты), оставляя вам только готовый результат Mandelbrot.mp4.
 
-### Для чего это нужно:
+## Для чего это нужно:
 *    **Генерация контента**: Создание идеальных зацикленных (loop) фонов для медитации, VJ-сетов или YouTube-каналов.
 *    **Демонстрация мощи железа**: Проект сочетает интенсивные вычисления на CPU (OpenMP) и скоростное кодирование на GPU.
 *    **Удобство**: Вам не нужно знать команды командной строки FFmpeg — программа всё сделает за вас. 
 
-### Да, это FFmpeg - "швейцарский армейский нож" для обработки видео.
+## Да, это FFmpeg - "швейцарский армейский нож" для обработки видео.
+
 В 2026 году он остается отраслевым стандартом, 
 поддерживаемым сообществом разработчиков открытого программного обеспечения. 
 От YouTube и Netflix до профессиональных киностудий - все на него полагаются. И да, он совершенно бесплатный.
 
-### Всё включено: 
+## Всё включено: 
+
 Этот репозиторий уже содержит исполняемые файлы ffmpeg для Windows и Linux. Никакой ручной установки не требуется - всё работает прямо <из коробки>!
 
 
 ## OpenMP
+
 OpenMP - это стандарт, который говорит компилятору: "Возьми этот цикл и сам раздай итерации разным ядрам процессора".
 Используя OpenMP, вы занимаетесь параллельным программированием на уровне многопоточности (Multithreading).
 OpenMP - масштабируемость: ваш код будет одинаково эффективно работать как на 4-ядерном ноутбуке,
@@ -287,6 +318,7 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 
 ## Суперсэмплинг 8x8 (64 прохода на один пиксель)
+
 Суперсэмплинг (SSAA) - ресурсоемкий метод сглаживания, увеличивающий число выборок на пиксель для повышения качества изображения. 
 При значении 8x (N=8) сцена рендерится в разрешении, в 8 раз превышающем целевое, по обеим осям, создавая 64 (или 8 х 8) выборки 
 на пиксель. Изображение просчитывается в более высоком разрешении, а затем принудительно уменьшается до разрешения дисплея, 
@@ -310,6 +342,7 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 
 ## Генерация 255 кадров
+
 Это отличная стратегия оптимизации! Вы хотите применить пререндер: сначала рассчитать тяжелую математику (номера итераций) один раз, сохранить их, а затем быстро генерировать кадры, просто меняя цвета и уменьшая размер.
 Поскольку считать 15360x8640 255 раз - это безумие, мы разделим задачу на два этапа.
 
@@ -331,6 +364,7 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 
 ## Визуальная эстетика
+
 Красный, зеленый и синий каналы рассчитываются с использованием синусоидальных и косинусоидальных волн для создания плавных цветовых переходов:
 ```C++
         pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0)); // Blue
@@ -341,9 +375,11 @@ OpenMP - масштабируемость: ваш код будет одинак
 ## Лицензия и стороннее программное обеспечение
 
 ### Мой код
+
 Этот проект распространяется под лицензией **MIT**.
 
 ### FFmpeg
+
 Это программное обеспечение использует библиотеки из проекта **FFmpeg** под лицензией **LGPLv2.1** (или GPLv3, в зависимости от сборки).
 * FFmpeg является товарным знаком Фабриса Беллара, создателя проекта FFmpeg.
 * Исходный код и дополнительную информацию можно найти по адресу [https://ffmpeg.org](https://ffmpeg.org).
@@ -365,6 +401,7 @@ OpenMP - масштабируемость: ваш код будет одинак
 выступают в роли камеры.
 
 ## Управление и автоматизация (CLI & Automation)
+
 Программа работает по принципу <одной кнопки>: вы выбираете локацию, а остальное (расчет, кодирование, очистка) происходит автоматически.
 
 | Действие | Ввод | Описание |
@@ -386,6 +423,7 @@ OpenMP - масштабируемость: ваш код будет одинак
 ```
 
 ## Структура файла Mandelbrot.txt
+
 Для загрузки пользовательских координат (пункт 7 в меню), создайте текстовый файл Mandelbrot.txt в папке с программой. 
 Файл должен содержать три числа, разделенных переносом строки:
 *    Abscissa (Координата X центра)
@@ -399,7 +437,10 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 ## Посмотрите на результаты! Невероятная плавность работы
 
-https://github.com/user-attachments/assets/f5c74477-7f16-4e59-9ba3-e6a59840f258
+
 
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
+
+
+
