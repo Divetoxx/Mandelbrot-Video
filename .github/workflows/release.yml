@@ -102,6 +102,13 @@ jobs:
             * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
             * **OpenMP Multi-threading:** High-speed parallel computing to maximize CPU utilization.        
             
+            <video src="https://github.com/user-attachments/assets/852adaf6-5921-486d-b7cb-6d3e326302a8" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/01edb228-9685-4f66-ba3b-a5492d3d3045" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/2dbb60b2-5be4-4bb6-be1c-3f4f1d3cef77" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/66c067b8-1237-48cb-905f-b7049e8a0677" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/2c90c6d0-2889-43a8-9d02-60ca35922cd5" controls width="1000"></video>
+            <video src="https://github.com/user-attachments/assets/d4d28260-9c7f-4ba7-8ce9-9f04c07ee58c" controls width="1000"></video>
+
           files: |
             binary-windows-latest/Mandelbrot_windows_x64.zip
             binary-ubuntu-latest/Mandelbrot_linux_x64.tar.gz
