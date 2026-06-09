@@ -23,33 +23,56 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
-          install: mingw-w64-x86_64-gcc mingw-w64-x86_64-binutils
+          msystem: UCRT64
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-binutils
+            mingw-w64-ucrt-x86_64-mpfr
+            mingw-w64-ucrt-x86_64-gmp
           update: true
 
-      - name: Build Linux
+      - name: Compile (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          sudo apt-get update && sudo apt-get install -y libomp-dev
-          g++ -O3 main.cpp -o Mandelbrot_linux -fopenmp -static-libstdc++ -static-libgcc
-          strip Mandelbrot_linux
-          chmod +x Mandelbrot_linux ffmpeg
-          tar -czvf Mandelbrot_linux_x64.tar.gz Mandelbrot_linux ffmpeg
+          sudo apt-get update && sudo apt-get install -y libomp-dev libmpfr-dev libgmp-dev
+          
+          g++ -O3 main.cpp -o Mandelbrot_linux_mavx2 -mavx2 -fopenmp -lmpfr -lgmp -static-libstdc++ -static-libgcc
+          strip Mandelbrot_linux_mavx2
+          chmod +x Mandelbrot_linux_mavx2
+          
+          g++ -O3 main.cpp -o Mandelbrot_linux_msse3 -msse3 -fopenmp -lmpfr -lgmp -static-libstdc++ -static-libgcc
+          strip Mandelbrot_linux_msse3
+          chmod +x Mandelbrot_linux_msse3
 
-      - name: Build Windows
+          chmod +x ffmpeg
+          tar -czvf Mandelbrot_linux_x64.tar.gz Mandelbrot_linux_mavx2 Mandelbrot_linux_msse3 ffmpeg
+
+      - name: Compile (Windows)
         if: matrix.os == 'windows-latest'
         shell: msys2 {0}
         run: |
-          windres resource.rc -o resource.o
-          g++ -O3 main.cpp resource.o -o Mandelbrot_windows.exe -fopenmp -static -D__USE_MINGW_ANSI_STDIO=1
-          strip Mandelbrot_windows.exe
-          powershell.exe "Compress-Archive -Path Mandelbrot_windows.exe, ffmpeg.exe -DestinationPath Mandelbrot_windows_x64.zip"
+          if [ -f resource.rc ]; then
+            windres resource.rc -o resource.o
+            RESOURCE_OBJ="resource.o"
+          else
+            RESOURCE_OBJ=""
+          fi
+          
+          g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_mavx2.exe -mavx2 -fopenmp -static-libstdc++ -static-libgcc -Wl,-Bstatic -lmpfr -lgmp -Wl,-Bdynamic
+          strip Mandelbrot_windows_mavx2.exe
+          
+          g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_msse3.exe -msse3 -fopenmp -static-libstdc++ -static-libgcc -Wl,-Bstatic -lmpfr -lgmp -Wl,-Bdynamic
+          strip Mandelbrot_windows_msse3.exe
+
+          powershell.exe "Compress-Archive -Path Mandelbrot_windows_mavx2.exe, Mandelbrot_windows_msse3.exe, ffmpeg.exe -DestinationPath Mandelbrot_windows_x64.zip"
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: assets-${{ matrix.os }}
-          path: Mandelbrot_*_x64.*
+          name: binary-${{ matrix.os }}
+          path: |
+            Mandelbrot_linux_x64.tar.gz
+            Mandelbrot_windows_x64.zip
 
   release:
     needs: build
@@ -57,29 +80,28 @@ jobs:
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
-      
+        
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.MY_RELEASE_PAT }}
-          name: "Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes) ${{ github.ref_name }}"
+          name: "Mandelbrot CLI: Renderer with 1000-Digit Precision and Perturbation Theory ${{ github.ref_name }}"
           body: |
-            ## Mandelbrot set Video. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes) 
-            <video src="https://github.com/user-attachments/assets/f5c74477-7f16-4e59-9ba3-e6a59840f258" controls width="1000"></video>
-            <video src="https://github.com/user-attachments/assets/e26dd749-292a-4378-963e-51543ccf593b" controls width="1000"></video>
-            <video src="https://github.com/user-attachments/assets/d3a8bb0a-91e2-4f1d-b98f-2f5168d3b1e9" controls width="1000"></video>
-            <video src="https://github.com/user-attachments/assets/b8384ce2-d551-4786-86fc-0d66f93715b7" controls width="1000"></video>
-            <video src="https://github.com/user-attachments/assets/430cb7b5-eb47-4521-bae5-47e68e54dcba" controls width="1000"></video>
-            <video src="https://github.com/user-attachments/assets/2651cffe-74f3-4691-b06c-d5579ca9ac85" controls width="1000"></video>
-            <video src="https://github.com/user-attachments/assets/5476e44e-e161-44c5-a912-192a62bb070e" controls width="1000"></video>
-            <video src="https://github.com/user-attachments/assets/a73b7142-eb90-4263-ab00-9336d00c0875" controls width="1000"></video>
+            ## Mandelbrot CLI: Renderer with 1000-Digit Precision and Perturbation Theory
 
-            ### Features:
-            * **Smooth Video Export:** Automatically renders 255 BMP frames and compiles them into a high-quality `Mandelbrot.mp4` using FFmpeg.
-            * **High-Precision Rendering:** 80-bit long double precision for extreme zoom.
-            * **Multi-threaded Performance:** Powered by OpenMP for fast parallel calculation.
-            * **True SSAA 8x8:** 64 independent samples per pixel for crystal-clear anti-aliasing.
-            * **Mathematical Color Mapping:** Sine/Cosine wave calculation for smooth RGB transitions.
+            ### Available Downloads
+            * **Windows (UCRT64):**
+              * `Mandelbrot_windows_x64.zip` - Includes optimized builds (`mavx2`, `msse3`) and `ffmpeg.exe`.
+            * **Linux (x64):**
+              * `Mandelbrot_linux_x64.tar.gz` - Includes optimized builds (`mavx2`, `msse3`) and native `ffmpeg`.
+
+            ### Core Features
+            * **High-Precision Reference:** The 5000-bit reference trajectory is computed exactly once per zoom layer.
+            * **Hardware-Native Performance:** Blazing-fast math for millions of pixels utilizing hardware-native double registers.
+            * **Innovative Algorithm:** Revolutionary *Reference Reset to Zero* implementation.
+            * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
+            * **OpenMP Multi-threading:** High-speed parallel computing to maximize CPU utilization.        
+            
           files: |
-            assets-ubuntu-latest/Mandelbrot_linux_x64.tar.gz
-            assets-windows-latest/Mandelbrot_windows_x64.zip
+            binary-windows-latest/Mandelbrot_windows_x64.zip
+            binary-ubuntu-latest/Mandelbrot_linux_x64.tar.gz
