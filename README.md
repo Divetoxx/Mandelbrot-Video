@@ -110,12 +110,12 @@ OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop 
 
 Super-Sampling Anti-Aliasing (SSAA) is a high-end technique increasing samples per pixel to enhance image quality, 
 with 8x (N=8) rendering scenes at 8x resolution on both axes to produce 64 samples per pixel. 
-This process calculates an extreme number of pixels-scaling to a 15360 x 8640 grid for a 1920 x 1080
+This process calculates an extreme number of pixels-scaling to a 17280 x 17280 grid for a 2160 x 2160
 target-before downscaling to remove jaggies and improve detail.
 
 I decided to take the visual quality to a completely different level. This engine implements
 True 8x8 Supersampling Anti-Aliasing (SSAA) with 64 independent samples per single screen pixel, utilizing Direct RGB-Space Integration.
-Instead of a standard 1920x1080 render, the engine internally processes a massive 15,360 x 8,640 sub-pixel grid!
+Instead of a standard 2160x2160 render, the engine internally processes a massive 17280 x 17280 sub-pixel grid!
 After calculating all 64 samples for a pixel, they are downsampled into one.
 Key Technical Advantages:
 *    64-Point Fractal Sampling: Each final screen pixel is computed from sixty-four independent fractal coordinate points.
@@ -127,22 +127,22 @@ Key Technical Advantages:
 
 This is an efficient pre-render strategy: we calculate the heavy mathematics (iteration counts) 
 once, store the raw data, and then rapidly generate frames by shifting colors and downsampling.
-Since calculating a 15360x8640 fractal 255 times is computationally expensive, we split the task into two stages.
+Since calculating a 17280x17280 fractal 255 times is computationally expensive, we split the task into two stages.
 
 ### Stage 1: Iteration Map Generation (Raw Data)
 
 Instead of BMP files, we create a single data buffer where we store only the iteration number (t) for each pixel.
-*    For 15360x8640 using uint8_t, the resulting file/buffer is approximately 132 MB.
+*    For 17280x17280 using uint8_t, the resulting file/buffer is approximately 298 MB.
 
 ### Stage 2: 255-Frame Rendering (Color + Anti-aliasing)
 
 We read the iteration map and perform the following for each frame:
 *    Downsample: Process an 8x8 pixel block from the high-res map.
 *    Color Mapping: Map each pixel value to a shifted color palette.
-*    Smoothing: Average the colors (Supersampling Anti-Aliasing) to produce a final 1920x1080 frame.
+*    Smoothing: Average the colors (Supersampling Anti-Aliasing) to produce a final 2160x2160 frame.
 
 ### Why is this so fast?
-*    Memory Efficiency: The iterMap array (~132 MB) easily fits into modern RAM. The heavy do-while calculation loop runs only once for the entire animation.
+*    Memory Efficiency: The iterMap array (~298 MB) easily fits into modern RAM. The heavy do-while calculation loop runs only once for the entire animation.
 *    Palette Rotation: Stage 2 avoids long double arithmetic and squaring. It only involves integer addition and memory lookups.
 *    Parallelism: Stage 2 is perfectly scalable. All 255 frames can be rendered simultaneously across CPU cores.
 *    True Downsampling: We implement honest 8x8 averaging, resulting in superior image quality compared to simple resizing.
@@ -355,11 +355,11 @@ OpenMP - масштабируемость: ваш код будет одинак
 Суперсэмплинг (SSAA) - ресурсоемкий метод сглаживания, увеличивающий число выборок на пиксель для повышения качества изображения. 
 При значении 8x (N=8) сцена рендерится в разрешении, в 8 раз превышающем целевое, по обеим осям, создавая 64 (или 8 х 8) выборки 
 на пиксель. Изображение просчитывается в более высоком разрешении, а затем принудительно уменьшается до разрешения дисплея, 
-устраняя лесенки и улучшая чёткость. Это очень высокая нагрузка! Это не 1920 на 1080 пикселя а в 8x8 больше - 15360 на 8640 пикселя!
+устраняя лесенки и улучшая чёткость. Это очень высокая нагрузка! Это не 2160 на 2160 пикселя а в 8x8 больше - 17280 на 17280 пикселя!
 
 Я решил вывести качество изображения на совершенно новый уровень. Этот движок использует
 истинное сглаживание 8x8 Supersampling Anti-Aliasing (SSAA) с 64 независимыми сэмплами на каждый пиксель экрана, используя прямую интеграцию в RGB-пространство.
-Вместо стандартного рендеринга 1920x1080, движок обрабатывает внутри себя огромную сетку из 15360 x 8640 субпикселей!
+Вместо стандартного рендеринга 2160x2160, движок обрабатывает внутри себя огромную сетку из 17280 x 17280 субпикселей!
 
 После вычисления всех 64 сэмплов для пикселя, они уменьшаются до одного.
 Ключевые технические преимущества:
@@ -377,20 +377,20 @@ OpenMP - масштабируемость: ваш код будет одинак
 ## Генерация 255 кадров
 
 Это отличная стратегия оптимизации! Вы хотите применить пререндер: сначала рассчитать тяжелую математику (номера итераций) один раз, сохранить их, а затем быстро генерировать кадры, просто меняя цвета и уменьшая размер.
-Поскольку считать 15360x8640 255 раз - это безумие, мы разделим задачу на два этапа.
+Поскольку считать 17280x17280 255 раз - это безумие, мы разделим задачу на два этапа.
 
 ### Этап 1: Генерация <карты итераций> (Raw Data)
 Вместо BMP мы создадим один огромный файл, где для каждого пикселя запишем только число t (номер итерации). 
-Для 15360x8640 при использовании uint8_t файл займет около 132 МБ.
+Для 17280x17280 при использовании uint8_t файл займет около 298 МБ.
 
 ### Этап 2: Генерация 255 кадров (Цвет + Сглаживание)
 Теперь мы читаем эту карту и для каждого кадра делаем:
 Берем блок 8x8 пикселей из большой карты.
 Красим каждый пиксель согласно сдвинутой палитре.
-Усредняем цвета (это и есть сглаживание) и записываем в файл 1920x1080.
+Усредняем цвета (это и есть сглаживание) и записываем в файл 2160x2160.
 
 ### Почему это сработает быстро?
-*    **Память**: Массив iterMap занимает около 132 МБ. Это легко помещается в современную оперативную память. Тяжелый цикл do-while выполняется только один раз для всей анимации.
+*    **Память**: Массив iterMap занимает около 298 МБ. Это легко помещается в современную оперативную память. Тяжелый цикл do-while выполняется только один раз для всей анимации.
 *    **Вращение палитры**: В этапе 2 нет long double, нет возведения в квадрат. Только сложение целых чисел и чтение из памяти.
 *    **Параллелизм**: Этап 2 тоже идеально распараллеливается. 255 кадров будут вылетать очень быстро. Реализован честный Downsampling. Мы берем блок 8x8 и усредняем их. 
 Когда у вас будет 255 файлов bmp, используйте ffmpeg, чтобы собрать их в видео.
