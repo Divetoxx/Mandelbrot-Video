@@ -189,8 +189,8 @@ The program operates on a "one-click" principle: you select the location, and th
 
 | Action | Input | Description |
 | :--- | :--- | :--- |
-| **Presets** | `1` - `6` + `ENTER` | Choose one of the 6 built-in deep-zoom cinematic locations. |
-| **Custom Point** | `7` + `ENTER` | Load custom coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
+| **Presets** | `1` - `7` + `ENTER` | Choose one of the 7 built-in deep-zoom cinematic locations. |
+| **Custom Point** | `8` + `ENTER` | Load custom coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
 | **Rendering** | **Step 1 (Auto)** | High-precision calculation of 255 frames using **OpenMP** and **SSAA 8x8**. |
 | **Encoding** | **FFmpeg** | **Portable Mode**: The app automatically detects `ffmpeg` in the local folder. Automatic frame-to-MP4 compilation (30 FPS). |
 | **Cleanup** | **Auto** | Automatic deletion of temporary BMP files after the video is finished. |
@@ -215,11 +215,14 @@ size_str = "7.17e-36"; break;
 case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
 ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
 size_str = "2.4e-57"; break;
+case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
+ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
+size_str = "1.15e-119"; break;
 ```
 
 ## Mandelbrot.txt File Structure
 
-To load custom coordinates (option 7 in the menu), create a Mandelbrot.txt file in the application folder. 
+To load custom coordinates (option 8 in the menu), create a Mandelbrot.txt file in the application folder. 
 The file must contain three numbers separated by a newline:
 *    Abscissa (Center X coordinate)
 *    Ordinate (Center Y coordinate)
@@ -231,17 +234,19 @@ Example file content:
 
 ## Look at the results! The smoothness is incredible 
 
-https://github.com/user-attachments/assets/852adaf6-5921-486d-b7cb-6d3e326302a8
+https://github.com/user-attachments/assets/075bc0cc-51ae-4629-a51c-cf9c2a3d7b9f
 
-https://github.com/user-attachments/assets/01edb228-9685-4f66-ba3b-a5492d3d3045
+https://github.com/user-attachments/assets/c1b5ecce-0a72-4779-8d2f-dd19b17e40b8
 
-https://github.com/user-attachments/assets/ba40cbff-0abe-48cb-b733-a964eaa8eaa2
+https://github.com/user-attachments/assets/cb2f6b68-d1eb-43c1-9204-e90783ea8b33
 
-https://github.com/user-attachments/assets/953775d3-c41a-4bea-a243-a6f561f67188
+https://github.com/user-attachments/assets/7e3dd648-65e6-49ae-9236-8e1edc4d43a9
 
-https://github.com/user-attachments/assets/2c90c6d0-2889-43a8-9d02-60ca35922cd5
+https://github.com/user-attachments/assets/09379acf-adef-48d9-88e1-7b17af3eba4a
 
-https://github.com/user-attachments/assets/d4d28260-9c7f-4ba7-8ce9-9f04c07ee58c
+https://github.com/user-attachments/assets/c9dda736-e948-47f9-94c5-321b5c30700e
+
+https://github.com/user-attachments/assets/8ee34d4b-bc5b-481f-95ee-7b0df994d7d0
 
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
@@ -430,8 +435,8 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 | Действие | Ввод | Описание |
 | :--- | :--- | :--- |
-| **Выбор локации** | `1` - `6` + `ENTER` | Выбор одной из 6 встроенных точек мандельброта - глубокого зума. |
-| **Свои координаты** | `7` + `ENTER` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
+| **Выбор локации** | `1` - `7` + `ENTER` | Выбор одной из 7 встроенных точек мандельброта - глубокого зума. |
+| **Свои координаты** | `8` + `ENTER` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
 | **Рендеринг (Авто)** | **Шаг 1** | Расчет 255 кадров с использованием **OpenMP** и **SSAA 8x8**. |
 | **Сборка (Авто)** | **FFmpeg** | **Portable Mode**: Программа сама найдет `ffmpeg` в своей папке. Автоматическое кодирование в MP4 (30 FPS). |
 | **Очистка** | **Авто** | Удаление временных кадров после успешного создания видео. |
@@ -456,11 +461,14 @@ size_str = "7.17e-36"; break;
 case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
 ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
 size_str = "2.4e-57"; break;
+case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
+ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
+size_str = "1.15e-119"; break;
 ```
 
 ## Структура файла Mandelbrot.txt
 
-Для загрузки пользовательских координат (пункт 7 в меню), создайте текстовый файл Mandelbrot.txt в папке с программой. 
+Для загрузки пользовательских координат (пункт 8 в меню), создайте текстовый файл Mandelbrot.txt в папке с программой. 
 Файл должен содержать три числа, разделенных переносом строки:
 *    Abscissa (Координата X центра)
 *    Ordinate (Координата Y центра)
@@ -473,17 +481,19 @@ size_str = "2.4e-57"; break;
 
 ## Посмотрите на результаты! Невероятная плавность работы
 
-https://github.com/user-attachments/assets/852adaf6-5921-486d-b7cb-6d3e326302a8
+https://github.com/user-attachments/assets/075bc0cc-51ae-4629-a51c-cf9c2a3d7b9f
 
-https://github.com/user-attachments/assets/01edb228-9685-4f66-ba3b-a5492d3d3045
+https://github.com/user-attachments/assets/c1b5ecce-0a72-4779-8d2f-dd19b17e40b8
 
-https://github.com/user-attachments/assets/ba40cbff-0abe-48cb-b733-a964eaa8eaa2
+https://github.com/user-attachments/assets/cb2f6b68-d1eb-43c1-9204-e90783ea8b33
 
-https://github.com/user-attachments/assets/953775d3-c41a-4bea-a243-a6f561f67188
+https://github.com/user-attachments/assets/7e3dd648-65e6-49ae-9236-8e1edc4d43a9
 
-https://github.com/user-attachments/assets/2c90c6d0-2889-43a8-9d02-60ca35922cd5
+https://github.com/user-attachments/assets/09379acf-adef-48d9-88e1-7b17af3eba4a
 
-https://github.com/user-attachments/assets/d4d28260-9c7f-4ba7-8ce9-9f04c07ee58c
+https://github.com/user-attachments/assets/c9dda736-e948-47f9-94c5-321b5c30700e
+
+https://github.com/user-attachments/assets/8ee34d4b-bc5b-481f-95ee-7b0df994d7d0
 
 
 
