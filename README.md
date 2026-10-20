@@ -10,7 +10,7 @@
 <a name="english"></a>
 # 🇺🇸 English Version
 
-# Mandelbrot CLI: Renderer with Perturbation Theory (with a $10^{-308}$ hardware limit)
+# Mandelbrot CLI: Renderer with Perturbation Theory and Bilinear approximation
 
 ## Credits & Acknowledgments
 
@@ -292,7 +292,7 @@ https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 # 🇷🇺 Русская версия
 <a name="russian"></a>
 
-# Консольный рендерер Мандельброта с методом возмущений и предела $10^{-308}$
+# Консольный рендерер Мандельброта с методом возмущений и билинейную аппроксимацию.
 
 ## Благодарности (Credits)
 
