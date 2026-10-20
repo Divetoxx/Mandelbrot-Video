@@ -26,10 +26,10 @@ from the Fractal Forums, whose collaborative work made this engine possible:
 * **High-Precision Reference:** The 1000-bit reference trajectory is computed exactly once per zoom layer.
 * **Hardware-Native Performance:** Blazing-fast math for billions of pixels utilizing hardware-native double registers.
 * When using double-precision floating-point numbers (on the order of $10^{-15}$), perturbation theory only allows you to zoom down to the **$10^{-308}$ level-no further.**
-* **Innovative Algorithm:** Revolutionary *Reference Reset to Zero* implementation.
+* **Dynamic Reference Relocalization** (Orbit Re-basing).
 * **Bilinear approximation:** The calculation can be performed significantly faster by using bilinear approximation.
 * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
-* **OpenMP Multi-threading:** High-speed parallel computing to maximize CPU utilization.
+* **Pure C++11 Multi-threading:** High-speed parallel computing built directly into the language standard.
 * **Yes, this is FFmpeg**-the 'Swiss Army knife' of video processing.
 
 ## Arbitrary Precision Arithmetic (Infinite Depth)
@@ -53,17 +53,26 @@ for **only one central pixel per frame and strictly ONCE** at the beginning of t
 native speed of the CPU's hardware `double` registers, calculating only tiny deviations (deltas) from the central axis. 
 This optimization boosts rendering speeds by up to 1000x!
 
-## Revolutionary Reference Reset to Zero Algorithm
+## Dynamic Reference Relocalization (Orbit Re-basing)
 
-This is a tremendous point of pride: the engine now operates under the exact same mathematical and architectural principles as the world's most advanced.
-* **Dynamic Reset to Zero**: Now, each pixel checks the ratio of its full coordinates against 
-its current delta at every step. If the delta grows too large or the central reference orbit terminates, the thread 
-dynamically **resets its reading index to zero**, turning the accumulated coordinates into a new autonomous origin.
-* **One-Step Beyond Escape Loop Optimization**: To squeeze maximum performance out of the CPU, the MPFR reference radar records 
-exactly **one additional point** into the reference orbit array immediately after it exceeds the escape radius.
-* **Elimination of Branching (Branch Unrolling)**: This elegant trick completely eliminated cumbersome `if` and `OR` conditions 
-from the deepest iteration loop. The processor no longer wastes clock cycles on branch prediction, allowing the compiler 
-to perfectly vectorize the math.
+This is a tremendous point of pride: the engine operates under the exact same mathematical and architectural principles 
+as the world's most advanced Mandelbrot renderers.
+*   **Dynamic Reset to Zero**: At every step, each pixel monitors the ratio of its absolute coordinates against its current delta. 
+If the delta drifts too far or the primary reference orbit terminates, the execution thread dynamically 
+**resets its tracking index to zero**, establishing the accumulated coordinates as a new autonomous origin 
+and eliminating precision artifacts.
+*   **One-Step Beyond Escape Loop Optimization**: To squeeze maximum performance out of the CPU, the MPFR reference 
+tracker records exactly **one additional point** into the orbit array immediately after exceeding the escape radius. 
+This precise boundary definition guarantees flawless orbit re-basing.
+*   **Deep Loop Branch Optimization**: This elegant layout significantly streamlines conditions within the deepest 
+iteration loop. By minimizing heavy branching and avoiding complex nested conditions where possible, the code improves 
+branch prediction efficiency and allows the CPU pipeline to execute the core mathematics with maximum throughput.
+
+## Bilinear Approximation
+
+The computation can be performed significantly faster by utilizing Bilinear Approximation (BLA Skip-100). 
+The code precomputes coefficient transformation matrices for steps of 100 iterations. If the current point is close 
+enough to the reference orbit, the algorithm skips 100 iterations at once in a single mathematical step, minimizing the CPU load.
 
 
 ## Project Purpose
@@ -100,12 +109,10 @@ everyone relies on it. And yes, it's completely free.
 
 This repository already includes ffmpeg binaries for Windows and Linux. No manual installation is required!
 
-## OpenMP
+## Pure C++11 Multi-threading
 
-OpenMP is a standard that tells the compiler, "Take this loop and distribute the iterations among the different processor cores."
-Yes, using OpenMP you are doing parallel programming at the Multithreading level.
-Everything is powered by **OpenMP** parallel loops for maximum performance.
-OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop and a 128-core server.
+High-speed parallel computing built directly into the language standard. Scales transparently across architectures-delivering 
+flawless 100% CPU utilization whether running on a 4-core laptop or a 128-core high-performance server without external dependencies.
 
 ## 8x8 Supersampling (64 Samples Per Pixel)
 
@@ -190,36 +197,12 @@ The program operates on a "one-click" principle: you select the location, and th
 
 | Action | Input | Description |
 | :--- | :--- | :--- |
-| **Presets** | `1` - `7` + `ENTER` | Choose one of the 7 built-in deep-zoom cinematic locations. |
-| **Custom Point** | `8` + `ENTER` | Load custom coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
-| **Rendering** | **Step 1 (Auto)** | High-precision calculation of 255 frames using **OpenMP** and **SSAA 8x8**. |
+| **Presets** | `1` - `9` + `ENTER` | Choose one of the 9 built-in deep-zoom cinematic locations. |
+| **Custom Point** | `0` + `ENTER` | Load custom coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
+| **Rendering** | **Step 1 (Auto)** | High-precision calculation of 255 frames using **Multi-threading** and **SSAA 8x8**. |
 | **Encoding** | **FFmpeg** | **Portable Mode**: The app automatically detects `ffmpeg` in the local folder. Automatic frame-to-MP4 compilation (30 FPS). |
 | **Cleanup** | **Auto** | Automatic deletion of temporary BMP files after the video is finished. |
 
-
-```C++
-case 1: absc_str = "-1.7491976289657893741942376816272921165326158557416159"; 
-ordi_str = "-0.00000042530777152440422725855012159249401150956515248"; 
-size_str = "4.31e-51"; break;
-case 2: absc_str = "-1.74907816150520173167912454515663360420734509948112463480292338384"; 
-ordi_str = "-0.00000550991906629096602513098567268615714673236269915508056068145"; 
-size_str = "1.53e-62"; break;
-case 3: absc_str = "-1.7489436617686633372073552153211507258063533373824414679761"; 
-ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; 
-size_str = "1.01e-55"; break;
-case 4: absc_str = "-1.7491311840575335110236048528001036247123430447933925298694915282522178938437759580179"; 
-ordi_str = "-0.0001996960702541036804654299663680287246637758588467627907752429037173153157138373325"; 
-size_str = "2.84e-82"; break;
-case 5: absc_str = "-1.74994586497557459407526067070055710001"; 
-ordi_str = "-0.0000000852088539604644334731909824511"; 
-size_str = "7.17e-36"; break;
-case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
-ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
-size_str = "2.4e-57"; break;
-case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
-ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
-size_str = "1.15e-119"; break;
-```
 
 ## Mandelbrot.txt File Structure
 
@@ -235,19 +218,72 @@ Example file content:
 
 ## Look at the results! The smoothness is incredible 
 
-https://github.com/user-attachments/assets/075bc0cc-51ae-4629-a51c-cf9c2a3d7b9f
+```C++
+case 1: absc_str = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706"; 
+ordi_str = "-0.0000004253077715244042272585501215924940115095651514128365051648578746521975467051762910002043554114332125868777767"; 
+size_str = "1.34e-113"; break;
+```
+https://github.com/user-attachments/assets/bf4c67c9-48e7-4b1e-b855-a6b27e449481
 
-https://github.com/user-attachments/assets/c1b5ecce-0a72-4779-8d2f-dd19b17e40b8
+```C++
+case 2: absc_str = "-1.74907816150520173167912454515663360420734509948112463480292338384"; 
+ordi_str = "-0.00000550991906629096602513098567268615714673236269915508056068145"; 
+size_str = "1.53e-62"; break;
+```
+https://github.com/user-attachments/assets/019a873e-55bb-4616-a92a-cf9825672798
 
-https://github.com/user-attachments/assets/cb2f6b68-d1eb-43c1-9204-e90783ea8b33
+```C++
+case 3: absc_str = "-1.7489436617686633372073552153211507258063533373824414679761"; 
+ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; 
+size_str = "1.01e-55"; break;
+```
+https://github.com/user-attachments/assets/1111a250-20d9-46f7-8d87-e4ea843c48d5
 
-https://github.com/user-attachments/assets/7e3dd648-65e6-49ae-9236-8e1edc4d43a9
+```C++
+case 4: absc_str = "-1.7491311840575335110236048528001036247123430447933925298694915282522178938437759580179"; 
+ordi_str = "-0.001996960702541036804654299663680287246637758588467627907752429037173153157138373325"; 
+size_str = "2.84e-82"; break;
+```
+https://github.com/user-attachments/assets/ec5accfe-b53e-48d6-a971-10af14999527
 
-https://github.com/user-attachments/assets/09379acf-adef-48d9-88e1-7b17af3eba4a
+```C++
+case 5: absc_str = "-1.74994586497557459407526067070055710001"; 
+ordi_str = "-0.0000000852088539604644334731909824511"; 
+size_str = "7.17e-36"; break;
+```
+https://github.com/user-attachments/assets/545b722a-a2a5-4ec2-ba5c-8a5c9d052a32
 
-https://github.com/user-attachments/assets/c9dda736-e948-47f9-94c5-321b5c30700e
+```C++
+case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
+ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
+size_str = "2.4e-57"; break;
+```
+https://github.com/user-attachments/assets/37a76cb8-992b-4d08-84dd-c8b5138eec1a
 
-https://github.com/user-attachments/assets/8ee34d4b-bc5b-481f-95ee-7b0df994d7d0
+```C++
+case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
+ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
+size_str = "1.15e-119"; break;
+```
+https://github.com/user-attachments/assets/74aa5a47-8197-4c16-a7c5-4bffc1204ea0
+
+```C++
+case 8: absc_str = "-0.843233764530751513324611730003844788663891317894291476942";
+ordi_str = "0.223818041558069959139898295480311440395574821870538878074";
+size_str = "2.66e-52"; break;
+```
+https://github.com/user-attachments/assets/14efdbea-797f-420d-9694-72625f2b0e0a
+
+```C++
+case 9: absc_str = "-0.12702288604303376058504940552835636145639339878096842408417373730142";
+ordi_str = "-0.98728474138900681012772182210671973643707041031463043446236865072278";
+size_str = "6.18e-64"; break;
+```
+https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
+
+
+
+
 
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
@@ -272,10 +308,10 @@ https://github.com/user-attachments/assets/8ee34d4b-bc5b-481f-95ee-7b0df994d7d0
 * Расчёт опорной траектории на 1000 бит всего один раз.
 * Реактивный расчёт миллиарда пикселей на аппаратном double.
 * При использовании чисел с плавающей запятой двойной точности (порядка $10^{-15}$) теория возмущений позволяет приблизиться к уровню **$10^{-308}$ - не дальше.**
-* Революционный алгоритм Reference Reset to Zero.
+* Динамическая релокализация опорной точки (Перебазирование орбиты).
 * Расчет можно выполнить существенно быстрее, если использовать билинейную аппроксимацию.
 * Настоящий SSAA 8x8 для идеально сглаженного изображения без алиасинга.
-* Параллелизм OpenMP для высокоскоростного многопоточного рендеринга.
+* Многопоточность на чистом C++11 (Pure C++11 Multi-threading).
 * Да, это FFmpeg - "швейцарский армейский нож" для обработки видео.
 
 ## Безграничная точность (Arbitrary Precision Arithmetic)
@@ -299,17 +335,28 @@ https://github.com/user-attachments/assets/8ee34d4b-bc5b-481f-95ee-7b0df994d7d0
 чистых, аппаратных регистров `double` процессора, вычисляя лишь микроскопические отклонения (дельты) от центральной оси. 
 Скорость генерации взлетела в 1000 раз!
 
-## Революционный алгоритм Reference Reset to Zero
+## Динамическая релокализация опорной точки (Перебазирование орбиты)
 
-Это огромный повод для гордости. Ваша программа теперь работает по тем же математическим принципам, что и самые передовые фрактальные движки в мире.
-* **Динамический сброс на ноль**: Теперь пиксель на каждом шаге проверяет соотношение своих полных координат и дельты. Если дельта становится 
-слишком большой или кэш центра иссякает, поток прямо на лету **сбрасывает индекс чтения на ноль**, превращая накопленные координаты 
-в новую автономную точку.
-* **Хакерская оптимизация цикла (One-Step Beyond Escape)**: Чтобы выжать максимум скорости из процессора, радар MPFR записывает 
-строго **одну дополнительную точку** в массив опорной орбиты сразу после того, как она превышает радиус ухода. 
-* **Уничтожение ветвлений (Branch Unrolling)**: Этот изящный трюк позволил полностью избавиться от громоздких `if` и `OR`-условий 
-внутри самого глубокого цикла итераций. Процессор больше не тратит такты на предсказание переходов, а компилятор смог идеально векторизовать 
-код.
+Это предмет особой гордости: движок работает на тех же математических и архитектурных принципах, 
+что и самые продвинутые рендереры Мандельброта в мире.
+*     Динамический сброс в ноль (Dynamic Reset to Zero): На каждом шаге для каждого пикселя отслеживается соотношение его абсолютных 
+координат и текущего отклонения (дельты). Если дельта уходит слишком далеко или основная опорная орбита завершается, поток 
+вычислений динамически сбрасывает индекс отслеживания в ноль. Это превращает накопленные координаты в новое автономное начало 
+отсчета и полностью устраняет артефакты точности.
+*     Оптимизация цикла <На один шаг за предел ухода> (One-Step Beyond Escape Loop Optimization): Чтобы выжать максимум производительности 
+из CPU, трекер опорной орбиты MPFR записывает ровно одну дополнительную точку в массив орбиты сразу после того, как она превышает 
+радиус ухода (escape radius). Такое точное определение границы гарантирует безупречное перебазирование орбиты.
+*     Оптимизация ветвлений в глубоком цикле (Deep Loop Branch Optimization): Эта элегантная структура кода существенно упрощает 
+условия внутри самого глубокого цикла итераций. Минимизируя тяжелые ветвления и избегая сложных вложенных условий там, где это 
+возможно, код повышает эффективность предсказателя ветвлений процессора и позволяет конвейеру CPU выполнять базовые математические 
+расчеты с максимальной пропускной способностью.
+
+## Билинейную аппроксимацию
+
+Расчет можно выполнить существенно быстрее, если использовать билинейную аппроксимацию (BLA Skip-100). 
+Код предварительно рассчитывает матрицы трансформации коэффициентов для шагов по 100 итераций. 
+Если текущая точка находится достаточно близко к опорной орбите, алгоритм <перепрыгивает> сразу 100 итераций 
+за один математический шаг, минимизируя нагрузку на CPU.
 
 
 ## О проекте
@@ -344,12 +391,12 @@ https://github.com/user-attachments/assets/8ee34d4b-bc5b-481f-95ee-7b0df994d7d0
 Этот репозиторий уже содержит исполняемые файлы ffmpeg для Windows и Linux. Никакой ручной установки не требуется - всё работает прямо <из коробки>!
 
 
-## OpenMP
+## Многопоточность на чистом C++11 (Pure C++11 Multi-threading)
 
-OpenMP - это стандарт, который говорит компилятору: "Возьми этот цикл и сам раздай итерации разным ядрам процессора".
-Используя OpenMP, вы занимаетесь параллельным программированием на уровне многопоточности (Multithreading).
-OpenMP - масштабируемость: ваш код будет одинаково эффективно работать как на 4-ядерном ноутбуке,
-так и на 128-ядерном сервере.
+Высокоскоростные параллельные вычисления, встроенные напрямую в стандарт языка. 
+Алгоритм прозрачно масштабируется на любые архитектуры, обеспечивая безупречную 
+100%-ю загрузку процессора как на 4-ядерном ноутбуке, так и на 128-ядерном 
+высокопроизводительном сервере - абсолютно без внешних зависимостей.
 
 
 ## Суперсэмплинг 8x8 (64 прохода на один пиксель)
@@ -437,36 +484,13 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 | Действие | Ввод | Описание |
 | :--- | :--- | :--- |
-| **Выбор локации** | `1` - `7` + `ENTER` | Выбор одной из 7 встроенных точек мандельброта - глубокого зума. |
-| **Свои координаты** | `8` + `ENTER` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
-| **Рендеринг (Авто)** | **Шаг 1** | Расчет 255 кадров с использованием **OpenMP** и **SSAA 8x8**. |
+| **Выбор локации** | `1` - `9` + `ENTER` | Выбор одной из 9 встроенных точек мандельброта - глубокого зума. |
+| **Свои координаты** | `0` + `ENTER` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
+| **Рендеринг (Авто)** | **Шаг 1** | Расчет 255 кадров с использованием **Многопоточность** и **SSAA 8x8**. |
 | **Сборка (Авто)** | **FFmpeg** | **Portable Mode**: Программа сама найдет `ffmpeg` в своей папке. Автоматическое кодирование в MP4 (30 FPS). |
 | **Очистка** | **Авто** | Удаление временных кадров после успешного создания видео. |
 
 
-```C++
-case 1: absc_str = "-1.7491976289657893741942376816272921165326158557416159"; 
-ordi_str = "-0.00000042530777152440422725855012159249401150956515248"; 
-size_str = "4.31e-51"; break;
-case 2: absc_str = "-1.74907816150520173167912454515663360420734509948112463480292338384"; 
-ordi_str = "-0.00000550991906629096602513098567268615714673236269915508056068145"; 
-size_str = "1.53e-62"; break;
-case 3: absc_str = "-1.7489436617686633372073552153211507258063533373824414679761"; 
-ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; 
-size_str = "1.01e-55"; break;
-case 4: absc_str = "-1.7491311840575335110236048528001036247123430447933925298694915282522178938437759580179"; 
-ordi_str = "-0.0001996960702541036804654299663680287246637758588467627907752429037173153157138373325"; 
-size_str = "2.84e-82"; break;
-case 5: absc_str = "-1.74994586497557459407526067070055710001"; 
-ordi_str = "-0.0000000852088539604644334731909824511"; 
-size_str = "7.17e-36"; break;
-case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
-ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
-size_str = "2.4e-57"; break;
-case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
-ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
-size_str = "1.15e-119"; break;
-```
 
 ## Структура файла Mandelbrot.txt
 
@@ -483,23 +507,72 @@ size_str = "1.15e-119"; break;
 
 ## Посмотрите на результаты! Невероятная плавность работы
 
-https://github.com/user-attachments/assets/075bc0cc-51ae-4629-a51c-cf9c2a3d7b9f
 
-https://github.com/user-attachments/assets/c1b5ecce-0a72-4779-8d2f-dd19b17e40b8
+```C++
+case 1: absc_str = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706"; 
+ordi_str = "-0.0000004253077715244042272585501215924940115095651514128365051648578746521975467051762910002043554114332125868777767"; 
+size_str = "1.34e-113"; break;
+```
+https://github.com/user-attachments/assets/bf4c67c9-48e7-4b1e-b855-a6b27e449481
 
-https://github.com/user-attachments/assets/cb2f6b68-d1eb-43c1-9204-e90783ea8b33
+```C++
+case 2: absc_str = "-1.74907816150520173167912454515663360420734509948112463480292338384"; 
+ordi_str = "-0.00000550991906629096602513098567268615714673236269915508056068145"; 
+size_str = "1.53e-62"; break;
+```
+https://github.com/user-attachments/assets/019a873e-55bb-4616-a92a-cf9825672798
 
-https://github.com/user-attachments/assets/7e3dd648-65e6-49ae-9236-8e1edc4d43a9
+```C++
+case 3: absc_str = "-1.7489436617686633372073552153211507258063533373824414679761"; 
+ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; 
+size_str = "1.01e-55"; break;
+```
+https://github.com/user-attachments/assets/1111a250-20d9-46f7-8d87-e4ea843c48d5
 
-https://github.com/user-attachments/assets/09379acf-adef-48d9-88e1-7b17af3eba4a
+```C++
+case 4: absc_str = "-1.7491311840575335110236048528001036247123430447933925298694915282522178938437759580179"; 
+ordi_str = "-0.001996960702541036804654299663680287246637758588467627907752429037173153157138373325"; 
+size_str = "2.84e-82"; break;
+```
+https://github.com/user-attachments/assets/ec5accfe-b53e-48d6-a971-10af14999527
 
-https://github.com/user-attachments/assets/c9dda736-e948-47f9-94c5-321b5c30700e
+```C++
+case 5: absc_str = "-1.74994586497557459407526067070055710001"; 
+ordi_str = "-0.0000000852088539604644334731909824511"; 
+size_str = "7.17e-36"; break;
+```
+https://github.com/user-attachments/assets/545b722a-a2a5-4ec2-ba5c-8a5c9d052a32
 
-https://github.com/user-attachments/assets/8ee34d4b-bc5b-481f-95ee-7b0df994d7d0
+```C++
+case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
+ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
+size_str = "2.4e-57"; break;
+```
+https://github.com/user-attachments/assets/37a76cb8-992b-4d08-84dd-c8b5138eec1a
+
+```C++
+case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
+ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
+size_str = "1.15e-119"; break;
+```
+https://github.com/user-attachments/assets/74aa5a47-8197-4c16-a7c5-4bffc1204ea0
+
+```C++
+case 8: absc_str = "-0.843233764530751513324611730003844788663891317894291476942";
+ordi_str = "0.223818041558069959139898295480311440395574821870538878074";
+size_str = "2.66e-52"; break;
+```
+https://github.com/user-attachments/assets/14efdbea-797f-420d-9694-72625f2b0e0a
+
+```C++
+case 9: absc_str = "-0.12702288604303376058504940552835636145639339878096842408417373730142";
+ordi_str = "-0.98728474138900681012772182210671973643707041031463043446236865072278";
+size_str = "6.18e-64"; break;
+```
+https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 
 
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
-
 
 
