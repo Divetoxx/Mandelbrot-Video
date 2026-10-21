@@ -12,46 +12,60 @@
 
 # Mandelbrot CLI: Renderer with Perturbation Theory and Bilinear approximation
 
+
 ## Credits & Acknowledgments
 
-This project implements advanced orbit phase management paradigms and perturbation algorithms 
-developed by the fractal research community. Special thanks to the following authors and pioneers 
-from the Fractal Forums, whose collaborative work made this engine possible:
-* **Kevin Martin** - for pioneering loop optimization and edge-case escape techniques.
-* **Zhuoran Yu** - for developing the dynamic orbit re-basing paradigm.
-* **Claude Heiland-Allen** - for extensive deep zoom research and the creation of the MDZ project.
+This project implements advanced orbit phase management paradigms and perturbation algorithms developed 
+by the fractal research community. Special thanks to the following authors and pioneers from the Fractal Forums, 
+whose collaborative work made this engine possible:
+
+* **Kevin Martin** — for pioneering loop optimization and edge-case escape techniques.
+* **Zhuoran Yu** — for developing the dynamic reference relocalization and orbit re-basing paradigm.
+* **James Ward Martin (JWM)** — for the creation of the pioneering MDZ (Mandelbrot Deep Zoom) project utilizing MPFR/GMP libraries.
+* **Claude Heiland-Allen** — for extensive deep zoom mathematical research, preservation of fractal software legacy, 
+and advanced palette conversion algorithms.
+
 
 ## Key Features:
 
-* **High-Precision Reference:** The 1000-bit reference trajectory is computed exactly once per zoom layer.
-* **Hardware-Native Performance:** Blazing-fast math for billions of pixels utilizing hardware-native double registers.
-* When using double-precision floating-point numbers (on the order of $10^{-15}$), perturbation theory only allows you to zoom down to the **$10^{-308}$ level-no further.**
+
+* **High-Precision Reference:** The 1000-bit reference trajectory is computed exactly once per zoom layer using GNU MPFR.
+* **Hardware-Native Performance:** Blazing-fast math for millions of pixels utilizing hardware-native double registers.
+* When using double-precision floating-point numbers (on the order of $10^{-15}$), perturbation theory only allows you 
+to zoom down to the **$10^{-308}$ level—no further.**
 * **Dynamic Reference Relocalization** (Orbit Re-basing).
-* **Bilinear approximation:** The calculation can be performed significantly faster by using bilinear approximation.
-* **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
-* **Pure C++11 Multi-threading:** High-speed parallel computing built directly into the language standard.
+* **Bilinear approximation (BLA Skip-100):** The calculation can be performed significantly faster by skipping 100 iterations 
+at once on smooth areas.
+* **True 8x8 SSAA (Direct RGB Integration):** Pristine, anti-aliased image quality with 64 independent samples per pixel 
+blended directly in RGB color space to eliminate chromatic noise.
+* **Pure C++11 Multi-threading:** High-speed parallel computing built directly into the language standard, scaling 
+transparently across CPU architectures.
 * **Yes, this is FFmpeg**-the 'Swiss Army knife' of video processing.
+
 
 ## Arbitrary Precision Arithmetic (Infinite Depth)
 
-The engine is completely free from the hardware limitations of standard 64-bit (`double`) and 128-bit (`__float128`) data types, 
-which inevitably lose significance and produce pixelated blocks at depths beyond $10^{-15}$ and $10^{-34}$ respectively.
-* **MPFR/GMP Integration**: All high-precision navigation, mouse clicking, and keyboard arrow zooming are handled within a deep binary memory 
-structure configured to **1000-bit precision**.
-* **308-Digit Decimal:** Viewport coordinates are stored in `Mandelbrot.txt`. While the MPFR 
-reference radar computes the center at 1000-bit precision, the hardware native `double` exponent limits the fast pixel engine to a maximum 
-depth of $10^{-308}$, providing pristine clarity up to this physical silicon barrier.
+The engine is completely free from the hardware limitations of standard data types—such as the native 64-bit (`double`) 
+and the extended 80-bit (`long double`) floats—which inevitably lose significance and produce pixelated 
+blocks at precision depths beyond \(10^{-15}\) and \(10^{-19}\) respectively.
+
+* **MPFR/GMP Integration:** All high-precision coordinate navigation, mouse-click viewport targeting, and grid step 
+calculations are handled within an isolated binary memory structure configured to a pristine **1000-bit precision**.
+* **308-Digit Decimal Silicon Barrier:** The dynamic exponent range of the hardware-native `double` register limits 
+the high-speed delta pixel engine to a maximum theoretical depth of **\(10^{-308}\) digits**. Current viewport coordinates 
+are safely stored and retrieved via the `Mandelbrot.txt` configuration file, guaranteeing flawless structural clarity 
+of mathematical micro-filaments right up to this physical silicon boundary.
 
 
-## Blazing Fast Perturbation Theory
 
-Deep fractal rendering no longer requires heavy "long-division-style" arbitrary precision math for every individual pixel, which 
-historically slowed down deep zoom software by thousands of times.
-* **Single-Pass Reference Calculation**: The ultra-heavy MPFR BigFloat radar calculates the precise reference trajectory 
-for **only one central pixel per frame and strictly ONCE** at the beginning of the render.
-* **Hardware-Accelerated Double Math**: The rest of the viewport (billions of super-sampled pixels) is processed concurrently at the 
-native speed of the CPU's hardware `double` registers, calculating only tiny deviations (deltas) from the central axis. 
-This optimization boosts rendering speeds by up to 1000x!
+## High-Speed Perturbation Theory
+
+Rendering extreme close-ups no longer requires arbitrary-precision arithmetic for each individual pixel.
+
+* **High-Precision Reference Orbit:** MPFR BigFloat computes the exact trajectory for **one central pixel once** per frame.
+* **Hardware-Accelerated Computation:** The rest of the screen is processed via hardware `double` registers by 
+calculating relative deviations (deltas), accelerating frame generation up to 1000x.
+
 
 ## Dynamic Reference Relocalization (Orbit Re-basing)
 
@@ -68,11 +82,86 @@ This precise boundary definition guarantees flawless orbit re-basing.
 iteration loop. By minimizing heavy branching and avoiding complex nested conditions where possible, the code improves 
 branch prediction efficiency and allows the CPU pipeline to execute the core mathematics with maximum throughput.
 
+
 ## Bilinear Approximation
 
-The computation can be performed significantly faster by utilizing Bilinear Approximation (BLA Skip-100). 
-The code precomputes coefficient transformation matrices for steps of 100 iterations. If the current point is close 
-enough to the reference orbit, the algorithm skips 100 iterations at once in a single mathematical step, minimizing the CPU load.
+The rendering engine achieves a massive performance leap by integrating the Bilinear Approximation 
+method (**BLA Skip-100**).
+
+* **Coefficient Matrix Precomputation:** The algorithm precomputes the transformation matrices for intervals of exactly 
+100 iterations.
+* **Massive Iteration Skipping:** If the current deviation (delta) point lies safely within the computed radius 
+of convergence relative to the reference orbit, the execution thread skips 100 iterations at once in a single mathematical 
+step. This drastically minimizes CPU clock cycles and delivers an exponential speedup across the smooth, 
+uniform filaments of the Mandelbrot set.
+
+
+## Pure C++11 Multi-threading
+
+High-speed parallel computing built directly into the language standard. Scales transparently across architectures-delivering 
+flawless 100% CPU utilization whether running on a 4-core laptop or a 128-core high-performance server without external dependencies.
+
+
+## True 8x8 SSAA: 64-Sample Direct RGB Integration Space
+
+To take visual quality to a completely unprecedented level, the engine implements **True 8x8 Super-Sampling Anti-Aliasing (SSAA)**, 
+processing **64 independent sub-pixel fractal coordinates** per single final screen pixel to completely eliminate aliasing along 
+the Mandelbrot set's complex boundaries.
+
+### Mathematical Fallacy of the Standard Approach
+Traditional rendering methods incorrectly average raw iteration counts or palette indices before applying color:
+* **Standard Way:** `Color( (iter_1 + iter_2 + ... + iter_64) / 64 )`
+
+Because fractal color palettes are strictly non-linear, calculating the arithmetic mean of iteration indices yields an 
+unrelated color, resulting in jarring chromatic contours, pixelated artifacts, and high-contrast digital noise.
+
+### Engineering Solution: 64-Point Optical RGB Integration
+Instead of averaging raw algorithm steps, our engine computes the exact 24-bit/32-bit color for every single one 
+of the 64 sub-pixels independently before any blending occurs. It then performs high-precision, per-channel accumulation 
+of their color intensities:
+* **Direct RGB Integration Algorithm:** `(Color(iter_1) + Color(iter_2) + ... + Color(iter_64)) / 64`
+
+### Key Technical Advantages:
+* **64-Point Fractal Sampling:** Every final screen pixel is reconstructed from sixty-four independent fractal coordinate 
+points, capturing sub-pixel microstructures smaller than a physical monitor pixel.
+* **Complete Noise Elimination:** By accumulating independent Red, Green, and Blue intensities prior to downsampling rather 
+than raw iteration values, we completely eradicate "chromatic noise."
+* **Cinematic Structural Integrity:** Performing integration directly in the RGB color space ensures a true optical blend. This delivers 
+an ultra-smooth, continuous gradient and pristine image quality that standard 8-bit or index-based renderers simply cannot match.
+
+
+## Generating 255 Frames: Optimization Strategy
+
+This is an efficient pre-render strategy: we calculate the heavy mathematics (iteration counts) once, store the raw data, and then rapidly generate frames by shifting colors and downsampling.
+Since calculating a 17280x17280 fractal 255 times is computationally expensive, we split the task into two stages.
+
+### Stage 1: Iteration Map Generation (Raw Data)
+Instead of BMP files, we create a single data buffer where we store only the iteration number (t) for each pixel.
+* For 17280x17280 using `uint8_t`, the resulting file/buffer is approximately 298 MB.
+
+### Stage 2: 255-Frame Rendering (Color + Anti-aliasing)
+We read the iteration map and perform the following for each frame:
+* **Downsample:** Process an 8x8 pixel block from the high-res map.
+* **Color Mapping:** Map each pixel value to a shifted color palette.
+* **Smoothing:** Average the colors (Supersampling Anti-Aliasing) to produce a final 2160x2160 frame.
+
+### Why is this so fast?
+* **Memory Efficiency:** The `iterMap` array (~298 MB) easily fits into modern RAM. The heavy perturbation calculation loop runs only once for the entire animation.
+* **Palette Rotation:** Stage 2 completely avoids arbitrary-precision arithmetic and squaring. It only involves basic integer addition and lightning-fast memory lookups.
+* **Parallelism:** Stage 2 is perfectly scalable. Thanks to our pure C++11 multi-threading engine, all frames are rendered simultaneously across all available CPU cores.
+* **True Downsampling:** We implement honest 8x8 optical averaging, resulting in superior image quality compared to simple software resizing.
+
+Once all 255 BMP files are generated, use FFmpeg to encode them into the final video.
+
+
+## Visual Aesthetics
+
+The Red, Green, and Blue channels are calculated using sine and cosine waves:
+```C++
+        pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0)); // Blue
+        pal[a][1] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Green
+        pal[a][2] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Red
+```
 
 
 ## Project Purpose
@@ -88,7 +177,7 @@ invokes FFmpeg to compile the final .mp4 video.
 *    **Hardware-Aware Encoding**: The program detects your hardware to choose the best encoding strategy:
      - NVIDIA GPU detected: Uses h264_nvenc for ultra-fast hardware-accelerated encoding.
      - CPU only: Uses libx264 with professional-grade presets for maximum quality.
-*    **Cinematic Quality (Full HD 1080p)**: Every video is rendered using SSAA 8x8 (64 Samples Per Pixel). This ensures that fine 
+*    **Cinematic Quality**: Every video is rendered using SSAA 8x8 (64 Samples Per Pixel). This ensures that fine 
 fractal details are perfectly reconstructed without the "sparkling" or aliasing artifacts common in digital video.
 *    **Smart Cleanup**: Once the video is successfully compiled, the utility automatically deletes the temporary BMP 
 frames (which can take up several gigabytes), leaving you only with the final Mandelbrot.mp4.
@@ -96,7 +185,7 @@ frames (which can take up several gigabytes), leaving you only with the final Ma
 ## Why use this?
 
 *    **Content Generation**: Perfect for creating high-quality seamless loops for meditation videos, VJ sets, or motion backgrounds.
-*    **Hardware Benchmark**: A unique hybrid workload that stresses the CPU with massive OpenMP parallel math and the GPU with video encoding.
+*    **Hardware Benchmark**: A unique hybrid workload that stresses the CPU with parallel math and the GPU with video encoding.
 *    **Full Automation**: No need to remember complex FFmpeg flags — just run the app, choose a location, and get a professional video file.
 	
 ## Yes, this is FFmpeg-the 'Swiss Army knife' of video processing. 
@@ -109,62 +198,6 @@ everyone relies on it. And yes, it's completely free.
 
 This repository already includes ffmpeg binaries for Windows and Linux. No manual installation is required!
 
-## Pure C++11 Multi-threading
-
-High-speed parallel computing built directly into the language standard. Scales transparently across architectures-delivering 
-flawless 100% CPU utilization whether running on a 4-core laptop or a 128-core high-performance server without external dependencies.
-
-## 8x8 Supersampling (64 Samples Per Pixel)
-
-Super-Sampling Anti-Aliasing (SSAA) is a high-end technique increasing samples per pixel to enhance image quality, 
-with 8x (N=8) rendering scenes at 8x resolution on both axes to produce 64 samples per pixel. 
-This process calculates an extreme number of pixels-scaling to a 17280 x 17280 grid for a 2160 x 2160
-target-before downscaling to remove jaggies and improve detail.
-
-I decided to take the visual quality to a completely different level. This engine implements
-True 8x8 Supersampling Anti-Aliasing (SSAA) with 64 independent samples per single screen pixel, utilizing Direct RGB-Space Integration.
-Instead of a standard 2160x2160 render, the engine internally processes a massive 17280 x 17280 sub-pixel grid!
-After calculating all 64 samples for a pixel, they are downsampled into one.
-Key Technical Advantages:
-*    64-Point Fractal Sampling: Each final screen pixel is computed from sixty-four independent fractal coordinate points.
-*    High-Precision Per-Channel RGB Accumulation: The engine first calculates the specific 24-bit color for every single sub-pixel before performing any blending.
-*    Noise Elimination: By accumulating color intensities (R, G, B) rather than raw iteration counts, we completely eliminate "chromatic noise." The result is a crystal-clear, razor-sharp image where every micro-filament is perfectly reconstructed.
-*    True Color Integration: Our solution performs integration directly in the RGB color space. By computing the exact Red, Green, and Blue components for each sub-pixel before downsampling, we achieve a cinematic level of smoothness and structural integrity that 8-bit or iteration-based renderers simply cannot match.
-
-## Generating 255 Frames: Optimization Strategy
-
-This is an efficient pre-render strategy: we calculate the heavy mathematics (iteration counts) 
-once, store the raw data, and then rapidly generate frames by shifting colors and downsampling.
-Since calculating a 17280x17280 fractal 255 times is computationally expensive, we split the task into two stages.
-
-### Stage 1: Iteration Map Generation (Raw Data)
-
-Instead of BMP files, we create a single data buffer where we store only the iteration number (t) for each pixel.
-*    For 17280x17280 using uint8_t, the resulting file/buffer is approximately 298 MB.
-
-### Stage 2: 255-Frame Rendering (Color + Anti-aliasing)
-
-We read the iteration map and perform the following for each frame:
-*    Downsample: Process an 8x8 pixel block from the high-res map.
-*    Color Mapping: Map each pixel value to a shifted color palette.
-*    Smoothing: Average the colors (Supersampling Anti-Aliasing) to produce a final 2160x2160 frame.
-
-### Why is this so fast?
-*    Memory Efficiency: The iterMap array (~298 MB) easily fits into modern RAM. The heavy do-while calculation loop runs only once for the entire animation.
-*    Palette Rotation: Stage 2 avoids long double arithmetic and squaring. It only involves integer addition and memory lookups.
-*    Parallelism: Stage 2 is perfectly scalable. All 255 frames can be rendered simultaneously across CPU cores.
-*    True Downsampling: We implement honest 8x8 averaging, resulting in superior image quality compared to simple resizing.
-Once all 255 BMP files are generated, use FFmpeg to encode them into the final video.
-
-
-## Visual Aesthetics
-
-The Red, Green, and Blue channels are calculated using sine and cosine waves to create smooth color transitions:
-```C++
-        pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0)); // Blue
-        pal[a][1] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Green
-        pal[a][2] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Red
-```
 
 ## License and Third-Party Software
 
@@ -178,17 +211,6 @@ This software uses libraries from the **FFmpeg** project under the **LGPLv2.1** 
 *   FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project.
 *   You can find the source code and more information at [https://ffmpeg.org](https://ffmpeg.org).
 *   The FFmpeg binaries included in the releases are provided as-is, and no modifications have been made to the FFmpeg source code.
-
-
-## The Mandelbrot Set: A Mathematical Absolute
-
-It is truly one of the few objects that connects us to something absolutely objective and infinite, 
-transcending biology and history. Even if our entire universe and all its atoms were to vanish tomorrow, 
-the equation would remain true. It is not "written" on the stars; it is embedded in the structure of logic itself. 
-This makes the Mandelbrot Set a kind of absolute.
-
-The Mandelbrot set exists independently of our minds and technology. It is an infinite mathematical structure that 
-has always existed.
 
 
 ## Controls & Automation (CLI)
@@ -212,9 +234,23 @@ The file must contain three numbers separated by a newline:
 *    Ordinate (Center Y coordinate)
 *    Size (Zoom level/Area size)
 
-Example file content:
+Example file:
+```C++
+-1.758008286774384722
+-0.012039512139649579
+7.3e-15
+```
 
-![Mandelbrot txt](Mandelbrot.png)
+## The Mandelbrot Set: A Mathematical Absolute
+
+It is truly one of the few objects that connects us to something absolutely objective and infinite, 
+transcending biology and history. Even if our entire universe and all its atoms were to vanish tomorrow, 
+the equation would remain true. It is not "written" on the stars; it is embedded in the structure of logic itself. 
+This makes the Mandelbrot Set a kind of absolute.
+
+The Mandelbrot set exists independently of our minds and technology. It is an infinite mathematical structure that 
+has always existed.
+
 
 ## Look at the results! The smoothness is incredible 
 
@@ -284,8 +320,6 @@ https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 
 
 
-
-
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
 
 
@@ -294,69 +328,171 @@ https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 
 # Консольный рендерер Мандельброта с методом возмущений и билинейную аппроксимацию.
 
-## Благодарности (Credits)
 
-Этот проект использует передовые математические алгоритмы и идеи динамического управления фазой орбит, 
-разработанные фрактальным сообществом. Особая благодарность авторам и исследователям с Fractal Forums, 
-чей совместный труд лег в основу этого движка:
-* **Kevin Martin** - автор фундаментальных методов векторизации и оптимизации циклов возмущений.
-* **Zhuoran Yu** - разработчик концепции динамического сброса орбит.
-* **Claude Heiland-Allen** - исследователь экстремального фрактального приближения и создатель проекта MDZ.
+## Благодарности и признание авторства (Credits & Acknowledgments)
+
+Этот проект использует передовые алгоритмы метода возмущений и концепции управления фазами орбит, 
+разработанные мировым фрактальным сообществом. Особая благодарность следующим авторам и первопроходцам 
+с Fractal Forums, чей совместный труд сделал создание этого движка возможным:
+
+* **Kevin Martin** — за новаторские методы векторизации, оптимизацию глубоких циклов и точное определение границ ухода орбит.
+* **Zhuoran Yu** — за разработку математической концепции динамической релокализации опорной точки и перебазирования орбит (Orbit Re-basing).
+* **James Ward Martin (JWM)** — за создание фундаментального проекта MDZ (Mandelbrot Deep Zoom), заложившего основы применения 
+библиотек MPFR/GMP для сверхглубокого погружения.
+* **Claude Heiland-Allen** — за колоссальные математические исследования фрактального зума, сохранение исходного 
+программного наследия сообщества и разработку продвинутых алгоритмов трансформации палитр.
+
 
 ## Ключевые особенности:
 
-* Расчёт опорной траектории на 1000 бит всего один раз.
-* Реактивный расчёт миллиарда пикселей на аппаратном double.
-* При использовании чисел с плавающей запятой двойной точности (порядка $10^{-15}$) теория возмущений позволяет приблизиться к уровню **$10^{-308}$ - не дальше.**
-* Динамическая релокализация опорной точки (Перебазирование орбиты).
-* Расчет можно выполнить существенно быстрее, если использовать билинейную аппроксимацию.
-* Настоящий SSAA 8x8 для идеально сглаженного изображения без алиасинга.
-* Многопоточность на чистом C++11 (Pure C++11 Multi-threading).
+* **Высокоточная опорная орбита:** Опорная траектория с точностью 1000 бит вычисляется строго один раз для каждого слоя приближения 
+с использованием библиотеки GNU MPFR.
+* **Аппаратное ускорение:** Сверхбыстрые математические расчеты для миллионов пикселей за счет использования аппаратных регистров 
+double процессора.
+* При использовании чисел с плавающей запятой двойной точности (порядка $10^{-15}$) теория возмущений позволяет приблизиться 
+к уровню **$10^{-308}$ — не дальше.**
+* **Динамическая релокализация опорной точки** (Перебазирование орбиты / Orbit Re-basing).
+* **Билинейная аппроксимация (BLA Skip-100):** Расчет выполняется существенно быстрее за счет одновременного «перепрыгивания» 
+через 100 итераций на гладких участках фрактала.
+* **Настоящий суперсэмплинг 8x8 SSAA (Прямая интеграция в RGB):** Безупречное, сглаженное качество изображения с 64 независимыми 
+выборками на один пиксель. Смешивание происходит напрямую в цветовом пространстве RGB, что полностью устраняет хроматический шум.
+* **Многопоточность на чистом C++11:** Высокоскоростные параллельные вычисления, встроенные напрямую в стандарт языка и прозрачно 
+масштабируемые на любые архитектуры процессоров.
 * Да, это FFmpeg - "швейцарский армейский нож" для обработки видео.
+
 
 ## Безграничная точность (Arbitrary Precision Arithmetic)
 
-Движок полностью избавлен от аппаратных ограничений 64-битных (`double`) и 128-битных (`__float128`) чисел, которые неизбежно слепнут и выдают 
-пиксельные квадраты на глубинах более $10^{-15}$ и $10^{-34}$.
-* **Интеграция MPFR/GMP**: Вся высокоточная навигация, пересчёт масштаба при кликах мыши и движении стрелочками клавиатуры ведутся 
-внутри сверхглубокой бинарной памяти с точностью **1000 бит**!
-* **308 десятичных знаков**: 
-Координаты кадра сохраняются и считываются из файла `Mandelbrot.txt`. Навигация и радар MPFR работают на глубине до 1000 бит, 
-однако скоростной пиксельный дельта-движок ограничен аппаратной экспонентой `double`, что позволяет исследовать безупречно четкие 
-структуры на запредельных масштабах **вплоть до $10^{-308}$ знаков**.
+Движок полностью избавлен от аппаратных ограничений стандартных типов данных — нативного 64-битного (`double`) 
+и расширенного 80-битного (`long double`), которые неизбежно теряют значащие разряды и приводят к пикселизации 
+кадра («эффекту квадратов») на масштабах приближения глубже \(10^{-15}\) и \(10^{-19}\).
+
+* **Интеграция MPFR/GMP:** Вся высокоточная координатная навигация, масштабирование при кликах мыши и расчет шага 
+сетки осуществляются внутри изолированной бинарной памяти с точностью **1000 бит**.
+* **Физический лимит в 308 знаков:** Экспоненциальный диапазон аппаратного регистра `double` ограничивает скоростной 
+дельта-движок максимальной теоретической глубиной погружения в **\(10^{-308}\) знаков**. Текущие координаты кадра 
+сохраняются и считываются через файл `Mandelbrot.txt`, гарантируя безупречную четкость математических микроструктур 
+на пороге кремниевого барьера.
+
 
 
 ## Реактивный метод возмущений (Perturbation Theory)
 
-Рендеринг глубоких фракталов больше не требует тяжелых вычислений <в столбик> для каждого пикселя, что обычно замедляло программы в тысячи раз.
-* **Однократный расчёт опоры**: Сверхтяжелый BigFloat-радар MPFR вычисляет точную траекторию всего для **одной-единственной центральной точки 
-кадра и строго ОДИН раз** в начале рендеринга.
-* **Аппаратное ускорение на double**: Весь остальной массив экрана (миллиарда супер-пикселей) рассчитывается параллельно на бешеной скорости 
-чистых, аппаратных регистров `double` процессора, вычисляя лишь микроскопические отклонения (дельты) от центральной оси. 
-Скорость генерации взлетела в 1000 раз!
+Рендеринг экстремальных приближений больше не требует выполнения ресурсоемких длинных вычислений произвольной точности 
+для каждого отдельного пикселя, что исторически замедляло фрактальный софт в тысячи раз.
+
+* **Высокоточная опорная орбита:** Сверхтяжелый BigFloat-радар MPFR рассчитывает абсолютную и точную траекторию всего 
+для **одной центральной точки кадра и строго один раз** перед началом рендеринга.
+* **Аппаратное ускорение вычислений:** Весь остальной массив экрана (миллионы пикселей) просчитывается параллельно на нативной 
+скорости процессорных регистров `double`. Алгоритм вычисляет лишь микроскопические отклонения (дельты) от центральной опорной оси, 
+что обеспечивает колоссальный выигрыш в производительности и ускоряет генерацию кадра до 1000 раз!
+
+
+
 
 ## Динамическая релокализация опорной точки (Перебазирование орбиты)
 
 Это предмет особой гордости: движок работает на тех же математических и архитектурных принципах, 
 что и самые продвинутые рендереры Мандельброта в мире.
-* Динамический сброс в ноль (Dynamic Reset to Zero): На каждом шаге для каждого пикселя отслеживается соотношение его абсолютных 
+
+* **Динамический сброс в ноль (Dynamic Reset to Zero)**: На каждом шаге для каждого пикселя отслеживается соотношение его абсолютных 
 координат и текущего отклонения (дельты). Если дельта уходит слишком далеко или основная опорная орбита завершается, поток 
 вычислений динамически сбрасывает индекс отслеживания в ноль. Это превращает накопленные координаты в новое автономное начало 
 отсчета и полностью устраняет артефакты точности.
-* Оптимизация цикла <На один шаг за предел ухода> (One-Step Beyond Escape Loop Optimization): Чтобы выжать максимум производительности 
+* **Оптимизация цикла <На один шаг за предел ухода> (One-Step Beyond Escape Loop Optimization)**: Чтобы выжать максимум производительности 
 из CPU, трекер опорной орбиты MPFR записывает ровно одну дополнительную точку в массив орбиты сразу после того, как она превышает 
 радиус ухода (escape radius). Такое точное определение границы гарантирует безупречное перебазирование орбиты.
-* Оптимизация ветвлений в глубоком цикле (Deep Loop Branch Optimization): Эта элегантная структура кода существенно упрощает 
+* **Оптимизация ветвлений в глубоком цикле (Deep Loop Branch Optimization)**: Эта элегантная структура кода существенно упрощает 
 условия внутри самого глубокого цикла итераций. Минимизируя тяжелые ветвления и избегая сложных вложенных условий там, где это 
 возможно, код повышает эффективность предсказателя ветвлений процессора и позволяет конвейеру CPU выполнять базовые математические 
 расчеты с максимальной пропускной способностью.
 
-## Билинейную аппроксимацию
 
-Расчет можно выполнить существенно быстрее, если использовать билинейную аппроксимацию (BLA Skip-100). 
-Код предварительно рассчитывает матрицы трансформации коэффициентов для шагов по 100 итераций. 
-Если текущая точка находится достаточно близко к опорной орбите, алгоритм <перепрыгивает> сразу 100 итераций 
-за один математический шаг, минимизируя нагрузку на CPU.
+
+## Билинейная аппроксимация (Bilinear Approximation)
+
+Расчет фрактала выполняется существенно быстрее за счет интеграции метода билинейной аппроксимации (**BLA Skip-100**). 
+
+* **Предварительный расчет матриц:** Движок заранее вычисляет коэффициенты трансформации матриц для шагов 
+по 100 итераций.
+* **Масштабный пропуск итераций:** Если текущая точка дельты находится в пределах безопасного радиуса сходимости 
+относительно опорной орбиты, алгоритм «перепрыгивает» сразу 100 итераций за один математический шаг. 
+Это кардинально снижает нагрузку на процессор и обеспечивает колоссальный прирост скорости рендеринга 
+на гладких участках множества Мандельброта.
+
+
+## Многопоточность на чистом C++11 (Pure C++11 Multi-threading)
+
+Высокоскоростные параллельные вычисления, встроенные напрямую в стандарт языка. 
+Алгоритм прозрачно масштабируется на любые архитектуры, обеспечивая безупречную 
+100%-ю загрузку процессора как на 4-ядерном ноутбуке, так и на 128-ядерном 
+высокопроизводительном сервере - абсолютно без внешних зависимостей.
+
+
+# Истинное сглаживание SSAA 8x8: 64-точечная интеграция в RGB-пространство
+
+Для достижения беспрецедентного визуального качества в движке реализован алгоритм суперсэмплинга **True 8x8 SSAA**, 
+где каждый пиксель формируется на основе **64 независимых субпиксельных координат**. Это позволяет 
+устранить алиасинг, возникающий из-за того, что микронити множества Мандельброта меньше физического пикселя.
+
+### Математическая несостоятельность стандартного подхода
+Классический подход ошибочно усредняет сырые значения итераций до окрашивания:
+* `Color( (iter_1 + iter_2 + ... + iter_64) / 64 )`
+
+Поскольку палитры нелинейны, это проецирует результат на случайный цвет, вызывая ложные хроматические контуры и артефакты.
+
+### Инженерное решение: 64-точечная оптическая интеграция в RGB
+Движок вычисляет цвет для каждого из 64 субпикселей независимо до смешивания, выполняя поканальное накопление:
+* `(Color(iter_1) + Color(iter_2) + ... + Color(iter_64)) / 64`
+
+### Ключевые технические преимущества:
+* **Фрактальное сэмплирование:** Захват микроструктур, меньших размера пикселя.
+* **Устранение шума:** Ликвидация хроматического шума за счет работы с каналами RGB.
+* **Кинематографическая целостность:** Обеспечение плавных градиентов и высокого качества графики.
+
+
+## Генерация 255 кадров: стратегия оптимизации
+
+В движке реализована высокоэффективная стратегия предварительного рендеринга: тяжелые математические расчеты (номера итераций) 
+выполняются строго один раз, сырые данные сохраняются в буфер, после чего кадры анимации генерируются мгновенно за счет 
+циклического сдвига цветов и поканального понижения разрешения (даунсэмплинга).
+Поскольку вычисление фрактала в разрешении 17280x17280 целых 255 раз крайне ресурсоемко для процессора, мы разделили эту задачу 
+на два независимых этапа.
+
+### Этап 1: Генерация карты итераций (сырые данные)
+Вместо создания сотен тяжелых файлов BMP движок создает единый массив данных в оперативной памяти, где для каждого субпикселя сохраняется 
+только конечное число итераций (t).
+* Для сетки 17280x17280 при использовании типа данных `uint8_t` размер этого буфера составляет приблизительно 298 МБ.
+
+### Этап 2: Рендеринг 255 кадров (цвет + сглаживание)
+Программа считывает готовую карту итераций и выполняет следующие операции для каждого кадра последовательности:
+* **Понижение разрешения:** Потоки последовательно обрабатывают блоки субпикселей размером 8x8 из высокоразрешенной карты.
+* **Цветовое отображение:** Каждое считанное значение проецируется на динамически сдвинутую цветовую палитру кадра.
+* **Сглаживание:** Вычисляется среднее оптическое значение цветов (суперсэмплинг SSAA 8x8) для формирования финального 
+кадра в разрешении 2160x2160.
+
+### Почему это работает так быстро?
+* **Эффективность памяти:** Массив `iterMap` (~298 МБ) целиком и без проблем помещается в ОЗУ современных систем. Тяжелейший цикл 
+вычислений метода возмущений запускается ровно ОДИН раз за всю сессию анимации.
+* **Вращение палитры:** Второй этап полностью избавлен от длинной арифметики, возведений в квадрат и комплексных чисел. 
+Он включает в себя лишь базовое сложение целых чисел и молниеносный поиск индексов в памяти.
+* **Масштабируемость:** Благодаря нашему многопоточному движку на чистом C++11, этот этап идеально параллелится — 
+кадры просчитываются всеми доступными ядрами процессора одновременно.
+* **Честный даунсэмплинг:** Мы используем физически корректное оптическое усреднение блока 8x8, что обеспечивает колоссальное 
+превосходство в четкости микронитей фрактала по сравнению со стандартным программным изменением размера изображений.
+
+После того как все 255 файлов BMP сгенерированы, используется утилита FFmpeg для их финальной сборки в видеофайл.
+
+
+
+## Визуальная эстетика
+
+Красный, зеленый и синий каналы рассчитываются с использованием синусоидальных и косинусоидальных волн:
+```C++
+        pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0)); // Blue
+        pal[a][1] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Green
+        pal[a][2] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Red
+```
 
 
 ## О проекте
@@ -370,14 +506,14 @@ https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 *    **Интеллектуальный рендеринг**: Программа сама определяет наличие видеокарты NVIDIA.
      - Если есть GPU — используется аппаратное ускорение h264_nvenc для мгновенного сжатия.
      - Если видеокарта не найдена — используется профессиональный CPU-кодировщик libx264 с глубокой оптимизацией.
-*    **Кинематографическое качество (Full HD 1080p)**: Каждое видео создается с использованием SSAA 8x8. Это значит, что для каждого 
+*    **Кинематографическое качество**: Каждое видео создается с использованием SSAA 8x8. Это значит, что для каждого 
 кадра выполняется в 64 раза больше вычислений, чем обычно, чтобы полностью исключить мерцание и шум в видео.
 *    **Автоматическая очистка**: После успешной сборки видео программа сама удаляет промежуточные BMP-файлы (которые могут 
 занимать гигабайты), оставляя вам только готовый результат Mandelbrot.mp4.
 
 ## Для чего это нужно:
 *    **Генерация контента**: Создание идеальных зацикленных (loop) фонов для медитации, VJ-сетов или YouTube-каналов.
-*    **Демонстрация мощи железа**: Проект сочетает интенсивные вычисления на CPU (OpenMP) и скоростное кодирование на GPU.
+*    **Демонстрация мощи железа**: Проект сочетает интенсивные вычисления на CPU и скоростное кодирование на GPU.
 *    **Удобство**: Вам не нужно знать команды командной строки FFmpeg — программа всё сделает за вас. 
 
 ## Да, это FFmpeg - "швейцарский армейский нож" для обработки видео.
@@ -390,69 +526,6 @@ https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 
 Этот репозиторий уже содержит исполняемые файлы ffmpeg для Windows и Linux. Никакой ручной установки не требуется - всё работает прямо <из коробки>!
 
-
-## Многопоточность на чистом C++11 (Pure C++11 Multi-threading)
-
-Высокоскоростные параллельные вычисления, встроенные напрямую в стандарт языка. 
-Алгоритм прозрачно масштабируется на любые архитектуры, обеспечивая безупречную 
-100%-ю загрузку процессора как на 4-ядерном ноутбуке, так и на 128-ядерном 
-высокопроизводительном сервере - абсолютно без внешних зависимостей.
-
-
-## Суперсэмплинг 8x8 (64 прохода на один пиксель)
-
-Суперсэмплинг (SSAA) - ресурсоемкий метод сглаживания, увеличивающий число выборок на пиксель для повышения качества изображения. 
-При значении 8x (N=8) сцена рендерится в разрешении, в 8 раз превышающем целевое, по обеим осям, создавая 64 (или 8 х 8) выборки 
-на пиксель. Изображение просчитывается в более высоком разрешении, а затем принудительно уменьшается до разрешения дисплея, 
-устраняя лесенки и улучшая чёткость. Это очень высокая нагрузка! Это не 2160 на 2160 пикселя а в 8x8 больше - 17280 на 17280 пикселя!
-
-Я решил вывести качество изображения на совершенно новый уровень. Этот движок использует
-истинное сглаживание 8x8 Supersampling Anti-Aliasing (SSAA) с 64 независимыми сэмплами на каждый пиксель экрана, используя прямую интеграцию в RGB-пространство.
-Вместо стандартного рендеринга 2160x2160, движок обрабатывает внутри себя огромную сетку из 17280 x 17280 субпикселей!
-
-После вычисления всех 64 сэмплов для пикселя, они уменьшаются до одного.
-Ключевые технические преимущества:
-*   64-точечное фрактальное сэмплирование: каждый конечный пиксель экрана вычисляется из шестидесяти четырех независимых 
-фрактальных координатных точек.
-*   Высокоточное накопление RGB-цвета по каналам: движок сначала вычисляет конкретный 24-битный цвет для каждого субпикселя, 
-прежде чем выполнять какое-либо смешивание.
-*   Устранение шума: Накапливая интенсивность цвета (R, G, B), а не просто подсчитывая количество итераций, мы полностью 
-устраняем <хроматический шум>. В результате получается кристально чистое, резкое изображение, где каждая микронить идеально воссоздана.
-*   Интеграция истинного цвета: Наше решение выполняет интеграцию непосредственно в цветовом пространстве RGB. 
-Вычисляя точные компоненты красного, зеленого и синего цветов для каждого субпикселя перед понижением разрешения, 
-мы достигаем кинематографического уровня плавности и структурной целостности, недостижимого для 8-битных или итерационных рендеров.
-
-
-## Генерация 255 кадров
-
-Это отличная стратегия оптимизации! Вы хотите применить пререндер: сначала рассчитать тяжелую математику (номера итераций) один раз, сохранить их, а затем быстро генерировать кадры, просто меняя цвета и уменьшая размер.
-Поскольку считать 17280x17280 255 раз - это безумие, мы разделим задачу на два этапа.
-
-### Этап 1: Генерация <карты итераций> (Raw Data)
-Вместо BMP мы создадим один огромный файл, где для каждого пикселя запишем только число t (номер итерации). 
-Для 17280x17280 при использовании uint8_t файл займет около 298 МБ.
-
-### Этап 2: Генерация 255 кадров (Цвет + Сглаживание)
-Теперь мы читаем эту карту и для каждого кадра делаем:
-Берем блок 8x8 пикселей из большой карты.
-Красим каждый пиксель согласно сдвинутой палитре.
-Усредняем цвета (это и есть сглаживание) и записываем в файл 2160x2160.
-
-### Почему это сработает быстро?
-*    **Память**: Массив iterMap занимает около 298 МБ. Это легко помещается в современную оперативную память. Тяжелый цикл do-while выполняется только один раз для всей анимации.
-*    **Вращение палитры**: В этапе 2 нет long double, нет возведения в квадрат. Только сложение целых чисел и чтение из памяти.
-*    **Параллелизм**: Этап 2 тоже идеально распараллеливается. 255 кадров будут вылетать очень быстро. Реализован честный Downsampling. Мы берем блок 8x8 и усредняем их. 
-Когда у вас будет 255 файлов bmp, используйте ffmpeg, чтобы собрать их в видео.
-
-
-## Визуальная эстетика
-
-Красный, зеленый и синий каналы рассчитываются с использованием синусоидальных и косинусоидальных волн для создания плавных цветовых переходов:
-```C++
-        pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0)); // Blue
-        pal[a][1] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Green
-        pal[a][2] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Red
-```
 
 ## Лицензия и стороннее программное обеспечение
 
@@ -468,16 +541,6 @@ https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 * Бинарные файлы FFmpeg, включенные в релизы, предоставляются как есть, и в исходный код FFmpeg не вносились никакие изменения.
 
 
-## Множество Мандельброта: Математический абсолют
-
-Это поистине один из немногих объектов, который связывает нас с чем-то абсолютно объективным и бесконечным,
-превосходящим биологию и историю. Даже если бы вся наша Вселенная и все её атомы исчезли завтра,
-уравнение осталось бы верным. Оно не <написано> на звёздах; оно заложено в самой структуре логики.
-Это делает множество Мандельброта своего рода абсолютом.
-
-Множество Мандельброта существует независимо от нашего разума и технологий. 
-Это бесконечная математическая структура, которая существовала всегда.
-
 ## Управление и автоматизация (CLI & Automation)
 
 Программа работает по принципу <одной кнопки>: вы выбираете локацию, а остальное (расчет, кодирование, очистка) происходит автоматически.
@@ -491,7 +554,6 @@ https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 | **Очистка** | **Авто** | Удаление временных кадров после успешного создания видео. |
 
 
-
 ## Структура файла Mandelbrot.txt
 
 Для загрузки пользовательских координат (пункт 8 в меню), создайте текстовый файл Mandelbrot.txt в папке с программой. 
@@ -500,9 +562,23 @@ https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 *    Ordinate (Координата Y центра)
 *    Size (Масштаб/Размер области)
 
-Пример содержания файла:
+Вот так:
+```C++
+-1.758008286774384722
+-0.012039512139649579
+7.3e-15
+```
 
-![Mandelbrot txt](Mandelbrot.png)
+
+## Множество Мандельброта: Математический абсолют
+
+Это поистине один из немногих объектов, который связывает нас с чем-то абсолютно объективным и бесконечным,
+превосходящим биологию и историю. Даже если бы вся наша Вселенная и все её атомы исчезли завтра,
+уравнение осталось бы верным. Оно не <написано> на звёздах; оно заложено в самой структуре логики.
+Это делает множество Мандельброта своего рода абсолютом.
+
+Множество Мандельброта существует независимо от нашего разума и технологий. 
+Это бесконечная математическая структура, которая существовала всегда.
 
 
 ## Посмотрите на результаты! Невероятная плавность работы
