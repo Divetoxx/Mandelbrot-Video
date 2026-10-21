@@ -31,8 +31,8 @@ and advanced palette conversion algorithms.
 
 * **High-Precision Reference:** The 1000-bit reference trajectory is computed exactly once per zoom layer using GNU MPFR.
 * **Hardware-Native Performance:** Blazing-fast math for millions of pixels utilizing hardware-native double registers.
-* When using double-precision floating-point numbers (on the order of $10^{-15}$), perturbation theory only allows you 
-to zoom down to the **$10^{-308}$ level—no further.**
+* **When using double-precision** floating-point numbers (on the order of $10^{-15}$), perturbation theory only allows you 
+to zoom down to the $10^{-308}$ level—no further.
 * **Dynamic Reference Relocalization** (Orbit Re-basing).
 * **Bilinear approximation (BLA Skip-100):** The calculation can be performed significantly faster by skipping 100 iterations 
 at once on smooth areas.
@@ -40,19 +40,19 @@ at once on smooth areas.
 blended directly in RGB color space to eliminate chromatic noise.
 * **Pure C++11 Multi-threading:** High-speed parallel computing built directly into the language standard, scaling 
 transparently across CPU architectures.
-* **Yes, this is FFmpeg**-the 'Swiss Army knife' of video processing.
+* **Yes, this is FFmpeg**: the 'Swiss Army knife' of video processing.
 
 
 ## Arbitrary Precision Arithmetic (Infinite Depth)
 
 The engine is completely free from the hardware limitations of standard data types—such as the native 64-bit (`double`) 
 and the extended 80-bit (`long double`) floats—which inevitably lose significance and produce pixelated 
-blocks at precision depths beyond \(10^{-15}\) and \(10^{-19}\) respectively.
+blocks at precision depths beyond $10^{-15}$ and $10^{-19}$ respectively.
 
 * **MPFR/GMP Integration:** All high-precision coordinate navigation, mouse-click viewport targeting, and grid step 
 calculations are handled within an isolated binary memory structure configured to a pristine **1000-bit precision**.
 * **308-Digit Decimal Silicon Barrier:** The dynamic exponent range of the hardware-native `double` register limits 
-the high-speed delta pixel engine to a maximum theoretical depth of **\(10^{-308}\) digits**. Current viewport coordinates 
+the high-speed delta pixel engine to a maximum theoretical depth of **$10^{-308}$ digits**. Current viewport coordinates 
 are safely stored and retrieved via the `Mandelbrot.txt` configuration file, guaranteeing flawless structural clarity 
 of mathematical micro-filaments right up to this physical silicon boundary.
 
@@ -349,8 +349,8 @@ https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 с использованием библиотеки GNU MPFR.
 * **Аппаратное ускорение:** Сверхбыстрые математические расчеты для миллионов пикселей за счет использования аппаратных регистров 
 double процессора.
-* При использовании чисел с плавающей запятой двойной точности (порядка $10^{-15}$) теория возмущений позволяет приблизиться 
-к уровню **$10^{-308}$ — не дальше.**
+* **При использовании чисел** с плавающей запятой двойной точности (порядка $10^{-15}$) теория возмущений позволяет приблизиться 
+к уровню $10^{-308}$ — не дальше.
 * **Динамическая релокализация опорной точки** (Перебазирование орбиты / Orbit Re-basing).
 * **Билинейная аппроксимация (BLA Skip-100):** Расчет выполняется существенно быстрее за счет одновременного «перепрыгивания» 
 через 100 итераций на гладких участках фрактала.
@@ -358,19 +358,19 @@ double процессора.
 выборками на один пиксель. Смешивание происходит напрямую в цветовом пространстве RGB, что полностью устраняет хроматический шум.
 * **Многопоточность на чистом C++11:** Высокоскоростные параллельные вычисления, встроенные напрямую в стандарт языка и прозрачно 
 масштабируемые на любые архитектуры процессоров.
-* Да, это FFmpeg - "швейцарский армейский нож" для обработки видео.
+* **Да, это FFmpeg**: "швейцарский армейский нож" для обработки видео.
 
 
 ## Безграничная точность (Arbitrary Precision Arithmetic)
 
 Движок полностью избавлен от аппаратных ограничений стандартных типов данных — нативного 64-битного (`double`) 
 и расширенного 80-битного (`long double`), которые неизбежно теряют значащие разряды и приводят к пикселизации 
-кадра («эффекту квадратов») на масштабах приближения глубже \(10^{-15}\) и \(10^{-19}\).
+кадра («эффекту квадратов») на масштабах приближения глубже $10^{-15}$ и $10^{-19}$.
 
 * **Интеграция MPFR/GMP:** Вся высокоточная координатная навигация, масштабирование при кликах мыши и расчет шага 
 сетки осуществляются внутри изолированной бинарной памяти с точностью **1000 бит**.
 * **Физический лимит в 308 знаков:** Экспоненциальный диапазон аппаратного регистра `double` ограничивает скоростной 
-дельта-движок максимальной теоретической глубиной погружения в **\(10^{-308}\) знаков**. Текущие координаты кадра 
+дельта-движок максимальной теоретической глубиной погружения в **$10^{-308}$ знаков**. Текущие координаты кадра 
 сохраняются и считываются через файл `Mandelbrot.txt`, гарантируя безупречную четкость математических микроструктур 
 на пороге кремниевого барьера.
 
@@ -429,7 +429,7 @@ double процессора.
 высокопроизводительном сервере - абсолютно без внешних зависимостей.
 
 
-# Истинное сглаживание SSAA 8x8: 64-точечная интеграция в RGB-пространство
+## Истинное сглаживание SSAA 8x8: 64-точечная интеграция в RGB-пространство
 
 Для достижения беспрецедентного визуального качества в движке реализован алгоритм суперсэмплинга **True 8x8 SSAA**, 
 где каждый пиксель формируется на основе **64 независимых субпиксельных координат**. Это позволяет 
