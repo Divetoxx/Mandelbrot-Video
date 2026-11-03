@@ -102,7 +102,7 @@ scaling seamlessly across all modern CPU core architectures.
 on the fly without extra scripts.
 
 
-## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео - 1 минута), разрешение 1080 x 1080 пикселей.
+## Preview fragment of the Mandelbrot set video, length 10 seconds (full video is 1 minutes), 1,080 x 1,080 pixels.
 
 ```C++
 const char * CENTER_RE = "-0.12702288604303376058504940552835636145639339878096842408417373730140553";
