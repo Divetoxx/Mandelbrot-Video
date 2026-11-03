@@ -131,7 +131,7 @@ jobs:
             * **Pure C++11 Multi-threading:** High-speed parallel computing built directly into the language standard.
             * **Yes, this is FFmpeg**-the 'Swiss Army knife' of video processing.
 
-            <video src=""></video>
+            <video src="https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db"></video>
 
           files: |
             binary-windows-latest/Mandelbrot_windows_x64.zip
