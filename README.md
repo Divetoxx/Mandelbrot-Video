@@ -10,7 +10,61 @@
 <a name="english"></a>
 # 🇺🇸 English Version
 
-# Mandelbrot CLI: Renderer with Perturbation Theory and Bilinear approximation
+# Mandelbrot VIDEO
+
+## Preview fragment of the Mandelbrot set video, length 10 seconds (full video is 2 minutes), 1,080 x 1,080 pixels.
+
+```C++
+const char * CENTER_RE = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706071032";
+const char * CENTER_IM = "0.00000042530777152440422725855012159249401150956515141283650516485787465219754670517629100020435541143321258687777670349987";
+const int TOTAL_FRAMES = 3600; 
+const char* START_VIEW_STR = "1.02e-99";
+const char* END_VIEW_STR   = "1.02e-119";
+```
+
+
+## About the Project
+
+**Mandelbrot VIDEO** is a high-tech, production-grade CLI workstation built for the automated generation 
+of cinematic fractal video art. Instead of basic color cycle loops, this engine computes a truly captivating, 
+**deep fractal zoom** using perfect logarithmic step scaling. The program fully automates the entire production 
+pipeline—from highly complex, multi-threaded arbitrary-precision math down to frame preparation and subsequent encoding.
+
+## Core Features:
+
+* **Massive Fractal Journey**: The engine handles large-scale rendering sequences (up to 3600 frames), calculating an ultra-deep 
+exponential zoom with 1000-bit precision to deliver a stunning effect of infinite immersion.
+* **Dynamic Color Shifts**: A smooth, cyclic palette rotation (`frame % 255`) is applied to every single zoom step, creating 
+a hypnotic, pulsing "live" fractal illusion.
+* **Intelligent Rendering & Encoding Pipeline**: The utility automatically scans the system for NVIDIA CUDA cores.
+  * *If a GPU is detected*: Hardware acceleration via `h264_nvenc` is engaged for blazing-fast, "on-the-fly" video encoding.
+  * *If no GPU is found*: It gracefully falls back to the industry-standard CPU encoder `libx264`, backed by deep multi-threaded optimization.
+* **Cinematic Quality (SSAA 3x3)**: Each scene is rendered using a true 3x3 Super-Sampling Anti-Aliasing (SSAA) grid. This 
+means 9 times more calculations are executed per frame to completely eliminate digital flickering and aliasing noise 
+along the ultra-fine fractal filaments.
+* **Frame Archive Preservation**: The engine retains the entire sequence of raw frames in uncompressed BMP format, 
+giving you the freedom to manage your image archive manually or re-encode the video at any time without re-running 
+the heavy mathematical calculations.
+
+## Use Cases & Benefits:
+
+* **Professional Content Creation**: Generate highly engaging, seamless, high-resolution video loops perfectly suited for 
+meditation videos, VJ sets, live wallpapers, or educational sci-pop content on YouTube.
+* **Extreme Stress Testing & Benchmarking**: A perfect hybrid workload to verify PC stability. The program pushes the 
+CPU to 100% load during the BLA perturbation matrix math, while simultaneously saturating the GPU with hardware video 
+encoding blocks.
+* **Complete Media Data Control**: You receive not just a compiled video file, but an entire high-definition library 
+of uncompressed source frames, fully ready for further creative experiments, upscaling, or custom post-processing.
+
+## Preview fragment of the Mandelbrot set video, length 10 seconds (full video is 1 minutes), 1,080 x 1,080 pixels.
+
+```C++
+const char * CENTER_RE = "-0.8432337645307515133246117300038447886638913178942914768815245";
+const char * CENTER_IM = "0.2238180415580699591398982954803114403955748218705388777865576";
+const int TOTAL_FRAMES = 1800; 
+const char* START_VIEW_STR = "1.29e-49";
+const char* END_VIEW_STR   = "1.29e-57";
+```
 
 
 ## Credits & Acknowledgments
@@ -26,22 +80,37 @@ whose collaborative work made this engine possible:
 and advanced palette conversion algorithms.
 
 
+
 ## Key Features:
 
+* **High-Precision Reference Orbit**: The core reference trajectory is computed with 1000-bit precision exactly once per 
+zoom layer using the industry-standard GNU MPFR library.
+* **Hardware-Accelerated Perturbation Math**: Blazing-fast delta calculations for millions of pixels utilizing the native 
+double-precision hardware registers of the CPU.
+* **Perturbation Boundaries**: While native double-precision floats are normally limited to depths around $10^{-15}$, 
+this perturbation-driven engine safely pushes the boundary down to $10^{-308}$ before requiring a new reference point.
+* **Dynamic Orbit Re-basing**: Automatic relocation and re-centering of the reference orbit to prevent breakdown and 
+maintain accuracy during extreme zoom phases.
+* **Bivariate Linear Approximation (BLA Skip-100)**: Significantly cuts down rendering times by mathematically "jumping 
+over" 100 iterations at once across smooth regions of the fractal.
+* **True Super-Sampling 3x3 SSAA (Direct RGB Integration)**: Immaculate, anti-aliased image quality featuring 9 independent 
+sub-pixel samples per pixel. Downsampling blends directly in the RGB color space, completely eliminating chromatic noise 
+and shimmering artifacts.
+* **Pure C++11 Multi-threading**: Native, high-speed parallel computation built entirely on standard language primitives, 
+scaling seamlessly across all modern CPU core architectures.
+* **Built-in FFmpeg Pipeline**: Directly interfaces with FFmpeg—the "Swiss Army knife" of video processing—to encode frames 
+on the fly without extra scripts.
 
-* **High-Precision Reference:** The 1000-bit reference trajectory is computed exactly once per zoom layer using GNU MPFR.
-* **Hardware-Native Performance:** Blazing-fast math for millions of pixels utilizing hardware-native double registers.
-* **When using double-precision** floating-point numbers (on the order of $10^{-15}$), perturbation theory only allows you 
-to zoom down to the $10^{-308}$ level—no further.
-* **Dynamic Reference Relocalization** (Orbit Re-basing).
-* **Bilinear approximation (BLA Skip-100):** The calculation can be performed significantly faster by skipping 100 iterations 
-at once on smooth areas.
-* **True 8x8 SSAA (Direct RGB Integration):** Pristine, anti-aliased image quality with 64 independent samples per pixel 
-blended directly in RGB color space to eliminate chromatic noise.
-* **Pure C++11 Multi-threading:** High-speed parallel computing built directly into the language standard, scaling 
-transparently across CPU architectures.
-* **Yes, this is FFmpeg**: the 'Swiss Army knife' of video processing.
 
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео - 1 минута), разрешение 1080 x 1080 пикселей.
+
+```C++
+const char * CENTER_RE = "-0.12702288604303376058504940552835636145639339878096842408417373730140553";
+const char * CENTER_IM = "0.98728474138900681012772182210671973643707041031463043446236865072311861";
+const int TOTAL_FRAMES = 1800; 
+const char* START_VIEW_STR = "4.95e-61";
+const char* END_VIEW_STR   = "4.95e-69";
+```
 
 ## Arbitrary Precision Arithmetic (Infinite Depth)
 
@@ -102,27 +171,27 @@ High-speed parallel computing built directly into the language standard. Scales 
 flawless 100% CPU utilization whether running on a 4-core laptop or a 128-core high-performance server without external dependencies.
 
 
-## True 8x8 SSAA: 64-Sample Direct RGB Integration Space
+## True 3x3 SSAA: 9-Sample Direct RGB Integration Space
 
-To take visual quality to a completely unprecedented level, the engine implements **True 8x8 Super-Sampling Anti-Aliasing (SSAA)**, 
-processing **64 independent sub-pixel fractal coordinates** per single final screen pixel to completely eliminate aliasing along 
+To take visual quality to a completely level, the engine implements **True 3x3 Super-Sampling Anti-Aliasing (SSAA)**, 
+processing **9 independent sub-pixel fractal coordinates** per single final screen pixel to completely eliminate aliasing along 
 the Mandelbrot set's complex boundaries.
 
 ### Mathematical Fallacy of the Standard Approach
 Traditional rendering methods incorrectly average raw iteration counts or palette indices before applying color:
-* **Standard Way:** `Color( (iter_1 + iter_2 + ... + iter_64) / 64 )`
+* **Standard Way:** `Color( (iter_1 + iter_2 + ... + iter_9) / 9 )`
 
 Because fractal color palettes are strictly non-linear, calculating the arithmetic mean of iteration indices yields an 
 unrelated color, resulting in jarring chromatic contours, pixelated artifacts, and high-contrast digital noise.
 
-### Engineering Solution: 64-Point Optical RGB Integration
+### Engineering Solution: 9-Point Optical RGB Integration
 Instead of averaging raw algorithm steps, our engine computes the exact 24-bit/32-bit color for every single one 
-of the 64 sub-pixels independently before any blending occurs. It then performs high-precision, per-channel accumulation 
+of the 9 sub-pixels independently before any blending occurs. It then performs high-precision, per-channel accumulation 
 of their color intensities:
-* **Direct RGB Integration Algorithm:** `(Color(iter_1) + Color(iter_2) + ... + Color(iter_64)) / 64`
+* **Direct RGB Integration Algorithm:** `(Color(iter_1) + Color(iter_2) + ... + Color(iter_9)) / 9`
 
 ### Key Technical Advantages:
-* **64-Point Fractal Sampling:** Every final screen pixel is reconstructed from sixty-four independent fractal coordinate 
+* **9-Point Fractal Sampling:** Every final screen pixel is reconstructed from sixty-four independent fractal coordinate 
 points, capturing sub-pixel microstructures smaller than a physical monitor pixel.
 * **Complete Noise Elimination:** By accumulating independent Red, Green, and Blue intensities prior to downsampling rather 
 than raw iteration values, we completely eradicate "chromatic noise."
@@ -130,64 +199,6 @@ than raw iteration values, we completely eradicate "chromatic noise."
 an ultra-smooth, continuous gradient and pristine image quality that standard 8-bit or index-based renderers simply cannot match.
 
 
-## Generating 255 Frames: Optimization Strategy
-
-This is an efficient pre-render strategy: we calculate the heavy mathematics (iteration counts) once, store the raw data, and then rapidly generate frames by shifting colors and downsampling.
-Since calculating a 17280x17280 fractal 255 times is computationally expensive, we split the task into two stages.
-
-### Stage 1: Iteration Map Generation (Raw Data)
-Instead of BMP files, we create a single data buffer where we store only the iteration number (t) for each pixel.
-* For 17280x17280 using `uint8_t`, the resulting file/buffer is approximately 298 MB.
-
-### Stage 2: 255-Frame Rendering (Color + Anti-aliasing)
-We read the iteration map and perform the following for each frame:
-* **Downsample:** Process an 8x8 pixel block from the high-res map.
-* **Color Mapping:** Map each pixel value to a shifted color palette.
-* **Smoothing:** Average the colors (Supersampling Anti-Aliasing) to produce a final 2160x2160 frame.
-
-### Why is this so fast?
-* **Memory Efficiency:** The `iterMap` array (~298 MB) easily fits into modern RAM. The heavy perturbation calculation loop runs only once for the entire animation.
-* **Palette Rotation:** Stage 2 completely avoids arbitrary-precision arithmetic and squaring. It only involves basic integer addition and lightning-fast memory lookups.
-* **Parallelism:** Stage 2 is perfectly scalable. Thanks to our pure C++11 multi-threading engine, all frames are rendered simultaneously across all available CPU cores.
-* **True Downsampling:** We implement honest 8x8 optical averaging, resulting in superior image quality compared to simple software resizing.
-
-Once all 255 BMP files are generated, use FFmpeg to encode them into the final video.
-
-
-## Visual Aesthetics
-
-The Red, Green, and Blue channels are calculated using sine and cosine waves:
-```C++
-        pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0)); // Blue
-        pal[a][1] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Green
-        pal[a][2] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Red
-```
-
-
-## Project Purpose
-
-This is a high-end CLI workstation designed for the automated production of professional fractal video art. 
-It manages the entire pipeline: from heavy-duty mathematical computations to the final assembly of the video 
-file.
-
-### Key Features:
-
-*    **End-to-End Video Production**: The engine renders 255 high-precision frames, applies a smooth palette rotation, and automatically 
-invokes FFmpeg to compile the final .mp4 video.
-*    **Hardware-Aware Encoding**: The program detects your hardware to choose the best encoding strategy:
-     - NVIDIA GPU detected: Uses h264_nvenc for ultra-fast hardware-accelerated encoding.
-     - CPU only: Uses libx264 with professional-grade presets for maximum quality.
-*    **Cinematic Quality**: Every video is rendered using SSAA 8x8 (64 Samples Per Pixel). This ensures that fine 
-fractal details are perfectly reconstructed without the "sparkling" or aliasing artifacts common in digital video.
-*    **Smart Cleanup**: Once the video is successfully compiled, the utility automatically deletes the temporary BMP 
-frames (which can take up several gigabytes), leaving you only with the final Mandelbrot.mp4.
-
-## Why use this?
-
-*    **Content Generation**: Perfect for creating high-quality seamless loops for meditation videos, VJ sets, or motion backgrounds.
-*    **Hardware Benchmark**: A unique hybrid workload that stresses the CPU with parallel math and the GPU with video encoding.
-*    **Full Automation**: No need to remember complex FFmpeg flags — just run the app, choose a location, and get a professional video file.
-	
 ## Yes, this is FFmpeg-the 'Swiss Army knife' of video processing. 
 
 In 2026, it remains the industry standard, 
@@ -213,120 +224,71 @@ This software uses libraries from the **FFmpeg** project under the **LGPLv2.1** 
 *   The FFmpeg binaries included in the releases are provided as-is, and no modifications have been made to the FFmpeg source code.
 
 
-## Controls & Automation (CLI)
-
-The program operates on a "one-click" principle: you select the location, and the rest (calculation, encoding, cleanup) happens automatically.
-
-| Action | Input | Description |
-| :--- | :--- | :--- |
-| **Presets** | `1` - `9` + `ENTER` | Choose one of the 9 built-in deep-zoom cinematic locations. |
-| **Custom Point** | `0` + `ENTER` | Load custom coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
-| **Rendering** | **Step 1 (Auto)** | High-precision calculation of 255 frames using **Multi-threading** and **SSAA 8x8**. |
-| **Encoding** | **FFmpeg** | **Portable Mode**: The app automatically detects `ffmpeg` in the local folder. Automatic frame-to-MP4 compilation (30 FPS). |
-| **Cleanup** | **Auto** | Automatic deletion of temporary BMP files after the video is finished. |
-
-
-## Mandelbrot.txt File Structure
-
-To load custom coordinates (option 8 in the menu), create a Mandelbrot.txt file in the application folder. 
-The file must contain three numbers separated by a newline:
-*    Abscissa (Center X coordinate)
-*    Ordinate (Center Y coordinate)
-*    Size (Zoom level/Area size)
-
-Example file:
-```C++
--1.758008286774384722
--0.012039512139649579
-7.3e-15
-```
-
-## The Mandelbrot Set: A Mathematical Absolute
-
-It is truly one of the few objects that connects us to something absolutely objective and infinite, 
-transcending biology and history. Even if our entire universe and all its atoms were to vanish tomorrow, 
-the equation would remain true. It is not "written" on the stars; it is embedded in the structure of logic itself. 
-This makes the Mandelbrot Set a kind of absolute.
-
-The Mandelbrot set exists independently of our minds and technology. It is an infinite mathematical structure that 
-has always existed.
-
-
-## Look at the results! The smoothness is incredible 
-
-```C++
-case 1: absc_str = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706"; 
-ordi_str = "-0.0000004253077715244042272585501215924940115095651514128365051648578746521975467051762910002043554114332125868777767"; 
-size_str = "1.34e-113"; break;
-```
-https://github.com/user-attachments/assets/bf4c67c9-48e7-4b1e-b855-a6b27e449481
-
-```C++
-case 2: absc_str = "-1.74907816150520173167912454515663360420734509948112463480292338384"; 
-ordi_str = "-0.00000550991906629096602513098567268615714673236269915508056068145"; 
-size_str = "1.53e-62"; break;
-```
-https://github.com/user-attachments/assets/019a873e-55bb-4616-a92a-cf9825672798
-
-```C++
-case 3: absc_str = "-1.7489436617686633372073552153211507258063533373824414679761"; 
-ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; 
-size_str = "1.01e-55"; break;
-```
-https://github.com/user-attachments/assets/1111a250-20d9-46f7-8d87-e4ea843c48d5
-
-```C++
-case 4: absc_str = "-1.7491311840575335110236048528001036247123430447933925298694915282522178938437759580179"; 
-ordi_str = "-0.001996960702541036804654299663680287246637758588467627907752429037173153157138373325"; 
-size_str = "2.84e-82"; break;
-```
-https://github.com/user-attachments/assets/ec5accfe-b53e-48d6-a971-10af14999527
-
-```C++
-case 5: absc_str = "-1.74994586497557459407526067070055710001"; 
-ordi_str = "-0.0000000852088539604644334731909824511"; 
-size_str = "7.17e-36"; break;
-```
-https://github.com/user-attachments/assets/545b722a-a2a5-4ec2-ba5c-8a5c9d052a32
-
-```C++
-case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
-ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
-size_str = "2.4e-57"; break;
-```
-https://github.com/user-attachments/assets/37a76cb8-992b-4d08-84dd-c8b5138eec1a
-
-```C++
-case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
-ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
-size_str = "1.15e-119"; break;
-```
-https://github.com/user-attachments/assets/74aa5a47-8197-4c16-a7c5-4bffc1204ea0
-
-```C++
-case 8: absc_str = "-0.843233764530751513324611730003844788663891317894291476942";
-ordi_str = "0.223818041558069959139898295480311440395574821870538878074";
-size_str = "2.66e-52"; break;
-```
-https://github.com/user-attachments/assets/14efdbea-797f-420d-9694-72625f2b0e0a
-
-```C++
-case 9: absc_str = "-0.12702288604303376058504940552835636145639339878096842408417373730142";
-ordi_str = "-0.98728474138900681012772182210671973643707041031463043446236865072278";
-size_str = "6.18e-64"; break;
-```
-https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
-
 
 
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
 
 
+
+
 # 🇷🇺 Русская версия
 <a name="russian"></a>
 
-# Консольный рендерер Мандельброта с методом возмущений и билинейную аппроксимацию.
+# Мандельброт ВИДЕО
+
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео - 2 минуты), разрешение 1080 x 1080 пикселей.
+
+```C++
+const char * CENTER_RE = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706071032";
+const char * CENTER_IM = "0.00000042530777152440422725855012159249401150956515141283650516485787465219754670517629100020435541143321258687777670349987";
+const int TOTAL_FRAMES = 3600; 
+const char* START_VIEW_STR = "1.02e-99";
+const char* END_VIEW_STR   = "1.02e-119";
+```
+
+
+
+## О проекте
+
+**Мандельброт ВИДЕО** — это высокотехнологичная CLI-станция промышленного уровня, созданная для автоматизированной 
+генерации кинематографического видео-арта. Данный движок рассчитывает полноценное, захватывающее **глубокое погружение во фрактал** 
+с идеальной логарифмической плавностью шага. Программа полностью берёт на себя весь цикл производства — 
+от сложнейших многопоточных вычислений длинной арифметики до подготовки кадров и последующего кодирования.
+
+## Что делает эта программа:
+
+* **Масштабное фрактальное путешествие**: Движок рассчитывает масштабные последовательности (до 3600 кадров), 
+вычисляя сверхглубокий экспоненциальный зум с точностью 1000 бит, обеспечивая потрясающий эффект бесконечного погружения.
+* **Динамическое переливание цвета**: На каждый шаг приближения накладывается плавное циклическое смещение палитры (`frame % 255`), 
+что создаёт гипнотический эффект «живого», пульсирующего фрактала.
+* **Интеллектуальный рендеринг**: Утилита автоматически сканирует систему на наличие ядер NVIDIA.
+  * *Если найден GPU*: для мгновенного сжатия видео «на лету» активируется аппаратное ускорение `h264_nvenc`.
+  * *Если GPU нет*: запускается профессиональный процессорный кодировщик `libx264` с глубокой многопоточной оптимизацией.
+* **Кинематографическое качество (SSAA 3x3)**: Каждая сцена рендерится с честным сглаживанием SSAA 3x3. Это значит, 
+что для каждого кадра выполняется в 9 раз больше вычислений, чтобы полностью исключить цифровое мерцание и шум на стыках микронитей фрактала.
+* **Сохранение архива кадров**: Движок сохраняет всю последовательность файлов в исходном качестве BMP, позволяя вам 
+вручную управлять архивом изображений и повторно пережимать видео без повторных вычислений.
+
+## Для чего это нужно:
+
+* **Создание профессионального контента**: Генерация залипательных бесшовных видео-лупов высокого разрешения для 
+медитаций, VJ-сетов, живых обоев или научно-популярных блогов на YouTube.
+* **Экстремальный стресс-тест и бенчмарк**: Идеальный гибридный workload для проверки стабильности ПК. Программа 
+выжимает 100% мощности из CPU при расчёте BLA-матриц возмущений и параллельно до предела загружает GPU блоками 
+аппаратного кодирования.
+* **Полный контроль над медиа-данными**: Вы получаете не только скомпилированный видеофайл, но и полную библиотеку 
+несжатых кадров высокой четкости, готовую для любых дальнейших экспериментов и постобработки.
+
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео - 1 минута), разрешение 1080 x 1080 пикселей.
+
+```C++
+const char * CENTER_RE = "-0.8432337645307515133246117300038447886638913178942914768815245";
+const char * CENTER_IM = "0.2238180415580699591398982954803114403955748218705388777865576";
+const int TOTAL_FRAMES = 1800; 
+const char* START_VIEW_STR = "1.29e-49";
+const char* END_VIEW_STR   = "1.29e-57";
+```
 
 
 ## Благодарности и признание авторства (Credits & Acknowledgments)
@@ -354,11 +316,22 @@ double процессора.
 * **Динамическая релокализация опорной точки** (Перебазирование орбиты / Orbit Re-basing).
 * **Билинейная аппроксимация (BLA Skip-100):** Расчет выполняется существенно быстрее за счет одновременного «перепрыгивания» 
 через 100 итераций на гладких участках фрактала.
-* **Настоящий суперсэмплинг 8x8 SSAA (Прямая интеграция в RGB):** Безупречное, сглаженное качество изображения с 64 независимыми 
+* **Настоящий суперсэмплинг 3x3 SSAA (Прямая интеграция в RGB):** Безупречное, сглаженное качество изображения с 9 независимыми 
 выборками на один пиксель. Смешивание происходит напрямую в цветовом пространстве RGB, что полностью устраняет хроматический шум.
 * **Многопоточность на чистом C++11:** Высокоскоростные параллельные вычисления, встроенные напрямую в стандарт языка и прозрачно 
 масштабируемые на любые архитектуры процессоров.
 * **Да, это FFmpeg**: "швейцарский армейский нож" для обработки видео.
+
+
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео - 1 минута), разрешение 1080 x 1080 пикселей.
+
+```C++
+const char * CENTER_RE = "-0.12702288604303376058504940552835636145639339878096842408417373730140553";
+const char * CENTER_IM = "0.98728474138900681012772182210671973643707041031463043446236865072311861";
+const int TOTAL_FRAMES = 1800; 
+const char* START_VIEW_STR = "4.95e-61";
+const char* END_VIEW_STR   = "4.95e-69";
+```
 
 
 ## Безграничная точность (Arbitrary Precision Arithmetic)
@@ -375,7 +348,6 @@ double процессора.
 на пороге кремниевого барьера.
 
 
-
 ## Реактивный метод возмущений (Perturbation Theory)
 
 Рендеринг экстремальных приближений больше не требует выполнения ресурсоемких длинных вычислений произвольной точности 
@@ -386,8 +358,6 @@ double процессора.
 * **Аппаратное ускорение вычислений:** Весь остальной массив экрана (миллионы пикселей) просчитывается параллельно на нативной 
 скорости процессорных регистров `double`. Алгоритм вычисляет лишь микроскопические отклонения (дельты) от центральной опорной оси, 
 что обеспечивает колоссальный выигрыш в производительности и ускоряет генерацию кадра до 1000 раз!
-
-
 
 
 ## Динамическая релокализация опорной точки (Перебазирование орбиты)
@@ -406,7 +376,6 @@ double процессора.
 условия внутри самого глубокого цикла итераций. Минимизируя тяжелые ветвления и избегая сложных вложенных условий там, где это 
 возможно, код повышает эффективность предсказателя ветвлений процессора и позволяет конвейеру CPU выполнять базовые математические 
 расчеты с максимальной пропускной способностью.
-
 
 
 ## Билинейная аппроксимация (Bilinear Approximation)
@@ -429,92 +398,27 @@ double процессора.
 высокопроизводительном сервере - абсолютно без внешних зависимостей.
 
 
-## Истинное сглаживание SSAA 8x8: 64-точечная интеграция в RGB-пространство
+## Истинное сглаживание SSAA 3x3: 9-точечная интеграция в RGB-пространство
 
-Для достижения беспрецедентного визуального качества в движке реализован алгоритм суперсэмплинга **True 8x8 SSAA**, 
-где каждый пиксель формируется на основе **64 независимых субпиксельных координат**. Это позволяет 
+Для достижения визуального качества в движке реализован алгоритм суперсэмплинга **True 3x3 SSAA**, 
+где каждый пиксель формируется на основе **9 независимых субпиксельных координат**. Это позволяет 
 устранить алиасинг, возникающий из-за того, что микронити множества Мандельброта меньше физического пикселя.
 
 ### Математическая несостоятельность стандартного подхода
 Классический подход ошибочно усредняет сырые значения итераций до окрашивания:
-* `Color( (iter_1 + iter_2 + ... + iter_64) / 64 )`
+* `Color( (iter_1 + iter_2 + ... + iter_9) / 9 )`
 
 Поскольку палитры нелинейны, это проецирует результат на случайный цвет, вызывая ложные хроматические контуры и артефакты.
 
-### Инженерное решение: 64-точечная оптическая интеграция в RGB
-Движок вычисляет цвет для каждого из 64 субпикселей независимо до смешивания, выполняя поканальное накопление:
-* `(Color(iter_1) + Color(iter_2) + ... + Color(iter_64)) / 64`
+### Инженерное решение: 9-точечная оптическая интеграция в RGB
+Движок вычисляет цвет для каждого из 9 субпикселей независимо до смешивания, выполняя поканальное накопление:
+* `(Color(iter_1) + Color(iter_2) + ... + Color(iter_9)) / 9`
 
 ### Ключевые технические преимущества:
 * **Фрактальное сэмплирование:** Захват микроструктур, меньших размера пикселя.
 * **Устранение шума:** Ликвидация хроматического шума за счет работы с каналами RGB.
 * **Кинематографическая целостность:** Обеспечение плавных градиентов и высокого качества графики.
 
-
-## Генерация 255 кадров: стратегия оптимизации
-
-В движке реализована высокоэффективная стратегия предварительного рендеринга: тяжелые математические расчеты (номера итераций) 
-выполняются строго один раз, сырые данные сохраняются в буфер, после чего кадры анимации генерируются мгновенно за счет 
-циклического сдвига цветов и поканального понижения разрешения (даунсэмплинга).
-Поскольку вычисление фрактала в разрешении 17280x17280 целых 255 раз крайне ресурсоемко для процессора, мы разделили эту задачу 
-на два независимых этапа.
-
-### Этап 1: Генерация карты итераций (сырые данные)
-Вместо создания сотен тяжелых файлов BMP движок создает единый массив данных в оперативной памяти, где для каждого субпикселя сохраняется 
-только конечное число итераций (t).
-* Для сетки 17280x17280 при использовании типа данных `uint8_t` размер этого буфера составляет приблизительно 298 МБ.
-
-### Этап 2: Рендеринг 255 кадров (цвет + сглаживание)
-Программа считывает готовую карту итераций и выполняет следующие операции для каждого кадра последовательности:
-* **Понижение разрешения:** Потоки последовательно обрабатывают блоки субпикселей размером 8x8 из высокоразрешенной карты.
-* **Цветовое отображение:** Каждое считанное значение проецируется на динамически сдвинутую цветовую палитру кадра.
-* **Сглаживание:** Вычисляется среднее оптическое значение цветов (суперсэмплинг SSAA 8x8) для формирования финального 
-кадра в разрешении 2160x2160.
-
-### Почему это работает так быстро?
-* **Эффективность памяти:** Массив `iterMap` (~298 МБ) целиком и без проблем помещается в ОЗУ современных систем. Тяжелейший цикл 
-вычислений метода возмущений запускается ровно ОДИН раз за всю сессию анимации.
-* **Вращение палитры:** Второй этап полностью избавлен от длинной арифметики, возведений в квадрат и комплексных чисел. 
-Он включает в себя лишь базовое сложение целых чисел и молниеносный поиск индексов в памяти.
-* **Масштабируемость:** Благодаря нашему многопоточному движку на чистом C++11, этот этап идеально параллелится — 
-кадры просчитываются всеми доступными ядрами процессора одновременно.
-* **Честный даунсэмплинг:** Мы используем физически корректное оптическое усреднение блока 8x8, что обеспечивает колоссальное 
-превосходство в четкости микронитей фрактала по сравнению со стандартным программным изменением размера изображений.
-
-После того как все 255 файлов BMP сгенерированы, используется утилита FFmpeg для их финальной сборки в видеофайл.
-
-
-
-## Визуальная эстетика
-
-Красный, зеленый и синий каналы рассчитываются с использованием синусоидальных и косинусоидальных волн:
-```C++
-        pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0)); // Blue
-        pal[a][1] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Green
-        pal[a][2] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Red
-```
-
-
-## О проекте
-
-Это консольная станция для автоматизированного создания профессионального видео-арта на основе множества Мандельброта. 
-Программа берет на себя весь цикл производства: от тяжелых математических вычислений до финальной сборки готового видеофайла.
-
-### Что делает эта программа:
-*    **Полный цикл видеопроизводства**: Программа рассчитывает 255 кадров фрактала, применяет эффект плавной ротации палитры и автоматически 
-вызывает FFmpeg для сборки видео в формате .mp4.
-*    **Интеллектуальный рендеринг**: Программа сама определяет наличие видеокарты NVIDIA.
-     - Если есть GPU — используется аппаратное ускорение h264_nvenc для мгновенного сжатия.
-     - Если видеокарта не найдена — используется профессиональный CPU-кодировщик libx264 с глубокой оптимизацией.
-*    **Кинематографическое качество**: Каждое видео создается с использованием SSAA 8x8. Это значит, что для каждого 
-кадра выполняется в 64 раза больше вычислений, чем обычно, чтобы полностью исключить мерцание и шум в видео.
-*    **Автоматическая очистка**: После успешной сборки видео программа сама удаляет промежуточные BMP-файлы (которые могут 
-занимать гигабайты), оставляя вам только готовый результат Mandelbrot.mp4.
-
-## Для чего это нужно:
-*    **Генерация контента**: Создание идеальных зацикленных (loop) фонов для медитации, VJ-сетов или YouTube-каналов.
-*    **Демонстрация мощи железа**: Проект сочетает интенсивные вычисления на CPU и скоростное кодирование на GPU.
-*    **Удобство**: Вам не нужно знать команды командной строки FFmpeg — программа всё сделает за вас. 
 
 ## Да, это FFmpeg - "швейцарский армейский нож" для обработки видео.
 
@@ -540,112 +444,6 @@ double процессора.
 * Исходный код и дополнительную информацию можно найти по адресу [https://ffmpeg.org](https://ffmpeg.org).
 * Бинарные файлы FFmpeg, включенные в релизы, предоставляются как есть, и в исходный код FFmpeg не вносились никакие изменения.
 
-
-## Управление и автоматизация (CLI & Automation)
-
-Программа работает по принципу <одной кнопки>: вы выбираете локацию, а остальное (расчет, кодирование, очистка) происходит автоматически.
-
-| Действие | Ввод | Описание |
-| :--- | :--- | :--- |
-| **Выбор локации** | `1` - `9` + `ENTER` | Выбор одной из 9 встроенных точек мандельброта - глубокого зума. |
-| **Свои координаты** | `0` + `ENTER` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
-| **Рендеринг (Авто)** | **Шаг 1** | Расчет 255 кадров с использованием **Многопоточность** и **SSAA 8x8**. |
-| **Сборка (Авто)** | **FFmpeg** | **Portable Mode**: Программа сама найдет `ffmpeg` в своей папке. Автоматическое кодирование в MP4 (30 FPS). |
-| **Очистка** | **Авто** | Удаление временных кадров после успешного создания видео. |
-
-
-## Структура файла Mandelbrot.txt
-
-Для загрузки пользовательских координат (пункт 8 в меню), создайте текстовый файл Mandelbrot.txt в папке с программой. 
-Файл должен содержать три числа, разделенных переносом строки:
-*    Abscissa (Координата X центра)
-*    Ordinate (Координата Y центра)
-*    Size (Масштаб/Размер области)
-
-Вот так:
-```C++
--1.758008286774384722
--0.012039512139649579
-7.3e-15
-```
-
-
-## Множество Мандельброта: Математический абсолют
-
-Это поистине один из немногих объектов, который связывает нас с чем-то абсолютно объективным и бесконечным,
-превосходящим биологию и историю. Даже если бы вся наша Вселенная и все её атомы исчезли завтра,
-уравнение осталось бы верным. Оно не <написано> на звёздах; оно заложено в самой структуре логики.
-Это делает множество Мандельброта своего рода абсолютом.
-
-Множество Мандельброта существует независимо от нашего разума и технологий. 
-Это бесконечная математическая структура, которая существовала всегда.
-
-
-## Посмотрите на результаты! Невероятная плавность работы
-
-
-```C++
-case 1: absc_str = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706"; 
-ordi_str = "-0.0000004253077715244042272585501215924940115095651514128365051648578746521975467051762910002043554114332125868777767"; 
-size_str = "1.34e-113"; break;
-```
-https://github.com/user-attachments/assets/bf4c67c9-48e7-4b1e-b855-a6b27e449481
-
-```C++
-case 2: absc_str = "-1.74907816150520173167912454515663360420734509948112463480292338384"; 
-ordi_str = "-0.00000550991906629096602513098567268615714673236269915508056068145"; 
-size_str = "1.53e-62"; break;
-```
-https://github.com/user-attachments/assets/019a873e-55bb-4616-a92a-cf9825672798
-
-```C++
-case 3: absc_str = "-1.7489436617686633372073552153211507258063533373824414679761"; 
-ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; 
-size_str = "1.01e-55"; break;
-```
-https://github.com/user-attachments/assets/1111a250-20d9-46f7-8d87-e4ea843c48d5
-
-```C++
-case 4: absc_str = "-1.7491311840575335110236048528001036247123430447933925298694915282522178938437759580179"; 
-ordi_str = "-0.001996960702541036804654299663680287246637758588467627907752429037173153157138373325"; 
-size_str = "2.84e-82"; break;
-```
-https://github.com/user-attachments/assets/ec5accfe-b53e-48d6-a971-10af14999527
-
-```C++
-case 5: absc_str = "-1.74994586497557459407526067070055710001"; 
-ordi_str = "-0.0000000852088539604644334731909824511"; 
-size_str = "7.17e-36"; break;
-```
-https://github.com/user-attachments/assets/545b722a-a2a5-4ec2-ba5c-8a5c9d052a32
-
-```C++
-case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
-ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
-size_str = "2.4e-57"; break;
-```
-https://github.com/user-attachments/assets/37a76cb8-992b-4d08-84dd-c8b5138eec1a
-
-```C++
-case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
-ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
-size_str = "1.15e-119"; break;
-```
-https://github.com/user-attachments/assets/74aa5a47-8197-4c16-a7c5-4bffc1204ea0
-
-```C++
-case 8: absc_str = "-0.843233764530751513324611730003844788663891317894291476942";
-ordi_str = "0.223818041558069959139898295480311440395574821870538878074";
-size_str = "2.66e-52"; break;
-```
-https://github.com/user-attachments/assets/14efdbea-797f-420d-9694-72625f2b0e0a
-
-```C++
-case 9: absc_str = "-0.12702288604303376058504940552835636145639339878096842408417373730142";
-ordi_str = "-0.98728474138900681012772182210671973643707041031463043446236865072278";
-size_str = "6.18e-64"; break;
-```
-https://github.com/user-attachments/assets/d104f654-a498-4ff7-a9db-d48dd0f98c61
 
 
 
