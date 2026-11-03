@@ -22,6 +22,8 @@ const char* START_VIEW_STR = "1.02e-99";
 const char* END_VIEW_STR   = "1.02e-119";
 ```
 
+https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
+
 
 ## About the Project
 
@@ -65,6 +67,8 @@ const int TOTAL_FRAMES = 1800;
 const char* START_VIEW_STR = "1.29e-49";
 const char* END_VIEW_STR   = "1.29e-57";
 ```
+
+https://github.com/user-attachments/assets/ae868bc3-e98c-4dae-a13d-3b0a12c0f5ae
 
 
 ## Credits & Acknowledgments
@@ -247,6 +251,7 @@ const char* START_VIEW_STR = "1.02e-99";
 const char* END_VIEW_STR   = "1.02e-119";
 ```
 
+https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
 
 
 ## О проекте
@@ -289,6 +294,8 @@ const int TOTAL_FRAMES = 1800;
 const char* START_VIEW_STR = "1.29e-49";
 const char* END_VIEW_STR   = "1.29e-57";
 ```
+
+https://github.com/user-attachments/assets/ae868bc3-e98c-4dae-a13d-3b0a12c0f5ae
 
 
 ## Благодарности и признание авторства (Credits & Acknowledgments)
