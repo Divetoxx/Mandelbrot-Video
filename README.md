@@ -50,8 +50,8 @@ the heavy mathematical calculations.
 
 ## Use Cases & Benefits:
 
-* **Professional Content Creation**: Generate highly engaging, seamless, high-resolution video loops perfectly suited for 
-meditation videos, VJ sets, live wallpapers, or educational sci-pop content on YouTube.
+* **Professional Content Creation**: Generates mesmerizing high-resolution videos featuring continuous, ultra-smooth 
+fractal immersion-perfectly suited for meditation videos, VJ sets, live wallpapers, or educational sci-pop content on YouTube.
 * **Extreme Stress Testing & Benchmarking**: A perfect hybrid workload to verify PC stability. The program pushes the 
 CPU to 100% load during the BLA perturbation matrix math, while simultaneously saturating the GPU with hardware video 
 encoding blocks.
@@ -285,8 +285,8 @@ https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
 
 ## Для чего это нужно:
 
-* **Создание профессионального контента**: Генерация залипательных бесшовных видео-лупов высокого разрешения для 
-медитаций, VJ-сетов, живых обоев или научно-популярных блогов на YouTube.
+* **Создание профессионального контента**: Генерация залипательных видеороликов с непрерывным и плавным погружением 
+высокого разрешения для медитаций, VJ-сетов, живых обоев или научно-популярных блогов на YouTube.
 * **Экстремальный стресс-тест и бенчмарк**: Идеальный гибридный workload для проверки стабильности ПК. Программа 
 выжимает 100% мощности из CPU при расчёте BLA-матриц возмущений и параллельно до предела загружает GPU блоками 
 аппаратного кодирования.
