@@ -34,8 +34,9 @@ pipeline—from highly complex, multi-threaded arbitrary-precision math down to 
 
 ## Core Features:
 
-* **Massive Fractal Journey**: The engine handles large-scale rendering sequences (up to 3600 frames), calculating an ultra-deep 
-exponential zoom with 1000-bit precision to deliver a stunning effect of infinite immersion.
+* **Massive Fractal Journey**: The engine handles large-scale rendering sequences (up to 3600 frames), calculating an 
+ultra-deep exponential zoom. The heavy 1000-bit reference trajectory is evaluated strictly **once per frame**, ensuring infinite 
+immersion without performance drops by instantly computing pixel-level deltas using hardware-native `double` registers. 
 * **Dynamic Color Shifts**: A smooth, cyclic palette rotation (`frame % 255`) is applied to every single zoom step, creating 
 a hypnotic, pulsing "live" fractal illusion.
 * **Intelligent Rendering & Encoding Pipeline**: The utility automatically scans the system for NVIDIA CUDA cores.
@@ -271,8 +272,10 @@ https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
 
 ## Что делает эта программа:
 
-* **Масштабное фрактальное путешествие**: Движок рассчитывает масштабные последовательности (до 3600 кадров), 
-вычисляя сверхглубокий экспоненциальный зум с точностью 1000 бит, обеспечивая потрясающий эффект бесконечного погружения.
+* **Масштабное фрактальное путешествие**: Движок рассчитывает масштабные последовательности (до 3600 кадров), вычисляя 
+сверхглубокий экспоненциальный зум. Тяжелая 1000-битная опорная траектория рассчитывается строго **один раз на кадр**, 
+обеспечивая бесконечное погружение без потери производительности за счет мгновенного расчета дельт миллионов пикселей 
+на аппаратных регистрах `double`.
 * **Динамическое переливание цвета**: На каждый шаг приближения накладывается плавное циклическое смещение палитры (`frame % 255`), 
 что создаёт гипнотический эффект «живого», пульсирующего фрактала.
 * **Интеллектуальный рендеринг**: Утилита автоматически сканирует систему на наличие ядер NVIDIA.
