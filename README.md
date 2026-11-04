@@ -117,6 +117,9 @@ const char* START_VIEW_STR = "4.95e-61";
 const char* END_VIEW_STR   = "4.95e-69";
 ```
 
+https://github.com/user-attachments/assets/47771f7c-917c-4b8b-97ea-2817cf601b07
+
+
 ## Arbitrary Precision Arithmetic (Infinite Depth)
 
 The engine is completely free from the hardware limitations of standard data types—such as the native 64-bit (`double`) 
@@ -350,6 +353,8 @@ const int TOTAL_FRAMES = 1800;
 const char* START_VIEW_STR = "4.95e-61";
 const char* END_VIEW_STR   = "4.95e-69";
 ```
+
+https://github.com/user-attachments/assets/47771f7c-917c-4b8b-97ea-2817cf601b07
 
 
 ## Безграничная точность (Arbitrary Precision Arithmetic)
