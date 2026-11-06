@@ -14,14 +14,16 @@ using std::vector;
 using std::min;
 using std::string;
 
-const char * CENTER_RE = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706071032";
-const char * CENTER_IM = "0.00000042530777152440422725855012159249401150956515141283650516485787465219754670517629100020435541143321258687777670349987";
+const char* CENTER_RE = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706071032";
+const char* CENTER_IM = "0.00000042530777152440422725855012159249401150956515141283650516485787465219754670517629100020435541143321258687777670349987";
+const char* START_VIEW_STR = "1.02e-99";
+const char* END_VIEW_STR   = "1.02e-119";
+const int TOTAL_FRAMES = 3600;
 const int WIDTH = 1080;
 const int HEIGHT = 1080;
 const int AA = 3;
 const int MAX_ITER = 500000;
 const double ESCAPE_RADIUS_SQUARED = 500000.0;
-const mpfr_prec_t PRECISION_BITS = 1000;
 const int REF_SIZE = MAX_ITER + 200;
 
 struct Complex {
@@ -49,13 +51,8 @@ struct BMPHeader {
 };
 #pragma pack(pop)
 
-int main() {
+ int main() {
     auto totalStartTime = std::chrono::high_resolution_clock::now();
-    
-    const int TOTAL_FRAMES = 3600; 
-    const char* START_VIEW_STR = "1.02e-99";
-    const char* END_VIEW_STR   = "1.02e-119";
-
     unsigned int numThreads = std::thread::hardware_concurrency();
     if (numThreads == 0) numThreads = 4;
 
@@ -72,69 +69,76 @@ int main() {
     const long rawHeight = static_cast<long>(HEIGHT) * AA;
     const int rowBytes = (WIDTH * 3 + 3) & ~3;
 
+    double final_size = std::stod(END_VIEW_STR);
+    mpfr_prec_t dynamic_precision = static_cast<mpfr_prec_t>(53.0 - std::floor(std::log2(final_size))) + 20;
+    if (dynamic_precision < 53) dynamic_precision = 53;
+
+    std::fprintf(stderr, "Optimized precision calculated: %ld bits (Saved %ld bits vs 1000b)\n", 
+                 dynamic_precision, 1000 - dynamic_precision);
+
+    std::fprintf(stderr, "Calculating high-precision reference orbit using MPFR (ONCE)... ");
+    auto refStartTime = std::chrono::high_resolution_clock::now();
+
+    vector<Complex> referenceOrbit;
+    referenceOrbit.reserve(REF_SIZE);
+
+    mpfr_t centerRe, centerIm, zReMp, zImMp, tmp1, tmp2;
+    mpfr_inits2(dynamic_precision, centerRe, centerIm, zReMp, zImMp, tmp1, tmp2, static_cast<mpfr_ptr>(nullptr));
+
+    mpfr_set_str(centerRe, CENTER_RE, 10, MPFR_RNDN);
+    mpfr_set_str(centerIm, CENTER_IM, 10, MPFR_RNDN);
+    mpfr_set_ui(zReMp, 0, MPFR_RNDN);
+    mpfr_set_ui(zImMp, 0, MPFR_RNDN);
+
+    for (int iter = 0; iter < REF_SIZE - 1; ++iter) {
+        Complex z{mpfr_get_d(zReMp, MPFR_RNDN), mpfr_get_d(zImMp, MPFR_RNDN)};
+        referenceOrbit.push_back(z);
+        if (z.re * z.re + z.im * z.im > ESCAPE_RADIUS_SQUARED) {
+            break;
+        }
+        mpfr_mul(tmp1, zReMp, zImMp, MPFR_RNDN);
+        mpfr_sqr(tmp2, zReMp, MPFR_RNDN);
+        mpfr_sqr(zReMp, zImMp, MPFR_RNDN);
+        mpfr_sub(zReMp, tmp2, zReMp, MPFR_RNDN);
+        mpfr_add(zReMp, zReMp, centerRe, MPFR_RNDN);
+        mpfr_mul_2ui(tmp1, tmp1, 1, MPFR_RNDN);
+        mpfr_add(zImMp, tmp1, centerIm, MPFR_RNDN);
+    }
+
+    const int referenceLength = static_cast<int>(referenceOrbit.size());
+    mpfr_clears(centerRe, centerIm, zReMp, zImMp, tmp1, tmp2, static_cast<mpfr_ptr>(nullptr));
+    
+    auto refEndTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> refElapsed = refEndTime - refStartTime;
+    std::fprintf(stderr, "Done! Length: %d steps (Time: %.2f sec)\n\n", referenceLength, refElapsed.count());
+
+    mpfr_t startViewMp, endViewMp, logStart, logEnd, logCurrent, viewSizeMp;
+    mpfr_inits2(dynamic_precision, startViewMp, endViewMp, logStart, logEnd, logCurrent, viewSizeMp, static_cast<mpfr_ptr>(nullptr));
+    mpfr_set_str(startViewMp, START_VIEW_STR, 10, MPFR_RNDN);
+    mpfr_set_str(endViewMp, END_VIEW_STR, 10, MPFR_RNDN);
+    mpfr_log(logStart, startViewMp, MPFR_RNDN);
+    mpfr_log(logEnd, endViewMp, MPFR_RNDN);
+
     for (int frame = 0; frame < TOTAL_FRAMES; ++frame) {
         auto frameStartTime = std::chrono::high_resolution_clock::now();
-        
         char current_output_file[64];
         std::sprintf(current_output_file, "%04d.bmp", frame);
-        
         const int current_palette_frame = frame % 255;
-        
         double progress = static_cast<double>(frame) / (TOTAL_FRAMES - 1);
-        
-        mpfr_t centerRe, centerIm, zReMp, zImMp, tmp1, tmp2;
-        mpfr_t startViewMp, endViewMp, logStart, logEnd, logCurrent, viewSizeMp;
-        
-        mpfr_inits2(PRECISION_BITS, centerRe, centerIm, zReMp, zImMp, tmp1, tmp2, 
-                    startViewMp, endViewMp, logStart, logEnd, logCurrent, viewSizeMp, 
-                    static_cast<mpfr_ptr>(nullptr));
-        
-        mpfr_set_str(centerRe, CENTER_RE, 10, MPFR_RNDN);
-        mpfr_set_str(centerIm, CENTER_IM, 10, MPFR_RNDN);
-        
-        mpfr_set_str(startViewMp, START_VIEW_STR, 10, MPFR_RNDN);
-        mpfr_set_str(endViewMp, END_VIEW_STR, 10, MPFR_RNDN);
-        
-        mpfr_log(logStart, startViewMp, MPFR_RNDN);
-        mpfr_log(logEnd, endViewMp, MPFR_RNDN);
-        
-        mpfr_sub(tmp1, logEnd, logStart, MPFR_RNDN);
-        mpfr_mul_d(tmp1, tmp1, progress, MPFR_RNDN);
-        mpfr_add(logCurrent, logStart, tmp1, MPFR_RNDN);
-        
+
+        mpfr_t localTmp;
+        mpfr_init2(localTmp, dynamic_precision);
+        mpfr_sub(localTmp, logEnd, logStart, MPFR_RNDN);
+        mpfr_mul_d(localTmp, localTmp, progress, MPFR_RNDN);
+        mpfr_add(logCurrent, logStart, localTmp, MPFR_RNDN);
         mpfr_exp(viewSizeMp, logCurrent, MPFR_RNDN);
         
-        std::fprintf(stderr, "\n--- Frame %d/%d (%s) | Uniform Zoom | COLORS (PALETTE_FRAME): %d ---\n", 
+        const double sampleStep = mpfr_get_d(viewSizeMp, MPFR_RNDN) / rawWidth;
+        mpfr_clear(localTmp);
+
+        std::fprintf(stderr, "--- Frame %d/%d (%s) | Uniform Zoom | COLORS: %d ---\n", 
                      frame + 1, TOTAL_FRAMES, current_output_file, current_palette_frame);
 
-        const double sampleStep = mpfr_get_d(viewSizeMp, MPFR_RNDN) / rawWidth;
-        vector<Complex> referenceOrbit;
-        referenceOrbit.reserve(REF_SIZE);
-        
-        mpfr_set_ui(zReMp, 0, MPFR_RNDN);
-        mpfr_set_ui(zImMp, 0, MPFR_RNDN);
-        
-        for (int iter = 0; iter < REF_SIZE - 1; ++iter) {
-            Complex z{mpfr_get_d(zReMp, MPFR_RNDN), mpfr_get_d(zImMp, MPFR_RNDN)};
-            referenceOrbit.push_back(z);
-            if (z.re * z.re + z.im * z.im > ESCAPE_RADIUS_SQUARED) {
-                break;
-            }
-            mpfr_mul(tmp1, zReMp, zImMp, MPFR_RNDN);
-            mpfr_sqr(tmp2, zReMp, MPFR_RNDN);
-            mpfr_sqr(zReMp, zImMp, MPFR_RNDN);
-            mpfr_sub(zReMp, tmp2, zReMp, MPFR_RNDN);
-            mpfr_add(zReMp, zReMp, centerRe, MPFR_RNDN);
-            mpfr_mul_2ui(tmp1, tmp1, 1, MPFR_RNDN);
-            mpfr_add(zImMp, tmp1, centerIm, MPFR_RNDN);
-        }
-        
-        const int referenceLength = static_cast<int>(referenceOrbit.size());
-        
-        mpfr_clears(centerRe, centerIm, zReMp, zImMp, tmp1, tmp2, 
-                    startViewMp, endViewMp, logStart, logEnd, logCurrent, viewSizeMp, 
-                    static_cast<mpfr_ptr>(nullptr));
-                    
         vector<Complex> coeff_A(REF_SIZE, {1.0, 0.0});
         vector<Complex> coeff_B(REF_SIZE, {0.0, 0.0});
         vector<double> rad_R(REF_SIZE, 2.0);
@@ -242,7 +246,7 @@ int main() {
                                     }
                                     const int remaining = MAX_ITER - iter;
                                     const uint8_t colorIndex = (remaining == 0) ? 255 : static_cast<uint8_t>(remaining % 254);
-                                    
+
                                     const int paletteIndex = (colorIndex == 255) ? 255 : (colorIndex - current_palette_frame + 255) % 255;
                                     
                                     blueSum += palette[paletteIndex][0];
@@ -255,7 +259,7 @@ int main() {
                             row[x * 3 + 1] = static_cast<uint8_t>(greenSum / samples);
                             row[x * 3 + 2] = static_cast<uint8_t>(redSum / samples);
                         }
-                        
+
                         const int done = ++completedRows;
                         if (done % 100 == 0 || done == HEIGHT) {
                             std::lock_guard<std::mutex> lock(diskMutex);
@@ -304,10 +308,10 @@ int main() {
         std::fprintf(stderr, "NVIDIA GPU not found. Using libx264 (CPU)...\n");
         videoCmd += "-c:v libx264 -refs 6 -me_method umh -psy 0 -qp 20 -subq 7 -me_range 24 -deblock -6:-6 -bf 6 ";
     }
-    videoCmd += "-pix_fmt yuv420p Mandelbrot.mp4";    
+    videoCmd += "-pix_fmt yuv420p Mandelbrot-1.mp4";    
     int ret = system(videoCmd.c_str());
     if (ret == 0) {
-        std::fprintf(stderr, "Done. Result saved as Mandelbrot.mp4\n");
+        std::fprintf(stderr, "Done. Result saved as Mandelbrot-1.mp4\n");
     } else {
         std::fprintf(stderr, "FFmpeg failed or not found.\n");
     }
