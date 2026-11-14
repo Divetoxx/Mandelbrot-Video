@@ -12,7 +12,6 @@
 
 # Mandelbrot VIDEO
 
-## Preview fragment of the Mandelbrot set video, length 10 seconds (full video is 2 minutes), 1,080 x 1,080 pixels.
 
 ```C++
 const char * CENTER_RE = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706071032";
@@ -22,7 +21,11 @@ const char* START_VIEW_STR = "1.02e-99";
 const char* END_VIEW_STR   = "1.02e-119";
 ```
 
+## Preview fragment of the Mandelbrot set video, length 10 seconds ([full 2-minute video on Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Video_1.webm)), 1,080 × 1,080 pixels.
+
 https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
+
+> 📺 **Watch or download the full 2-minute 1080p video (3,600 frames, 646 MB):** [File:Mandelbrot Set Video 1.webm on Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Video_1.webm)
 
 
 ## About the Project
@@ -59,7 +62,6 @@ encoding blocks.
 * **Complete Media Data Control**: You receive not just a compiled video file, but an entire high-definition library 
 of uncompressed source frames, fully ready for further creative experiments, upscaling, or custom post-processing.
 
-## Preview fragment of the Mandelbrot set video, length 10 seconds (full video is 1 minutes), 1,080 x 1,080 pixels.
 
 ```C++
 const char * CENTER_RE = "-0.8432337645307515133246117300038447886638913178942914768815245";
@@ -69,7 +71,12 @@ const char* START_VIEW_STR = "1.29e-49";
 const char* END_VIEW_STR   = "1.29e-57";
 ```
 
+## Preview fragment of the Mandelbrot set video, length 10 seconds ([full 1-minute video on Wikimedia Commons](https://wikimedia.org)), 1,080 × 1,080 pixels.
+
 https://github.com/user-attachments/assets/ae868bc3-e98c-4dae-a13d-3b0a12c0f5ae
+
+> 📺 **Watch or download the full 1-minute 1080p video (1,800 frames):** [File:Mandelbrot Set Video 2.webm on Wikimedia Commons](https://wikimedia.org)
+
 
 
 ## Credits & Acknowledgments
@@ -107,7 +114,6 @@ scaling seamlessly across all modern CPU core architectures.
 on the fly without extra scripts.
 
 
-## Preview fragment of the Mandelbrot set video, length 10 seconds (full video is 1 minutes), 1,080 x 1,080 pixels.
 
 ```C++
 const char * CENTER_RE = "-0.12702288604303376058504940552835636145639339878096842408417373730140553";
@@ -117,7 +123,12 @@ const char* START_VIEW_STR = "4.95e-61";
 const char* END_VIEW_STR   = "4.95e-69";
 ```
 
+## Preview fragment of the Mandelbrot set video, length 10 seconds ([full 1-minute video on Wikimedia Commons](https://wikimedia.org)), 1,080 × 1,080 pixels.
+
 https://github.com/user-attachments/assets/47771f7c-917c-4b8b-97ea-2817cf601b07
+
+> 📺 **Watch or download the full 1-minute 1080p video (1,800 frames):** [File:Mandelbrot Set Video 3.webm on Wikimedia Commons](https://wikimedia.org)
+
 
 
 ## Arbitrary Precision Arithmetic (Infinite Depth)
@@ -253,8 +264,6 @@ has always existed.
 
 # Мандельброт ВИДЕО
 
-## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео - 2 минуты), разрешение 1080 x 1080 пикселей.
-
 ```C++
 const char * CENTER_RE = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706071032";
 const char * CENTER_IM = "0.00000042530777152440422725855012159249401150956515141283650516485787465219754670517629100020435541143321258687777670349987";
@@ -263,7 +272,12 @@ const char* START_VIEW_STR = "1.02e-99";
 const char* END_VIEW_STR   = "1.02e-119";
 ```
 
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд ([полное видео на 2 минуты на Викискладе](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Video_1.webm)), разрешение 1080 × 1080 пикселей.
+
 https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
+
+> 📺 **Смотреть или скачать полное 2-минутное видео в 1080p (3600 кадров, 646 МБ):** [File:Mandelbrot Set Video 1.webm на Викискладе](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Video_1.webm)
+
 
 
 ## О проекте
@@ -299,7 +313,6 @@ https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
 * **Полный контроль над медиа-данными**: Вы получаете не только скомпилированный видеофайл, но и полную библиотеку 
 несжатых кадров высокой четкости, готовую для любых дальнейших экспериментов и постобработки.
 
-## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео - 1 минута), разрешение 1080 x 1080 пикселей.
 
 ```C++
 const char * CENTER_RE = "-0.8432337645307515133246117300038447886638913178942914768815245";
@@ -309,7 +322,12 @@ const char* START_VIEW_STR = "1.29e-49";
 const char* END_VIEW_STR   = "1.29e-57";
 ```
 
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд ([полное видео на 1 минуту на Викискладе](https://wikimedia.org)), разрешение 1080 × 1080 пикселей.
+
 https://github.com/user-attachments/assets/ae868bc3-e98c-4dae-a13d-3b0a12c0f5ae
+
+> 📺 **Смотреть или скачать полное 1-минутное видео в 1080p (1800 кадров):** [File:Mandelbrot Set Video 2.webm на Викискладе](https://wikimedia.org)
+
 
 
 ## Благодарности и признание авторства (Credits & Acknowledgments)
@@ -344,7 +362,6 @@ double процессора.
 * **Да, это FFmpeg**: "швейцарский армейский нож" для обработки видео.
 
 
-## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео - 1 минута), разрешение 1080 x 1080 пикселей.
 
 ```C++
 const char * CENTER_RE = "-0.12702288604303376058504940552835636145639339878096842408417373730140553";
@@ -354,7 +371,12 @@ const char* START_VIEW_STR = "4.95e-61";
 const char* END_VIEW_STR   = "4.95e-69";
 ```
 
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд ([полное видео на 1 минуту на Викискладе](https://wikimedia.org)), разрешение 1080 × 1080 пикселей.
+
 https://github.com/user-attachments/assets/47771f7c-917c-4b8b-97ea-2817cf601b07
+
+> 📺 **Смотреть или скачать полное 1-минутное видео в 1080p (1800 кадров):** [File:Mandelbrot Set Video 3.webm на Викискладе](https://wikimedia.org)
+
 
 
 ## Безграничная точность (Arbitrary Precision Arithmetic)

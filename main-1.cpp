@@ -245,7 +245,7 @@ struct BMPHeader {
                                         }
                                     }
                                     const int remaining = MAX_ITER - iter;
-                                    const uint8_t colorIndex = (remaining == 0) ? 255 : static_cast<uint8_t>(remaining % 254);
+                                    const uint8_t colorIndex = (remaining == 0) ? 255 : static_cast<uint8_t>(remaining % 255);
 
                                     const int paletteIndex = (colorIndex == 255) ? 255 : (colorIndex - current_palette_frame + 255) % 255;
                                     
