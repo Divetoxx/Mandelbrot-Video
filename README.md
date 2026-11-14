@@ -21,7 +21,7 @@ const char* START_VIEW_STR = "1.02e-99";
 const char* END_VIEW_STR   = "1.02e-119";
 ```
 
-## Preview fragment of the Mandelbrot set video, length 10 seconds (full 2-minute video), 1,080 × 1,080 pixels.
+## Preview fragment of the Mandelbrot set video, length 10 seconds, 1,080 × 1,080 pixels.
 
 https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
 
@@ -71,7 +71,7 @@ const char* START_VIEW_STR = "1.29e-49";
 const char* END_VIEW_STR   = "1.29e-57";
 ```
 
-## Preview fragment of the Mandelbrot set video, length 10 seconds (full 1-minute video), 1,080 × 1,080 pixels.
+## Preview fragment of the Mandelbrot set video, length 10 seconds, 1,080 × 1,080 pixels.
 
 https://github.com/user-attachments/assets/ae868bc3-e98c-4dae-a13d-3b0a12c0f5ae
 
@@ -123,7 +123,7 @@ const char* START_VIEW_STR = "4.95e-61";
 const char* END_VIEW_STR   = "4.95e-69";
 ```
 
-## Preview fragment of the Mandelbrot set video, length 10 seconds (full 1-minute video), 1,080 × 1,080 pixels.
+## Preview fragment of the Mandelbrot set video, length 10 seconds, 1,080 × 1,080 pixels.
 
 https://github.com/user-attachments/assets/47771f7c-917c-4b8b-97ea-2817cf601b07
 
@@ -272,7 +272,7 @@ const char* START_VIEW_STR = "1.02e-99";
 const char* END_VIEW_STR   = "1.02e-119";
 ```
 
-## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео на 2 минуты), разрешение 1080 × 1080 пикселей.
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд, разрешение 1080 × 1080 пикселей.
 
 https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
 
@@ -322,7 +322,7 @@ const char* START_VIEW_STR = "1.29e-49";
 const char* END_VIEW_STR   = "1.29e-57";
 ```
 
-## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео на 1 минуту), разрешение 1080 × 1080 пикселей.
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд, разрешение 1080 × 1080 пикселей.
 
 https://github.com/user-attachments/assets/ae868bc3-e98c-4dae-a13d-3b0a12c0f5ae
 
@@ -371,7 +371,7 @@ const char* START_VIEW_STR = "4.95e-61";
 const char* END_VIEW_STR   = "4.95e-69";
 ```
 
-## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео на 1 минуту), разрешение 1080 × 1080 пикселей.
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд, разрешение 1080 × 1080 пикселей.
 
 https://github.com/user-attachments/assets/47771f7c-917c-4b8b-97ea-2817cf601b07
 
