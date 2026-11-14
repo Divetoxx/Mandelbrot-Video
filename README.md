@@ -21,7 +21,7 @@ const char* START_VIEW_STR = "1.02e-99";
 const char* END_VIEW_STR   = "1.02e-119";
 ```
 
-## Preview fragment of the Mandelbrot set video, length 10 seconds ([full 2-minute video on Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Video_1.webm)), 1,080 × 1,080 pixels.
+## Preview fragment of the Mandelbrot set video, length 10 seconds (full 2-minute video), 1,080 × 1,080 pixels.
 
 https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
 
@@ -71,11 +71,11 @@ const char* START_VIEW_STR = "1.29e-49";
 const char* END_VIEW_STR   = "1.29e-57";
 ```
 
-## Preview fragment of the Mandelbrot set video, length 10 seconds ([full 1-minute video on Wikimedia Commons](https://wikimedia.org)), 1,080 × 1,080 pixels.
+## Preview fragment of the Mandelbrot set video, length 10 seconds (full 1-minute video), 1,080 × 1,080 pixels.
 
 https://github.com/user-attachments/assets/ae868bc3-e98c-4dae-a13d-3b0a12c0f5ae
 
-> 📺 **Watch or download the full 1-minute 1080p video (1,800 frames):** [File:Mandelbrot Set Video 2.webm on Wikimedia Commons](https://wikimedia.org)
+> 📺 **Watch or download the full 1-minute 1080p video (1,800 frames, 556 MB):** [File:Mandelbrot Set Video 2.webm on Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Video_2.webm)
 
 
 
@@ -123,11 +123,11 @@ const char* START_VIEW_STR = "4.95e-61";
 const char* END_VIEW_STR   = "4.95e-69";
 ```
 
-## Preview fragment of the Mandelbrot set video, length 10 seconds ([full 1-minute video on Wikimedia Commons](https://wikimedia.org)), 1,080 × 1,080 pixels.
+## Preview fragment of the Mandelbrot set video, length 10 seconds (full 1-minute video), 1,080 × 1,080 pixels.
 
 https://github.com/user-attachments/assets/47771f7c-917c-4b8b-97ea-2817cf601b07
 
-> 📺 **Watch or download the full 1-minute 1080p video (1,800 frames):** [File:Mandelbrot Set Video 3.webm on Wikimedia Commons](https://wikimedia.org)
+> 📺 **Watch or download the full 1-minute 1080p video (1,800 frames, 306 MB):** [File:Mandelbrot Set Video 3.webm on Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Video_3.webm)
 
 
 
@@ -272,7 +272,7 @@ const char* START_VIEW_STR = "1.02e-99";
 const char* END_VIEW_STR   = "1.02e-119";
 ```
 
-## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд ([полное видео на 2 минуты на Викискладе](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Video_1.webm)), разрешение 1080 × 1080 пикселей.
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео на 2 минуты), разрешение 1080 × 1080 пикселей.
 
 https://github.com/user-attachments/assets/f2271a78-eba7-4e5b-a7c8-7d246490b7db
 
@@ -322,11 +322,11 @@ const char* START_VIEW_STR = "1.29e-49";
 const char* END_VIEW_STR   = "1.29e-57";
 ```
 
-## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд ([полное видео на 1 минуту на Викискладе](https://wikimedia.org)), разрешение 1080 × 1080 пикселей.
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео на 1 минуту), разрешение 1080 × 1080 пикселей.
 
 https://github.com/user-attachments/assets/ae868bc3-e98c-4dae-a13d-3b0a12c0f5ae
 
-> 📺 **Смотреть или скачать полное 1-минутное видео в 1080p (1800 кадров):** [File:Mandelbrot Set Video 2.webm на Викискладе](https://wikimedia.org)
+> 📺 **Смотреть или скачать полное 1-минутное видео в 1080p (1800 кадров, 556 МБ):** [File:Mandelbrot Set Video 2.webm на Викискладе](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Video_2.webm)
 
 
 
@@ -371,11 +371,11 @@ const char* START_VIEW_STR = "4.95e-61";
 const char* END_VIEW_STR   = "4.95e-69";
 ```
 
-## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд ([полное видео на 1 минуту на Викискладе](https://wikimedia.org)), разрешение 1080 × 1080 пикселей.
+## Фрагмент видеоролика о множестве Мандельброта, длительность 10 секунд (полное видео на 1 минуту), разрешение 1080 × 1080 пикселей.
 
 https://github.com/user-attachments/assets/47771f7c-917c-4b8b-97ea-2817cf601b07
 
-> 📺 **Смотреть или скачать полное 1-минутное видео в 1080p (1800 кадров):** [File:Mandelbrot Set Video 3.webm на Викискладе](https://wikimedia.org)
+> 📺 **Смотреть или скачать полное 1-минутное видео в 1080p (1800 кадров, 306 МБ):** [File:Mandelbrot Set Video 3.webm на Викискладе](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Video_3.webm)
 
 
 
